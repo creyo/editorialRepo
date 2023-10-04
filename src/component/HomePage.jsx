@@ -1,0 +1,213 @@
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import supabase from '../config/supabase';
+import './HomePage.css';
+
+export default function HomePage() {
+  const [articles, setArticles] = useState([]);
+  const [postTypes, setPostTypes] = useState([]);
+  const [publications, setPublications] = useState([]);
+  const [selectedPostType, setSelectedPostType] = useState('');
+  const [selectedPublication, setSelectedPublication] = useState('');
+
+  const [selectedPostTypeId, setSelectedPostTypeId] = useState(1);
+  const [selectedPublicationId, setSelectedPublicationId] = useState(1);
+
+  useEffect(() => {
+    async function fetchArticles() {
+      let { data, error } = await supabase
+        .from('articles')
+        .select(`
+        *,
+        articlestatus(*),
+        
+        authors(*),
+        categories(*),
+        post_type(*),
+        publication(*)
+      `);
+
+      if (error) {
+        console.error('Error fetching articles:', error);
+      } else {
+        setArticles(data);
+      }
+    }
+
+    async function fetchPostTypes() {
+      try {
+        const { data, error } = await supabase.from('post_type').select('*');
+        if (error) {
+          throw error;
+        }
+
+        setPostTypes(data);
+      } catch (error) {
+        console.error('Error fetching post_type:', error);
+      }
+    }
+
+    async function fetchPublications() {
+      try {
+        const { data, error } = await supabase.from('publication').select('*');
+        if (error) {
+          throw error;
+        }
+
+        setPublications(data);
+      } catch (error) {
+        console.error('Error fetching publications:', error);
+      }
+    }
+
+    fetchArticles();
+    fetchPostTypes();
+    fetchPublications();
+  }, []);
+
+  const handlePostTypeChange = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedPostType(selectedValue);
+
+    const selectedPostTypeObject = postTypes.find(
+      (postType) => postType?.type_name === selectedValue
+    );
+
+    if (selectedPostTypeObject) {
+      const postTypeId = selectedPostTypeObject?.post_type_id;
+      setSelectedPostTypeId(postTypeId);
+
+  
+     
+    }
+  };
+
+  const handlePublicationChange = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedPublication(selectedValue);
+
+    const selectedPublicationObject = publications.find(
+      (publication) => publication?.publication_name === selectedValue
+    );
+
+    if (selectedPublicationObject) {
+      const publicationId = selectedPublicationObject?.publication_id;
+      setSelectedPublicationId(publicationId);
+
+      
+    }
+  };
+
+
+  console.warn(selectedPostTypeId, selectedPublicationId);
+
+  return (
+    <div className="container">
+      <div className="selectors">
+        <select
+          name=""
+          id=""
+          onChange={handlePublicationChange}
+          value={selectedPublication}
+        >
+
+          {publications.map((publication) => (
+            <option
+              key={publication.publication_id}
+              value={publication.publication_name}
+            >
+              {publication.publication_name}
+            </option>
+          ))}
+        </select>
+
+        <select
+          name=""
+          id=""
+          onChange={handlePostTypeChange}
+          value={selectedPostType}
+        >
+
+          {postTypes.map((postType) => (
+            <option key={postType.post_type_id} value={postType.type_name}>
+              {postType.type_name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="top-card">
+        <div className="buttons-others">
+          <p className="all">All(103)</p>
+          <p className="draft">Draft(103)</p>
+          <p className="published select">Published(103)</p>
+          <p className="review">Under Review(103)</p>
+        </div>
+        <div className="key">
+          <p style={{ color: '#457EFF', fontWeight: 600 }}>
+            <Link to="addarticle">Add Page</Link>
+          </p>
+          <img src="images/plus.svg" alt="" />
+        </div>
+      </div>
+
+      <div className="cards-container">
+        {articles.map((articleItem) => (
+          <div className="card" key={articleItem.article_id}>
+            <div className="card-left">
+              <div className="heading-checkbox">
+                <label>
+                  <input type="checkbox" checked="checked" />
+                  <span className="checkmark"></span>
+                </label>
+                <p>ID {articleItem.article_id}</p>
+
+                <p className="heading">
+                  <Link to={`/updatearticle/${articleItem.article_id}`} className="heading">
+                    {articleItem.title}
+                  </Link></p>
+              </div>
+              <div className="bread-crum">
+                <p className="crumb">
+                  /{articleItem.categories.url}/{articleItem.url}
+                </p>
+                <p>{articleItem.date}</p>
+                <p>{articleItem.created_at}</p>
+              </div>
+
+              <div className="buttons-others flex">
+                {articleItem.status === 1 && <button>Draft</button>}
+                {articleItem.status === 2 && (
+                  <button className="review-select">Review</button>
+                )}
+                {articleItem.status === 3 && <button>Published</button>}
+                <div className="flex key">
+                  <img src={"./images/key.svg"} alt="images" />
+                  <p>{articleItem.keyword}</p>
+                  <img src={"./images/plus.svg"} alt="images" />
+                  <p>{articleItem.tag}</p>
+                </div>
+              </div>
+            </div>
+            <div
+              className={`seo ${getSEOColorClass(articleItem.seo_score)}`}
+            >
+              <p>SEO</p>
+              <p className="percent">{articleItem.seo_score}%</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function getSEOColorClass(seoScore) {
+  if (seoScore >= 80) {
+    return 'percent-green';
+  } else if (seoScore >= 60) {
+    return 'percent-yellow';
+  } else {
+    return 'percent-red';
+  }
+}

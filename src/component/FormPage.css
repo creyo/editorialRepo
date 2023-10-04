@@ -1,0 +1,93 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'inter', sans-serif;
+  }
+  
+  /* Define a container for your content */
+  .container {
+    max-width: 1140px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  /* Define a card-like style for your form */
+  .form-card {
+    background-color: white;
+    border: 1px solid #C9C9C9;
+    border-radius: 20px;
+    padding: 20px;
+    color: #454545;
+  }
+  
+  /* Apply styles to labels */
+  .form-card label {
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #454545;
+  }
+  
+  /* Apply styles to input fields */
+  .form-card input[type='text'],
+  .form-card input[type='number'],
+  .form-card textarea,
+  .form-card select,
+  .form-card input[type='datetime-local'] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #454545;
+    margin-top: 1rem;
+    outline: none; /* Remove input outline */
+  }
+  
+  /* Apply styles to the button */
+  .form-card .button {
+    font-size: 1rem;
+    background-color: #F4F4F4;
+    padding: 10px;
+    border: none;
+    color: #C9C9C9;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .form-card .button-light {
+    border: 1px solid #457EFF;
+    background-color: white;
+    color: #457EFF;
+  }
+  
+  .form-card .button-dark {
+    background-color: #457EFF;
+    color: white;
+  }
+  
+  /* Add spacing between elements */
+  .form-card > * {
+    margin: 1rem 0;
+  }
+  
+  /* Additional styling can be added as needed */
+  /* Display the URL section on a single line */
+/* Display the entire URL section on a single line */
+.form-card .url-section {
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  /* Apply styles to the label in the URL section */
+  .form-card .url-section label {
+    margin-right: 1rem;
+  }
+  
+  /* Apply styles to the input field in the URL section */
+  .form-card .url-section input[type='text'] {
+    flex: 1; /* Allow the input field to expand and take up available space */
+  }
+  
+  
