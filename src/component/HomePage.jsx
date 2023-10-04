@@ -3,6 +3,11 @@ import { Link } from 'react-router-dom';
 import supabase from '../config/supabase';
 import './HomePage.css';
 
+// Import images from the "./images" directory
+import plusImage from './images/plus.svg';
+import keyImage from './images/key.svg';
+import chit from "./images/chit.svg"
+
 export default function HomePage() {
   const [articles, setArticles] = useState([]);
   const [postTypes, setPostTypes] = useState([]);
@@ -20,7 +25,6 @@ export default function HomePage() {
         .select(`
         *,
         articlestatus(*),
-        
         authors(*),
         categories(*),
         post_type(*),
@@ -76,9 +80,6 @@ export default function HomePage() {
     if (selectedPostTypeObject) {
       const postTypeId = selectedPostTypeObject?.post_type_id;
       setSelectedPostTypeId(postTypeId);
-
-  
-     
     }
   };
 
@@ -93,11 +94,8 @@ export default function HomePage() {
     if (selectedPublicationObject) {
       const publicationId = selectedPublicationObject?.publication_id;
       setSelectedPublicationId(publicationId);
-
-      
     }
   };
-
 
   console.warn(selectedPostTypeId, selectedPublicationId);
 
@@ -110,7 +108,6 @@ export default function HomePage() {
           onChange={handlePublicationChange}
           value={selectedPublication}
         >
-
           {publications.map((publication) => (
             <option
               key={publication.publication_id}
@@ -127,7 +124,6 @@ export default function HomePage() {
           onChange={handlePostTypeChange}
           value={selectedPostType}
         >
-
           {postTypes.map((postType) => (
             <option key={postType.post_type_id} value={postType.type_name}>
               {postType.type_name}
@@ -145,9 +141,9 @@ export default function HomePage() {
         </div>
         <div className="key">
           <p style={{ color: '#457EFF', fontWeight: 600 }}>
-            <Link to="addarticle">Add Page</Link>
+            <Link to="addarticle">  <img src={plusImage} alt="Plus" /> Add Page</Link>
           </p>
-          <img src="images/plus.svg" alt="" />
+         
         </div>
       </div>
 
@@ -165,7 +161,8 @@ export default function HomePage() {
                 <p className="heading">
                   <Link to={`/updatearticle/${articleItem.article_id}`} className="heading">
                     {articleItem.title}
-                  </Link></p>
+                  </Link>
+                </p>
               </div>
               <div className="bread-crum">
                 <p className="crumb">
@@ -182,9 +179,9 @@ export default function HomePage() {
                 )}
                 {articleItem.status === 3 && <button>Published</button>}
                 <div className="flex key">
-                  <img src={"./images/key.svg"} alt="images" />
+                  <img src={keyImage} alt="Key" />
                   <p>{articleItem.keyword}</p>
-                  <img src={"./images/plus.svg"} alt="images" />
+                  <img src={chit} alt="tag" />
                   <p>{articleItem.tag}</p>
                 </div>
               </div>
