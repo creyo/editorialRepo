@@ -90,7 +90,7 @@ const [dateInput, setDateInput] = useState('');
         setSeoTitle(data.seo_title);
         setSeoDescription(data.seo_description);
         setTag(data.tag);
-        setKeywords(data.keywords);
+        setKeywords(data.keyword);
         setFeaturedImage(data.featured_image);
         setAuthorId(data.authors.author_id);
 
