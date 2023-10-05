@@ -146,9 +146,9 @@ export default function HomePage() {
       <div className="top-card">
         <div className="buttons-others">
           <p className={`all ${selectedStatusId === null ? 'select' : ''}`} onClick={() => setSelectedStatusId(null)}>All(103)</p>
-          <p className={`draft ${selectedStatusId === 1 ? 'select' : ''}`} onClick={() => setSelectedStatusId('1')}>Draft(103)</p>
-          <p className={`published ${selectedStatusId === 2 ? 'select' : ''}`} onClick={() => setSelectedStatusId('2')}>Published(103)</p>
-          <p className={`review ${selectedStatusId === 3 ? 'select' : ''}`} onClick={() => setSelectedStatusId('3')}>Review(103)</p>
+          <p className={`draft ${selectedStatusId === 1 ? 'select' : ''}`} onClick={() => setSelectedStatusId(1)}>Draft(103)</p>
+          <p className={`published ${selectedStatusId === 2 ? 'select' : ''}`} onClick={() => setSelectedStatusId(2)}>Published(103)</p>
+          <p className={`review ${selectedStatusId === 3 ? 'select' : ''}`} onClick={() => setSelectedStatusId(3)}>Review(103)</p>
         </div>
         <div className="key">
           <p style={{ color: '#457EFF', fontWeight: 600 }}>
