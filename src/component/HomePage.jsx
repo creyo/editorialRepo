@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import supabase from '../config/supabase';
-import { filterArticles } from './filter';
+import { filterArticles} from './filter.js';
 import './HomePage.css';
 
 // Import images from the "./images" directory
@@ -18,6 +18,7 @@ export default function HomePage() {
 
   const [selectedPostTypeId, setSelectedPostTypeId] = useState(null);
   const [selectedPublicationId, setSelectedPublicationId] = useState(null);
+  const [selectedStatusId, setSelectedStatusId] = useState(null);
 
   useEffect(() => {
     async function fetchArticles() {
@@ -31,7 +32,7 @@ export default function HomePage() {
         post_type(*),
         publication(*)
       `);
-      console.warn(data)
+
       if (error) {
         console.error('Error fetching articles:', error);
       } else {
@@ -84,6 +85,12 @@ export default function HomePage() {
     }
   };
 
+  //console.warn(articles);
+
+  
+  
+  
+  
   const handlePublicationChange = (event) => {
     const selectedValue = event.target.value;
     setSelectedPublication(selectedValue);
@@ -98,37 +105,33 @@ export default function HomePage() {
     }
   };
 
-  console.warn(selectedPostTypeId, selectedPublicationId);
+  // Use the filtering function to get filtered articles based on selectedPublicationId and selectedPostTypeId
+  const filteredArticles = filterArticles(articles, selectedPublicationId, selectedPostTypeId, selectedStatusId)
 
-// Use the filtering function to get filtered articles
-const filteredArticles = filterArticles(articles, selectedPublicationId, selectedPostTypeId);
+  return (
+    <div className="container">
+      <div className="selectors">
+        <select
+          name=""
+          id=""
+          onChange={handlePublicationChange}
+          value={selectedPublication}
+        >
+          {publications.map((publication) => (
+            <option key={publication.publication_id} value={publication.publication_name}>
+              {publication.publication_name}
+            </option>
+          ))}
+        </select>
 
-return (
-  <div className="container">
-    <div className="selectors">
-      <select
-        name=""
-        id=""
-        onChange={handlePublicationChange}
-        value={selectedPublication}
-      >
-        
-        {publications.map((publication) => (
-          <option key={publication.publication_id} value={publication.publication_name}>
-            {publication.publication_name}
-          </option>
-        ))}
-       
-      </select>
+        <select
+          name=""
+          id=""
+          onChange={handlePostTypeChange}
+          value={selectedPostType}
+        >
+         
 
-      <select
-        name=""
-        id=""
-        onChange={handlePostTypeChange}
-        value={selectedPostType}
-      >
-        
-        
         {postTypes.map((postType) => (
           <option key={postType.post_type_id} value={postType.type_name}>
             {postType.type_name}
@@ -138,21 +141,25 @@ return (
       </select>
     </div>
 
-    <div className="top-card">
-      <div className="buttons-others">
-        <p className="all">All(103)</p>
-        <p className="draft">Draft(103)</p>
-        <p className="published select">Published(103)</p>
-        <p className="review">Under Review(103)</p>
+       
+
+      <div className="top-card">
+        <div className="buttons-others">
+          <p className={`all ${selectedStatusId === null ? 'select' : ''}`} onClick={() => setSelectedStatusId(null)}>All(103)</p>
+          <p className={`draft ${selectedStatusId === '1' ? 'select' : ''}`} onClick={() => setSelectedStatusId('1')}>Draft(103)</p>
+          <p className={`published ${selectedStatusId === '2' ? 'select' : ''}`} onClick={() => setSelectedStatusId('2')}>Published(103)</p>
+          <p className={`review ${selectedStatusId === '3' ? 'select' : ''}`} onClick={() => setSelectedStatusId('3')}>Review(103)</p>
+        </div>
+        <div className="key">
+          <p style={{ color: '#457EFF', fontWeight: 600 }}>
+            <Link to="addarticle">
+              <img src={plusImage} alt="Plus" /> Add Page
+            </Link>
+          </p>
+        </div>
       </div>
-      <div className="key">
-        <p style={{ color: '#457EFF', fontWeight: 600 }}>
-          <Link to="addarticle">
-            <img src={plusImage} alt="Plus" /> Add Page
-          </Link>
-        </p>
-      </div>
-    </div>
+
+
 
     <div className="cards-container">
       {filteredArticles.map((articleItem) => (
