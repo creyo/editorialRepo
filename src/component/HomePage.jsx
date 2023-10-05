@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import supabase from '../config/supabase';
+import { filterArticles } from './filter';
 import './HomePage.css';
 
 // Import images from the "./images" directory
@@ -15,8 +16,8 @@ export default function HomePage() {
   const [selectedPostType, setSelectedPostType] = useState('');
   const [selectedPublication, setSelectedPublication] = useState('');
 
-  const [selectedPostTypeId, setSelectedPostTypeId] = useState(1);
-  const [selectedPublicationId, setSelectedPublicationId] = useState(1);
+  const [selectedPostTypeId, setSelectedPostTypeId] = useState(null);
+  const [selectedPublicationId, setSelectedPublicationId] = useState(null);
 
   useEffect(() => {
     async function fetchArticles() {
@@ -30,7 +31,7 @@ export default function HomePage() {
         post_type(*),
         publication(*)
       `);
-
+      console.warn(data)
       if (error) {
         console.error('Error fetching articles:', error);
       } else {
@@ -99,104 +100,110 @@ export default function HomePage() {
 
   console.warn(selectedPostTypeId, selectedPublicationId);
 
-  return (
-    <div className="container">
-      <div className="selectors">
-        <select
-          name=""
-          id=""
-          onChange={handlePublicationChange}
-          value={selectedPublication}
-        >
-          {publications.map((publication) => (
-            <option
-              key={publication.publication_id}
-              value={publication.publication_name}
-            >
-              {publication.publication_name}
-            </option>
-          ))}
-        </select>
+// Use the filtering function to get filtered articles
+const filteredArticles = filterArticles(articles, selectedPublicationId, selectedPostTypeId);
 
-        <select
-          name=""
-          id=""
-          onChange={handlePostTypeChange}
-          value={selectedPostType}
-        >
-          {postTypes.map((postType) => (
-            <option key={postType.post_type_id} value={postType.type_name}>
-              {postType.type_name}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className="top-card">
-        <div className="buttons-others">
-          <p className="all">All(103)</p>
-          <p className="draft">Draft(103)</p>
-          <p className="published select">Published(103)</p>
-          <p className="review">Under Review(103)</p>
-        </div>
-        <div className="key">
-          <p style={{ color: '#457EFF', fontWeight: 600 }}>
-            <Link to="addarticle">  <img src={plusImage} alt="Plus" /> Add Page</Link>
-          </p>
-         
-        </div>
-      </div>
-
-      <div className="cards-container">
-        {articles.map((articleItem) => (
-          <div className="card" key={articleItem.article_id}>
-            <div className="card-left">
-              <div className="heading-checkbox">
-                <label>
-                  <input type="checkbox" checked="checked" />
-                  <span className="checkmark"></span>
-                </label>
-                <p>ID {articleItem.article_id}</p>
-
-                <p className="heading">
-                  <Link to={`/updatearticle/${articleItem.article_id}`} className="heading">
-                    {articleItem.title}
-                  </Link>
-                </p>
-              </div>
-              <div className="bread-crum">
-                <p className="crumb">
-                  /{articleItem.categories.url}/{articleItem.url}
-                </p>
-                <p>{articleItem.date}</p>
-                <p>{articleItem.created_at}</p>
-              </div>
-
-              <div className="buttons-others flex">
-                {articleItem.status === 1 && <button>Draft</button>}
-                {articleItem.status === 2 && (
-                  <button className="review-select">Review</button>
-                )}
-                {articleItem.status === 3 && <button>Published</button>}
-                <div className="flex key">
-                  <img src={keyImage} alt="Key" />
-                  <p>{articleItem.keyword}</p>
-                  <img src={chit} alt="tag" />
-                  <p>{articleItem.tag}</p>
-                </div>
-              </div>
-            </div>
-            <div
-              className={`seo ${getSEOColorClass(articleItem.seo_score)}`}
-            >
-              <p>SEO</p>
-              <p className="percent">{articleItem.seo_score}%</p>
-            </div>
-          </div>
+return (
+  <div className="container">
+    <div className="selectors">
+      <select
+        name=""
+        id=""
+        onChange={handlePublicationChange}
+        value={selectedPublication}
+      >
+        
+        {publications.map((publication) => (
+          <option key={publication.publication_id} value={publication.publication_name}>
+            {publication.publication_name}
+          </option>
         ))}
+       
+      </select>
+
+      <select
+        name=""
+        id=""
+        onChange={handlePostTypeChange}
+        value={selectedPostType}
+      >
+        
+        
+        {postTypes.map((postType) => (
+          <option key={postType.post_type_id} value={postType.type_name}>
+            {postType.type_name}
+          </option>
+        ))}
+       
+      </select>
+    </div>
+
+    <div className="top-card">
+      <div className="buttons-others">
+        <p className="all">All(103)</p>
+        <p className="draft">Draft(103)</p>
+        <p className="published select">Published(103)</p>
+        <p className="review">Under Review(103)</p>
+      </div>
+      <div className="key">
+        <p style={{ color: '#457EFF', fontWeight: 600 }}>
+          <Link to="addarticle">
+            <img src={plusImage} alt="Plus" /> Add Page
+          </Link>
+        </p>
       </div>
     </div>
-  );
+
+    <div className="cards-container">
+      {filteredArticles.map((articleItem) => (
+        <div className="card" key={articleItem.article_id}>
+          <div className="card-left">
+            <div className="heading-checkbox">
+              <label>
+                <input type="checkbox" checked="checked" />
+                <span className="checkmark"></span>
+              </label>
+              <p>ID {articleItem.article_id}</p>
+
+              <p className="heading">
+                <Link to={`/updatearticle/${articleItem.article_id}`} className="heading">
+                  {articleItem.title}
+                </Link>
+              </p>
+            </div>
+            <div className="bread-crum">
+              <p className="crumb">
+                /{articleItem.categories.url}/{articleItem.url}
+              </p>
+              <p>{articleItem.date}</p>
+              <p>{articleItem.created_at}</p>
+            </div>
+
+            <div className="buttons-others flex">
+              {articleItem.status === 1 && <button>Draft</button>}
+              {articleItem.status === 2 && (
+                <button className="review-select">Review</button>
+              )}
+              {articleItem.status === 3 && <button>Published</button>}
+              <div className="flex key">
+                <img src={keyImage} alt="Key" />
+                <p>{articleItem.keyword}</p>
+                <img src={chit} alt="tag" />
+                <p>{articleItem.tag}</p>
+              </div>
+            </div>
+          </div>
+          <div
+            className={`seo ${getSEOColorClass(articleItem.seo_score)}`}
+          >
+            <p>SEO</p>
+            <p className="percent">{articleItem.seo_score}%</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
 }
 
 function getSEOColorClass(seoScore) {

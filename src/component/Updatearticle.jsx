@@ -366,7 +366,8 @@ function Updatearticle() {
             placeholder="Body"
             value={body}
             onChange={(e) => setBody(e.target.value)}
-            rows="10"
+            rows="30"
+            cols="10"
           />
         </div>
 
