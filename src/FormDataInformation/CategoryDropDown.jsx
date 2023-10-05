@@ -18,7 +18,7 @@ const customStyles = {
   },
 };
 
-function CategoryDropdown({ onCategoryChange }) {
+function CategoryDropdown({ onCategoryChange ,categoryValue}) {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('real-estate'); // Adjust the initial selected category
  
@@ -30,7 +30,7 @@ function CategoryDropdown({ onCategoryChange }) {
         if (error) {
           throw error;
         }
-
+  
         setCategories(data);
         
       } catch (error) {
@@ -68,7 +68,7 @@ function CategoryDropdown({ onCategoryChange }) {
         value={selectedCategory}
         style={customStyles.option}
       >
-        <option value="">Select a category</option>
+        <option value="">{categoryValue}</option>
         {categories.map((category) => (
           <option
             key={category.category_id}

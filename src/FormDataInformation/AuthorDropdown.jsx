@@ -18,7 +18,7 @@ const customStyles = {
   },
 };
 
-function AuthorDropdown({ onAuthorChange }) {
+function AuthorDropdown({ onAuthorChange ,authorValue}) {
   const [authors, setAuthors] = useState([]);
   const [selectedAuthor, setSelectedAuthor] = useState('');
 
@@ -29,7 +29,7 @@ function AuthorDropdown({ onAuthorChange }) {
         if (error) {
           throw error;
         }
-
+      
         setAuthors(data);
       } catch (error) {
         console.error('Error fetching authors:', error);
@@ -57,7 +57,7 @@ function AuthorDropdown({ onAuthorChange }) {
         value={selectedAuthor}
         style={customStyles.option}
       >
-        <option value="">Select an author</option>
+        <option value="">{authorValue}</option>
         {authors.map((author) => (
           <option
             key={author.author_id}

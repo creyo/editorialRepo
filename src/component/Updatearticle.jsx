@@ -21,7 +21,11 @@ function Updatearticle() {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [note, setNote] = useState('');
-const [dateInput, setDateInput] = useState('');
+  const [dateInput, setDateInput] = useState('');
+
+  const[categoryValue , setCategoryValue] = useState('')
+  const[authorValue,setAuthorValue] = useState('')
+
 
   // Dropdown 
   const [publicationData, setPublicationData] = useState([]);
@@ -30,6 +34,10 @@ const [dateInput, setDateInput] = useState('');
   const [selectedPostType, setSelectedPostType] = useState(2);
 
   const { articleId } = useParams();
+
+
+
+
 
   useEffect(() => {
     async function fetchData() {
@@ -75,6 +83,7 @@ const [dateInput, setDateInput] = useState('');
           .eq('article_id', articleId)
           .single();
 
+           
         if (error) {
           console.error('Error fetching article data:', error);
           // Handle error as needed (e.g., show an error message to the user)
@@ -86,13 +95,15 @@ const [dateInput, setDateInput] = useState('');
         setTypedUrl(data.url);
         setSeoScore(data.seo_score);
         setCategory_id(data.categories.category_id);
-        setCategory_url(data.category_url);
+        setCategory_url(data.categories.url);
         setSeoTitle(data.seo_title);
         setSeoDescription(data.seo_description);
         setTag(data.tag);
         setKeywords(data.keyword);
         setFeaturedImage(data.featured_image);
         setAuthorId(data.authors.author_id);
+        setCategoryValue(data.categories.name)
+        setAuthorValue(data.authors.name)
 
         // Handle Date
         if (data.date) {
@@ -191,7 +202,8 @@ const [dateInput, setDateInput] = useState('');
       console.error('Error updating article:', error);
     }
   };
-  console.warn(dateInput);
+
+ 
 
   return (
     <div className="container">
@@ -239,14 +251,14 @@ const [dateInput, setDateInput] = useState('');
             <StatusSelection
               selectedStatusId={statusId}
               onStatusChange={handleStatusChange}
-              required
+               required
             />
           </div>
         </div>
 
         <div className="flex">
           <p style={{ marginRight: '1rem' }}>Category</p>
-          <CategoryDropdown onCategoryChange={handleCategoryChange} required />
+          <CategoryDropdown onCategoryChange={handleCategoryChange} categoryValue={categoryValue}   required />
         </div>
 
         <div className="flex">
@@ -327,7 +339,7 @@ const [dateInput, setDateInput] = useState('');
 
         <div className="flex">
           <p style={{ marginRight: '5rem' }}>Author</p>
-          <AuthorDropdown onAuthorChange={handleAuthorChange} required />
+          <AuthorDropdown onAuthorChange={handleAuthorChange} authorValue = {authorValue} required />
         </div>
 
         <div className="flex">
