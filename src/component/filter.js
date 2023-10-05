@@ -7,7 +7,7 @@ export function filterArticles(articles, selectedPublicationId, selectedPostType
     // Check if either publication_id or post_type_id matches the selected values
     const matchesPublication = selectedPublicationId === null || publicationId === selectedPublicationId;
     const matchesPostType = selectedPostTypeId === null || postTypeId === selectedPostTypeId;
-    const matchesStatus = selectedStatusId === null || statusId == selectedStatusId;
+    const matchesStatus = selectedStatusId === null || statusId === selectedStatusId;
 
     // Calculate the commonData using logical AND
     const commonData = matchesPublication && matchesPostType && matchesStatus;
