@@ -1,29 +1,27 @@
 
 import './App.css';
-import React,{useState} from 'react';
+import React from 'react';
 import FormPage from './component/FormPage';
 import HomePage from './component/HomePage';
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Updatearticle from './component/Updatearticle';
 
-function App() {
-  const [selectedPublicationId, setSelectedPublicationId] = useState(null);
-  const [selectedPostTypeId, setSelectedPostTypeId] = useState(null);
 
-  const handleOnChange = ({ selectedPublicationId, selectedPostTypeId }) => {
-    setSelectedPublicationId(selectedPublicationId);
-    setSelectedPostTypeId(selectedPostTypeId);
-  };
+
+function App() {
+
+
+
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage onchange={handleOnChange} />} />
-          <Route path="/addarticle" element={<FormPage
-        selectedPublicationId={selectedPublicationId}
-        selectedPostTypeId={selectedPostTypeId}
-      />} />
+          <Route path="/" element={<HomePage  />} />
+          <Route path="/addarticle/:publicationId/:postTypeId" element={<FormPage/>} />
+      
       <Route path='/updatearticle/:articleId'  element={<Updatearticle/>}></Route>
+
+     
           
         </Routes>
       </BrowserRouter>

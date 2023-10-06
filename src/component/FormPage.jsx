@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import './FormPage.css'; // Import your CSS file
 import StatusSelection from '../FormDataInformation/StatusSelection';
 import CategoryDropdown from '../FormDataInformation/CategoryDropDown';
@@ -6,6 +7,9 @@ import AuthorDropdown from '../FormDataInformation/AuthorDropdown';
 import supabase from '../config/supabase'; // Import the Supabase instance
 
 function FormPage() {
+
+  const { publicationId, postTypeId } = useParams();
+
   const [statusId, setStatusId] = useState(1);
   const [typedUrl, setTypedUrl] = useState('');
   const [seoScore, setSeoScore] = useState(0);
@@ -21,14 +25,18 @@ function FormPage() {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [note, setNote] = useState('');
+  
 
 
   //dropdown 
   const [publicationData, setPublicationData] = useState([]);
   const [postTypeData, setPostTypeData] = useState([]);
-  const [selectedPublication, setSelectedPublication] = useState(1);
-  const [selectedPostType, setSelectedPostType] = useState(1);
+  const [selectedPublication, setSelectedPublication] = useState(publicationId);
+  const [selectedPostType, setSelectedPostType] = useState(postTypeId);
 
+  
+console.warn( publicationId, postTypeId);
+console.warn(publicationData,postTypeData)
 
   const handleStatusChange = (selectedStatusId) => {
     setStatusId(selectedStatusId);
@@ -134,8 +142,8 @@ function FormPage() {
       console.error('Error creating article:', error);
     }
   };
-  console.warn(selectedPostType, selectedPublication);
-
+  
+ console.log(postTypeData)
   return (
     <div className="container">
       <div className="selectors">
@@ -166,7 +174,7 @@ function FormPage() {
           {postTypeData.map((postType) => (
             <option
               key={postType.post_type_id}
-              value={postType.type_name}
+              value={postType.post_type_id}
             >
               {postType.type_name}
             </option>

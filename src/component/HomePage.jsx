@@ -16,8 +16,8 @@ export default function HomePage() {
   const [selectedPostType, setSelectedPostType] = useState('');
   const [selectedPublication, setSelectedPublication] = useState('');
 
-  const [selectedPostTypeId, setSelectedPostTypeId] = useState(null);
-  const [selectedPublicationId, setSelectedPublicationId] = useState(null);
+  const [selectedPostTypeId, setSelectedPostTypeId] = useState(1);
+  const [selectedPublicationId, setSelectedPublicationId] = useState(1);
   const [selectedStatusId, setSelectedStatusId] = useState(null);
 
   useEffect(() => {
@@ -108,6 +108,8 @@ export default function HomePage() {
   // Use the filtering function to get filtered articles based on selectedPublicationId and selectedPostTypeId
   const filteredArticles = filterArticles(articles, selectedPublicationId, selectedPostTypeId, selectedStatusId)
 
+
+  console.warn(selectedPublicationId,selectedPostTypeId);
   return (
     <div className="container">
       <div className="selectors">
@@ -152,7 +154,7 @@ export default function HomePage() {
         </div>
         <div className="key">
           <p style={{ color: '#457EFF', fontWeight: 600 }}>
-            <Link to="addarticle">
+            <Link to={`/addarticle/${selectedPublicationId}/${selectedPostTypeId}`}>
               <img src={plusImage} alt="Plus" /> Add Page
             </Link>
           </p>
