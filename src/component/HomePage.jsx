@@ -109,7 +109,7 @@ export default function HomePage() {
   const filteredArticles = filterArticles(articles, selectedPublicationId, selectedPostTypeId, selectedStatusId)
 
 
-  console.warn(selectedPublicationId,selectedPostTypeId);
+  
   return (
     <div className="container">
       <div className="selectors">

@@ -165,9 +165,11 @@ function Updatearticle() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    console.warn("id" ,articleId)
+  
     try {
       const updatedArticle = {
-        status_id: statusId,
+        status: statusId,
         publication_id: selectedPublication,
         post_type: selectedPostType,
         url: category_url + '/' + typedUrl,
@@ -175,34 +177,37 @@ function Updatearticle() {
         seo_title: seoTitle,
         seo_description: seoDescription,
         tag,
-        keywords,
+        keyword: keywords,
         featured_image: featuredImage,
         author_id: authorId,
         category_id: category_id,
         date: dateInput, // Use dateInput as the date value
         title,
         body,
-        note,
       };
 
+      console.warn(updatedArticle)
+  
+      // Use the `articleId` from the route to identify the article to update
       const { data, error } = await supabase
         .from('articles')
-        .upsert([updatedArticle]);
-
+        .update(updatedArticle)
+        .eq('article_id', articleId).select();
+  
       if (error) {
         console.error('Error updating article:', error);
         // Handle error as needed (e.g., show an error message to the user)
         return;
       }
-
+  
       console.log('Article updated:', data);
-
+  
       // Optionally, you can show a success message to the user
     } catch (error) {
       console.error('Error updating article:', error);
     }
   };
-
+  
  
 
   return (

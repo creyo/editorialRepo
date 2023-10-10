@@ -19,9 +19,10 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
+           
           <Route path ="/login" element ={<Login/>} />
           <Route path ="/signup" element ={<SignUp/>} />
-          <Route path="/" element={<PrivateRoute Component={HomePage} />} /> 
+         <Route path="/" element={<PrivateRoute Component={HomePage} />} />  
           <Route path="/addarticle/:publicationId/:postTypeId" element={<PrivateRoute Component = {FormPage} />} />
           <Route path='/updatearticle/:articleId' element={ <PrivateRoute Component ={Updatearticle }/>}></Route>
         </Routes>
