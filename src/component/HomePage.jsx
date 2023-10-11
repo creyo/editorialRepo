@@ -72,7 +72,7 @@ export default function HomePage() {
         let filterData = await filterDataByUserId(data, user_id)
         setPublications(filterData);
       } catch (error) {
-        console.error('Error fetching publications:', error);
+        console.error('Error fetching publications:', error.message);
       }
     }
 
