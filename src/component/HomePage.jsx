@@ -67,7 +67,9 @@ export default function HomePage() {
         }
 
         let tokenInfo =  localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
-        let filterData = await filterDataByUserId(data, tokenInfo.user.id)
+        let user_id = tokenInfo.user.id
+        console.log(user_id)
+        let filterData = await filterDataByUserId(data, user_id)
         setPublications(filterData);
       } catch (error) {
         console.error('Error fetching publications:', error);
