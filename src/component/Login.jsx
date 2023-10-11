@@ -12,7 +12,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const { user, session ,error } = await supabase.auth.signIn({
+      const { user, error } = await supabase.auth.signUp({
         email,
         password,
       });
@@ -22,11 +22,10 @@ function Login() {
         return;
       }
 
-      console.warn(session.access_token)
+      console.warn( "user", user)
 
       // Save the login status in local storage
-     let value =  localStorage.setItem("data" , user);
-     console.warn(localStorage.getItem())
+      localStorage.setItem('login', 'hello');
        
 
       // User successfully logged in

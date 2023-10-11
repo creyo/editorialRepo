@@ -6,9 +6,9 @@ function PrivateRoute(props) {
     const navigate = useNavigate()
 
     useEffect(()=>{
-        let login = localStorage.getItem("login")
+        let data = localStorage.getItem("login")
        
-        if(!login){
+        if(!data){
             navigate('/login')
         }
     })
