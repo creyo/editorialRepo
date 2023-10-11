@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import supabase from '../config/supabase';
-import { filterArticles} from './filter.js';
+import { filterArticles  } from './filter.js';
 import './HomePage.css';
 
 // Import images from the "./images" directory
@@ -22,6 +22,7 @@ export default function HomePage() {
 
   useEffect(() => {
     async function fetchArticles() {
+      
       let { data, error } = await supabase
         .from('articles')
         .select(`
@@ -31,6 +32,7 @@ export default function HomePage() {
         categories(*),
         post_type(*),
         publication(*)
+        
       `);
 
       if (error) {
@@ -40,6 +42,7 @@ export default function HomePage() {
       }
     }
 
+     
     async function fetchPostTypes() {
       try {
         const { data, error } = await supabase.from('post_type').select('*');
@@ -55,11 +58,14 @@ export default function HomePage() {
 
     async function fetchPublications() {
       try {
-        const { data, error } = await supabase.from('publication').select('*');
+        const { data, error } = await supabase.from('publication').select(`
+          *,
+          auth(*)`
+          );
         if (error) {
           throw error;
         }
-
+         console.warn(data)
         setPublications(data);
       } catch (error) {
         console.error('Error fetching publications:', error);
