@@ -7,6 +7,9 @@ function PrivateRoute(props) {
 
     useEffect(()=>{
         let data = localStorage.getItem("login")
+        let data1 = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
+        console.warn(data1)
+        
        
         if(!data){
             navigate('/login')

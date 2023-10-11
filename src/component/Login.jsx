@@ -25,7 +25,7 @@ function Login() {
       console.warn( "user", user)
 
       // Save the login status in local storage
-      localStorage.setItem('login', 'hello');
+      localStorage.setItem('login', user);
        
 
       // User successfully logged in
