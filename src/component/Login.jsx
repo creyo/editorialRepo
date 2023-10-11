@@ -51,7 +51,7 @@ function Login() {
         // User successfully logged in using Google
 
         // Save the login status in local storage
-        localStorage.setItem('login', 'hello');
+        localStorage.setItem('login', data);
 
         // Redirect or perform other actions as needed
       }
