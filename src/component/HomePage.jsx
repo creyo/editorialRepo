@@ -67,7 +67,7 @@ export default function HomePage() {
         }
 
         let tokenInfo =  localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
-        let user_id = tokenInfo
+        let user_id = tokenInfo.user.id
         console.log(user_id)
         let filterData = await filterDataByUserId(data, user_id)
         setPublications(filterData);
