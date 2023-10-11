@@ -15,3 +15,15 @@ export function filterArticles(articles, selectedPublicationId, selectedPostType
     return commonData;
   });
 }
+
+export function filterDataByUserId(data, user_id) {
+  // Use the `filter` method to find items where the `user_id` exists in the "auth" array
+  const filteredData = data.filter((item) => {
+    return Array.isArray(item.auth) && item.auth.some((authItem) => authItem.user_id === user_id);
+  });
+
+  return filteredData;
+
+}
+
+

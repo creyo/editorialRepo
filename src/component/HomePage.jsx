@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import supabase from '../config/supabase';
-import { filterArticles  } from './filter.js';
+import { filterArticles , filterDataByUserId } from './filter.js';
 import './HomePage.css';
 
 // Import images from the "./images" directory
@@ -65,8 +65,10 @@ export default function HomePage() {
         if (error) {
           throw error;
         }
-         console.warn(data)
-        setPublications(data);
+
+        let tokenInfo =  localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
+        let filterData = await filterDataByUserId(data, tokenInfo.user.id)
+        setPublications(filterData);
       } catch (error) {
         console.error('Error fetching publications:', error);
       }
