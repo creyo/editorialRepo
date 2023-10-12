@@ -340,14 +340,14 @@ console.warn(publicationData,postTypeData)
           />
         </div>
 
-        <div className="flex">
+        <div className="flex" style={{ width: '800px' }}>
         <ReactQuill
             value={richText}
             onChange={handleTextChange}
             placeholder="Enter your text here..."
             modules={TextEditorModules}
             formats={TextEditorFormats}
-            style={{ height: '300px', marginBottom :'100px' }}
+            style={{ height: '800px', marginBottom :'100px' }}
           />
         </div>
 
