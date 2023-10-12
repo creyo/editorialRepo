@@ -340,7 +340,7 @@ console.warn(publicationData,postTypeData)
           />
         </div>
 
-        <div className="flex" style={{ width: '800px' }}>
+        <div  style={{ width: '800px' }}>
         <ReactQuill
             value={richText}
             onChange={handleTextChange}
