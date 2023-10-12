@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import supabase from '../config/supabase';
-import { filterArticles , filterDataByUserId } from './filter.js';
+import { filterArticles, filterDataByUserId } from './filter.js';
 import './HomePage.css';
 
 // Import images from the "./images" directory
@@ -22,7 +22,7 @@ export default function HomePage() {
 
   useEffect(() => {
     async function fetchArticles() {
-      
+
       let { data, error } = await supabase
         .from('articles')
         .select(`
@@ -42,7 +42,7 @@ export default function HomePage() {
       }
     }
 
-     
+
     async function fetchPostTypes() {
       try {
         const { data, error } = await supabase.from('post_type').select('*');
@@ -61,15 +61,14 @@ export default function HomePage() {
         const { data, error } = await supabase.from('publication').select(`
           *,
           auth(*)`
-          );
+        );
         if (error) {
           throw error;
         }
 
-        let tokenInfo =  localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
+        let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
         const jsonObject = JSON.parse(tokenInfo);
         let user_id = jsonObject.user.id
-        console.warn(user_id)
         let filterData = await filterDataByUserId(data, user_id)
         setPublications(filterData);
       } catch (error) {
@@ -98,10 +97,10 @@ export default function HomePage() {
 
   //console.warn(articles);
 
-  
-  
-  
-  
+
+
+
+
   const handlePublicationChange = (event) => {
     const selectedValue = event.target.value;
     setSelectedPublication(selectedValue);
@@ -120,7 +119,7 @@ export default function HomePage() {
   const filteredArticles = filterArticles(articles, selectedPublicationId, selectedPostTypeId, selectedStatusId)
 
 
-  
+
   return (
     <div className="container">
       <div className="selectors">
@@ -143,18 +142,18 @@ export default function HomePage() {
           onChange={handlePostTypeChange}
           value={selectedPostType}
         >
-         
 
-        {postTypes.map((postType) => (
-          <option key={postType.post_type_id} value={postType.type_name}>
-            {postType.type_name}
-          </option>
-        ))}
-       
-      </select>
-    </div>
 
-       
+          {postTypes.map((postType) => (
+            <option key={postType.post_type_id} value={postType.type_name}>
+              {postType.type_name}
+            </option>
+          ))}
+
+        </select>
+      </div>
+
+
 
       <div className="top-card">
         <div className="buttons-others">
@@ -174,56 +173,56 @@ export default function HomePage() {
 
 
 
-    <div className="cards-container">
-      {filteredArticles.map((articleItem) => (
-        <div className="card" key={articleItem.article_id}>
-          <div className="card-left">
-            <div className="heading-checkbox">
-              <label>
-                <input type="checkbox" checked="checked" />
-                <span className="checkmark"></span>
-              </label>
-              <p>ID {articleItem.article_id}</p>
+      <div className="cards-container">
+        {filteredArticles.map((articleItem) => (
+          <div className="card" key={articleItem.article_id}>
+            <div className="card-left">
+              <div className="heading-checkbox">
+                <label>
+                  <input type="checkbox" checked="checked" />
+                  <span className="checkmark"></span>
+                </label>
+                <p>ID {articleItem.article_id}</p>
 
-              <p className="heading">
-                <Link to={`/updatearticle/${articleItem.article_id}`} className="heading">
-                  {articleItem.title}
-                </Link>
-              </p>
-            </div>
-            <div className="bread-crum">
-              <p className="crumb">
-                /{articleItem.categories.url}/{articleItem.url}
-              </p>
-              <p>{articleItem.date}</p>
-              <p>{articleItem.created_at}</p>
-            </div>
+                <p className="heading">
+                  <Link to={`/updatearticle/${articleItem.article_id}`} className="heading">
+                    {articleItem.title}
+                  </Link>
+                </p>
+              </div>
+              <div className="bread-crum">
+                <p className="crumb">
+                  /{articleItem.categories.url}/{articleItem.url}
+                </p>
+                <p>{articleItem.date}</p>
+                <p>{articleItem.created_at}</p>
+              </div>
 
-            <div className="buttons-others flex">
-              {articleItem.status === 1 && <button>Draft</button>}
-              {articleItem.status === 2 && (
-                <button className="review-select">Review</button>
-              )}
-              {articleItem.status === 3 && <button>Published</button>}
-              <div className="flex key">
-                <img src={keyImage} alt="Key" />
-                <p>{articleItem.keyword}</p>
-                <img src={chit} alt="tag" />
-                <p>{articleItem.tag}</p>
+              <div className="buttons-others flex">
+                {articleItem.status === 1 && <button>Draft</button>}
+                {articleItem.status === 2 && (
+                  <button className="review-select">Review</button>
+                )}
+                {articleItem.status === 3 && <button>Published</button>}
+                <div className="flex key">
+                  <img src={keyImage} alt="Key" />
+                  <p>{articleItem.keyword}</p>
+                  <img src={chit} alt="tag" />
+                  <p>{articleItem.tag}</p>
+                </div>
               </div>
             </div>
+            <div
+              className={`seo ${getSEOColorClass(articleItem.seo_score)}`}
+            >
+              <p>SEO</p>
+              <p className="percent">{articleItem.seo_score}%</p>
+            </div>
           </div>
-          <div
-            className={`seo ${getSEOColorClass(articleItem.seo_score)}`}
-          >
-            <p>SEO</p>
-            <p className="percent">{articleItem.seo_score}%</p>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
 }
 
 function getSEOColorClass(seoScore) {
