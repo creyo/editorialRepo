@@ -187,12 +187,17 @@ function Updatearticle() {
       };
 
       console.warn(updatedArticle)
-  
+
+     
+   
       // Use the `articleId` from the route to identify the article to update
       const { data, error } = await supabase
         .from('articles')
         .update(updatedArticle)
-        .eq('article_id', articleId).select();
+        .eq('article_id', articleId)// Make an authenticated request with the token in the headers
+       
+       
+        
   
       if (error) {
         console.error('Error updating article:', error);

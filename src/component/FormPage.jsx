@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; 
 import './FormPage.css'; // Import your CSS file
 import StatusSelection from '../FormDataInformation/StatusSelection';
 import CategoryDropdown from '../FormDataInformation/CategoryDropDown';
@@ -109,7 +111,8 @@ console.warn(publicationData,postTypeData)
         category_id: category_id,
         date,
         title,
-        body,
+        body
+        
 
       };
 
@@ -142,6 +145,39 @@ console.warn(publicationData,postTypeData)
       console.error('Error creating article:', error);
     }
   };
+
+  const [richText, setRichText] = useState('');
+
+  const handleTextChange = (content) => {
+    setRichText(content);
+    // Update the review content in the formData state
+    setBody((prevFormData) => ({
+      ...prevFormData,
+      body: richText,
+    }))
+  };
+
+
+  const TextEditorModules = {
+    toolbar: [
+      [{ 'header': [1, 2, false] }],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+      ['link', 'image'],
+      ['clean'],
+    ],
+    clipboard: {
+      matchVisual: false,
+    },
+  };
+
+  const TextEditorFormats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image',
+  ];
+
   
  console.log(postTypeData)
   return (
@@ -305,12 +341,13 @@ console.warn(publicationData,postTypeData)
         </div>
 
         <div className="flex">
-          <textarea
-            placeholder="Body"
-            value={body}
-            onChange={(e) => setBody(e.target.value)} // onChange for body
-            rows="100"
-            cols="200"
+        <ReactQuill
+            value={richText}
+            onChange={handleTextChange}
+            placeholder="Enter your text here..."
+            modules={TextEditorModules}
+            formats={TextEditorFormats}
+            style={{ height: '300px', marginBottom :'100px' }}
           />
         </div>
 
