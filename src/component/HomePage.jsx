@@ -70,6 +70,7 @@ export default function HomePage() {
         const jsonObject = JSON.parse(tokenInfo);
         let user_id = jsonObject.user.id
         let filterData = await filterDataByUserId(data, user_id)
+        console.log(filterData)
         setPublications(filterData);
       } catch (error) {
         console.error('Error fetching publications:', error.message);
