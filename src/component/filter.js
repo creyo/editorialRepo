@@ -22,7 +22,7 @@ export function filterDataByUserId(data, user_id) {
     return Array.isArray(item.auth) && item.auth.some((authItem) => authItem.user_id === user_id);
   });
 
-  return filteredData;
+  console.log( filteredData)
 
 }
 
