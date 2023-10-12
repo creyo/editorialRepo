@@ -340,7 +340,7 @@ console.warn(publicationData,postTypeData)
           />
         </div>
 
-        <div  style={{ width: '1000px' }}>
+        <div  style={{ width: '1050px' }}>
         <ReactQuill
             value={richText}
             onChange={handleTextChange}
