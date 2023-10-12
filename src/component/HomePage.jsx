@@ -69,10 +69,10 @@ export default function HomePage() {
         let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
         const jsonObject = JSON.parse(tokenInfo);
         let user_id = jsonObject.user.id
-        console.log(user_id)
+        console.log(typeof(user_id))
         console.log(typeof(data))
         let filterData = await filterDataByUserId(data, user_id)
-        console.log(typeof(filterData))
+        console.log(filterData)
         setPublications(filterData);
       } catch (error) {
         console.error('Error fetching publications:', error.message);
