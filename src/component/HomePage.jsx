@@ -69,6 +69,7 @@ export default function HomePage() {
         let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
         const jsonObject = JSON.parse(tokenInfo);
         let user_id = jsonObject.user.id
+        console.log(user_id)
         console.warn(data)
         let filterData = await filterDataByUserId(data, user_id)
         console.log(filterData)
