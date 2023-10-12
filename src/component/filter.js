@@ -23,6 +23,7 @@ export function filterDataByUserId(data, user_id) {
   });
 
   console.log( filteredData)
+  return filteredData
 
 }
 
