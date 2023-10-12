@@ -71,7 +71,7 @@ export default function HomePage() {
         let user_id = jsonObject.user.id
         console.log(typeof(user_id))
         console.log(typeof(data))
-        let filterData = await filterDataByUserId(data, user_id)
+        let filterData =  filterDataByUserId(data, user_id)
         console.log(filterData)
         setPublications(filterData);
       } catch (error) {
