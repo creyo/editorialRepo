@@ -407,16 +407,7 @@ function Updatearticle() {
           />
         </div>
 
-        <div  style={{ width: '1050px' }}>
-        <ReactQuill
-            value={richText}
-            onChange={handleTextChange}
-            placeholder="Enter your text here..."
-            modules={TextEditorModules}
-            formats={TextEditorFormats}
-            style={{ height: '800px', marginBottom :'100px' }}
-          />
-        </div>
+
 
         <div className="flex">
           <textarea
