@@ -411,15 +411,15 @@ function Updatearticle() {
 
         <div  style={{ width: '1050px' }}>
         <ReactQuill
-          value={body}
-          onChange={handleTextChange}
-          placeholder="Enter your text here..."
-          modules={TextEditorModules}
-          formats={TextEditorFormats}
-          style={{ height: '800px', marginBottom: '100px' }}
-        >
-          {initialHTML} 
-        </ReactQuill>
+  value={body}
+  onChange={handleTextChange}
+  placeholder="Enter your text here..."
+  modules={TextEditorModules}
+  formats={TextEditorFormats}
+  style={{ height: '800px', marginBottom: '100px' }}
+>
+  <div dangerouslySetInnerHTML={{ __html: initialHTML }} /> {/* Wrap it with a div */}
+</ReactQuill>
         </div>
 
         <div className="flex">
