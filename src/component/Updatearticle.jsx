@@ -27,9 +27,7 @@ function Updatearticle() {
 
   const[categoryValue , setCategoryValue] = useState('')
   const[authorValue,setAuthorValue] = useState('')
-
-  const [initialHTML, setInitialHTML] = useState('')
-
+ 
 
 
   // Dropdown 
@@ -117,10 +115,7 @@ function Updatearticle() {
         }
 
         setTitle(data.title);
-         // Convert the incoming text to HTML
-         let incomingText = data.body; // Your HTML content
-         setInitialHTML(incomingText);
- 
+        setBody(data.body);
         setNote(data.note);
         setSelectedPublication(data.publication_id);
         setSelectedPostType(data.post_type.post_type_id);
@@ -226,7 +221,8 @@ function Updatearticle() {
 
   const handleTextChange = (content) => {
     setBody(content);
-  
+    // Update the review content in the formData state
+    
   };
 
 
@@ -411,15 +407,13 @@ function Updatearticle() {
 
         <div  style={{ width: '1050px' }}>
         <ReactQuill
-  value={body}
-  onChange={handleTextChange}
-  placeholder="Enter your text here..."
-  modules={TextEditorModules}
-  formats={TextEditorFormats}
-  style={{ height: '800px', marginBottom: '100px' }}
->
-  <div dangerouslySetInnerHTML={{ __html: initialHTML }} /> {/* Wrap it with a div */}
-</ReactQuill>
+            value={body}
+            onChange={handleTextChange}
+            placeholder="Enter your text here..."
+            modules={TextEditorModules}
+            formats={TextEditorFormats}
+            style={{ height: '800px', marginBottom :'100px' }}
+          />
         </div>
 
         <div className="flex">
