@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import supabase from '../config/supabase';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; 
 import StatusSelection from '../FormDataInformation/StatusSelection';
 import CategoryDropdown from '../FormDataInformation/CategoryDropDown';
 import AuthorDropdown from '../FormDataInformation/AuthorDropdown';
@@ -212,6 +214,40 @@ function Updatearticle() {
       console.error('Error updating article:', error);
     }
   };
+
+
+  const [richText, setRichText] = useState('');
+
+  const handleTextChange = (content) => {
+    setRichText(content);
+    // Update the review content in the formData state
+    setBody((prevFormData) => ({
+      ...prevFormData,
+      body: richText,
+    }))
+  };
+
+
+  const TextEditorModules = {
+    toolbar: [
+      [{ 'header': [1, 2, false] }],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+      ['link', 'image'],
+      ['clean'],
+    ],
+    clipboard: {
+      matchVisual: false,
+    },
+  };
+
+  const TextEditorFormats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image',
+  ];
+
   
  
 
@@ -371,13 +407,14 @@ function Updatearticle() {
           />
         </div>
 
-        <div className="flex">
-          <textarea
-            placeholder="Body"
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            rows="30"
-            cols="10"
+        <div  style={{ width: '1050px' }}>
+        <ReactQuill
+            value={richText}
+            onChange={handleTextChange}
+            placeholder="Enter your text here..."
+            modules={TextEditorModules}
+            formats={TextEditorFormats}
+            style={{ height: '800px', marginBottom :'100px' }}
           />
         </div>
 
