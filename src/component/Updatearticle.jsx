@@ -27,6 +27,7 @@ function Updatearticle() {
 
   const[categoryValue , setCategoryValue] = useState('')
   const[authorValue,setAuthorValue] = useState('')
+  const [richText, setRichText] = useState('');
 
 
   // Dropdown 
@@ -114,7 +115,6 @@ function Updatearticle() {
         }
 
         setTitle(data.title);
-        console.warn(data.body)
         setBody(data.body);
         setNote(data.note);
         setSelectedPublication(data.publication_id);
@@ -219,6 +219,14 @@ function Updatearticle() {
 
   
 
+  const handleTextChange = (content) => {
+    setRichText(content);
+    // Update the review content in the formData state
+    setBody((prevFormData) => ({
+      ...prevFormData,
+      body: richText,
+    }))
+  };
 
 
   const TextEditorModules = {
@@ -402,8 +410,8 @@ function Updatearticle() {
 
         <div  style={{ width: '1050px' }}>
         <ReactQuill
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
+            value={richText}
+            onChange={handleTextChange}
             placeholder="Enter your text here..."
             modules={TextEditorModules}
             formats={TextEditorFormats}

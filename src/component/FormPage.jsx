@@ -146,15 +146,11 @@ console.warn(publicationData,postTypeData)
     }
   };
 
-  const [richText, setRichText] = useState('');
+ 
 
   const handleTextChange = (content) => {
-    setRichText(content);
-    // Update the review content in the formData state
-    setBody((prevFormData) => ({
-      ...prevFormData,
-      body: richText,
-    }))
+    setBody(content);
+   
   };
 
 
@@ -342,7 +338,7 @@ console.warn(publicationData,postTypeData)
 
         <div  style={{ width: '1050px' }}>
         <ReactQuill
-            value={richText}
+            value={body}
             onChange={handleTextChange}
             placeholder="Enter your text here..."
             modules={TextEditorModules}
