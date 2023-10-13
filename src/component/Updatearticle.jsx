@@ -117,7 +117,7 @@ function Updatearticle() {
         setTitle(data.title);
         // Convert the incoming text to HTML
         let incomingText = data.body
-        const htmlContent = { __html: incomingText };
+        const htmlContent = {  __html: incomingText };
         setBody(htmlContent);
         setNote(data.note);
         setSelectedPublication(data.publication_id);
@@ -409,7 +409,7 @@ function Updatearticle() {
 
         <div  style={{ width: '1050px' }}>
         <ReactQuill
-            value={body}
+            value={body.__html}
             onChange={handleTextChange}
             placeholder="Enter your text here..."
             modules={TextEditorModules}
