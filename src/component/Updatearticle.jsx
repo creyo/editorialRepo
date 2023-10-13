@@ -216,16 +216,8 @@ function Updatearticle() {
   };
 
 
-  const [richText, setRichText] = useState('');
+  
 
-  const handleTextChange = (content) => {
-    setRichText(content);
-    // Update the review content in the formData state
-    setBody((prevFormData) => ({
-      ...prevFormData,
-      body: richText,
-    }))
-  };
 
 
   const TextEditorModules = {
@@ -409,8 +401,8 @@ function Updatearticle() {
 
         <div  style={{ width: '1050px' }}>
         <ReactQuill
-            value={richText}
-            onChange={handleTextChange}
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
             placeholder="Enter your text here..."
             modules={TextEditorModules}
             formats={TextEditorFormats}
