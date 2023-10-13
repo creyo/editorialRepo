@@ -126,20 +126,7 @@ console.warn(publicationData,postTypeData)
 
       console.log('Article created:', data);
 
-      // Reset the form fields after successful submission
-      setStatusId(1);
-      setTypedUrl('');
-      setSeoScore(0);
-      setSeoTitle('');
-      setSeoDescription('');
-      setTag('');
-      setKeywords('');
-      setFeaturedImage('');
-      setAuthorId(0);
-      setDate('');
-      setTitle('');
-      setBody('');
-      setNote('');
+    
 
     } catch (error) {
       console.error('Error creating article:', error);
