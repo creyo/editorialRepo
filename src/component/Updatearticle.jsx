@@ -114,6 +114,7 @@ function Updatearticle() {
         }
 
         setTitle(data.title);
+        console.warn(data.body)
         setBody(data.body);
         setNote(data.note);
         setSelectedPublication(data.publication_id);
