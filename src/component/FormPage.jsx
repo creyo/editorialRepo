@@ -383,7 +383,7 @@ function FormPage() {
             className={`button-dark btn ${saveButtonColor}`}
             type="submit"
             onClick={handleSubmit}
-            disabled={!formChanged}
+      
           >
             Save
           </button>
