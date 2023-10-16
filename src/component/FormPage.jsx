@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams,  useNavigate } from 'react-router-dom';
+
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; 
+import 'react-quill/dist/quill.snow.css';
 import './FormPage.css'; // Import your CSS file
 import StatusSelection from '../FormDataInformation/StatusSelection';
 import CategoryDropdown from '../FormDataInformation/CategoryDropDown';
@@ -11,7 +12,7 @@ import supabase from '../config/supabase'; // Import the Supabase instance
 function FormPage() {
 
   const { publicationId, postTypeId } = useParams();
-
+  const navigate = useNavigate
   const [statusId, setStatusId] = useState(1);
   const [typedUrl, setTypedUrl] = useState('');
   const [seoScore, setSeoScore] = useState(0);
@@ -27,7 +28,7 @@ function FormPage() {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [note, setNote] = useState('');
-  
+
 
 
   //dropdown 
@@ -36,9 +37,9 @@ function FormPage() {
   const [selectedPublication, setSelectedPublication] = useState(publicationId);
   const [selectedPostType, setSelectedPostType] = useState(postTypeId);
 
-  
-console.warn( publicationId, postTypeId);
-console.warn(publicationData,postTypeData)
+
+  const [saveButtonColor, setSaveButtonColor] = useState('blue');
+  const [formChanged, setFormChanged] = useState(false);
 
   const handleStatusChange = (selectedStatusId) => {
     setStatusId(selectedStatusId);
@@ -112,7 +113,7 @@ console.warn(publicationData,postTypeData)
         date,
         title,
         body
-        
+
 
       };
 
@@ -126,18 +127,45 @@ console.warn(publicationData,postTypeData)
 
       console.log('Article created:', data);
 
-      
+
     } catch (error) {
       console.error('Error creating article:', error);
     }
   };
 
- 
+
+    // Function to reset the form to its default values
+    const resetForm = () => {
+      setStatusId(1);
+      setTypedUrl('');
+      setSeoScore(0);
+      setCategory_id(0);
+      setCategory_url('');
+      setSeoTitle('');
+      setSeoDescription('');
+      setTag('');
+      setKeywords('');
+      setFeaturedImage('');
+      setAuthorId(0);
+      setDate('');
+      setTitle('');
+      setBody('');
+      setNote('');
+    };
+
 
   const handleTextChange = (content) => {
     setBody(content);
-   
+
   };
+
+  // Define a function to change the button color
+  const changeButtonColor = () => {
+    setSaveButtonColor(formChanged ? 'gray' : 'blue');
+  };
+
+  // Add an effect to watch for form changes
+  useEffect(changeButtonColor, [formChanged]);
 
 
   const TextEditorModules = {
@@ -160,8 +188,8 @@ console.warn(publicationData,postTypeData)
     'link', 'image',
   ];
 
-  
- console.log(postTypeData)
+
+  console.log(postTypeData)
   return (
     <div className="container">
       <div className="selectors">
@@ -201,7 +229,8 @@ console.warn(publicationData,postTypeData)
       </div>
 
       <div className="flex" style={{ margin: '1rem 0' }}>
-        <p style={{ marginRight: '1rem' }}>Add Page</p>
+        <button class="back-button button-dark" onClick={() => navigate(-1)}>Back</button>
+        <button class="add-page-button" onClick={resetForm}>Add Page</button>
         <img src="/images/plus.svg" alt="" />
       </div>
       <div className="form-card">
@@ -322,14 +351,14 @@ console.warn(publicationData,postTypeData)
           />
         </div>
 
-        <div  style={{ width: '1050px' }}>
-        <ReactQuill
+        <div style={{ width: '1050px' }}>
+          <ReactQuill
             value={body}
             onChange={handleTextChange}
             placeholder="Enter your text here..."
             modules={TextEditorModules}
             formats={TextEditorFormats}
-            style={{ height: '800px', marginBottom :'100px' }}
+            style={{ height: '800px', marginBottom: '100px' }}
           />
         </div>
 
@@ -343,15 +372,22 @@ console.warn(publicationData,postTypeData)
         </div>
 
         <form action="" onSubmit={handleSubmit}>
-          <div className="button-div">
-            <button className="button-light btn" type="button">
-              Delete
-            </button>
-          <button className="button-dark btn" type="submit">
-              Save
-            </button>
-          </div>
-        </form>
+        <div className="button-div">
+          <button className="button-light btn" type="button" onClick={resetForm}>
+            Delete
+          </button>
+          <button
+            className={`button-dark btn ${saveButtonColor}`}
+            type="submit"
+            onClick={() => {
+              setFormChanged(false); // Reset form change state when clicked
+            }}
+            disabled={!formChanged}
+          >
+            Save
+          </button>
+        </div>
+      </form>
       </div>
     </div>
   );
