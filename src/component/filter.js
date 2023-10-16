@@ -29,8 +29,9 @@ export function filterDataByUserId(data, user_id,email) {
 }
 
 
-
 export function formatDate(originalDate) {
+  // Remove the timezone offset (+00:00) using a regular expression
+  const dateWithoutTimezone = originalDate.replace(/\+00:00$/, '');
   const options = {
     year: 'numeric',
     month: 'short',
@@ -42,4 +43,6 @@ export function formatDate(originalDate) {
   const formattedDate = new Date(originalDate).toLocaleDateString('en-IN', options);
   return formattedDate;
 }
+
+
 
