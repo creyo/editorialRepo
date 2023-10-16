@@ -124,7 +124,7 @@ export default function HomePage() {
 
 
   
-  console.log(filterArticles);
+  
 
   return (
     <div className="container">
