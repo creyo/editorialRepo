@@ -49,12 +49,25 @@
 .button-grey {
   background-color: grey;
   color: white; /* Text color */
+  font-size: 1rem;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-right: 10px
+
 }
 
 /* CSS for the blue button */
 .button-blue {
   background-color: blue;
-  color: white; /* Text color */
+  color: white; /* Text color */  font-size: 1rem;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-right: 10px
+  
 }
 
   
@@ -107,11 +120,12 @@
 
   /* Back Button Styles */
 .back-button {
-  font-size: 1rem;
+ 
   background-color: #F4F4F4;
+  color: #C9C9C9;
+  font-size: 1rem;
   padding: 10px;
   border: none;
-  color: #C9C9C9;
   cursor: pointer;
   border-radius: 5px;
   margin-right: 10px; /* Add margin to create a gap between buttons */
