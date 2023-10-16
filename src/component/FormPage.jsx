@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -12,7 +12,7 @@ import supabase from '../config/supabase'; // Import the Supabase instance
 function FormPage() {
 
   const { publicationId, postTypeId } = useParams();
-  const navigate = useNavigate
+  
   const [statusId, setStatusId] = useState(1);
   const [typedUrl, setTypedUrl] = useState('');
   const [seoScore, setSeoScore] = useState(0);
@@ -286,8 +286,8 @@ function FormPage() {
 
       <div className="flex" style={{ margin: '1rem 0' }}>
     {/* back button will on home page */}
-        <button class="back-button " onClick={() => navigate("/")}>Back</button>
-        <button class="add-page-button" onClick={resetForm}>Add Page</button>
+    <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>
+    <button class="add-page-button" onClick={resetForm}>Add Page</button>
         <img src="/images/plus.svg" alt="" />
       </div>
       <div className="form-card">
