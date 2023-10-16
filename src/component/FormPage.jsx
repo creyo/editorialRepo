@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; 
+import 'react-quill/dist/quill.snow.css';
 import './FormPage.css'; // Import your CSS file
 import StatusSelection from '../FormDataInformation/StatusSelection';
 import CategoryDropdown from '../FormDataInformation/CategoryDropDown';
@@ -9,9 +9,10 @@ import AuthorDropdown from '../FormDataInformation/AuthorDropdown';
 import supabase from '../config/supabase'; // Import the Supabase instance
 
 function FormPage() {
-
+  // Get publicationId and postTypeId from the URL parameters
   const { publicationId, postTypeId } = useParams();
 
+  // Define state variables for form fields and other data
   const [statusId, setStatusId] = useState(1);
   const [typedUrl, setTypedUrl] = useState('');
   const [seoScore, setSeoScore] = useState(0);
@@ -27,72 +28,37 @@ function FormPage() {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [note, setNote] = useState('');
-  
 
-
-  //dropdown 
+  // Define state variables for dropdown data
   const [publicationData, setPublicationData] = useState([]);
   const [postTypeData, setPostTypeData] = useState([]);
   const [selectedPublication, setSelectedPublication] = useState(publicationId);
   const [selectedPostType, setSelectedPostType] = useState(postTypeId);
 
   
-console.warn( publicationId, postTypeId);
-console.warn(publicationData,postTypeData)
+  const [saveButtonColor, setSaveButtonColor] = useState('blue');
+  const [formChanged, setFormChanged] = useState(false);
 
+  // Handle status change
   const handleStatusChange = (selectedStatusId) => {
+    setFormChanged(true);
     setStatusId(selectedStatusId);
   };
 
+  // Handle publication change
   const handlePublicationChange = (event) => {
+    setFormChanged(true);
     setSelectedPublication(event.target.value);
   };
 
+  // Handle post type change
   const handlePostTypeChange = (event) => {
+    setFormChanged(true);
     setSelectedPostType(event.target.value);
   };
 
-  const handleCategoryChange = (selectedCategoryInfo) => {
-    setCategory_id(selectedCategoryInfo.category_id);
-    setCategory_url(selectedCategoryInfo.category_url);
-  };
-
-  const handleAuthorChange = (selectedAuthorId) => {
-    setAuthorId(selectedAuthorId);
-  };
-
-
-  useEffect(() => {
-    async function fetchData() {
-      // Fetch data from the 'publication' table
-      const { data: publicationData, error } = await supabase
-        .from('publication')
-        .select('*');
-
-      if (publicationData) {
-        setPublicationData(publicationData);
-      } else {
-        throw error
-      }
-
-      // Fetch data from the 'post_type' table
-      const { data: postTypeData, error: postTypeError } = await supabase
-        .from('post_type')
-        .select('*');
-
-      if (postTypeData) {
-        setPostTypeData(postTypeData);
-      } else {
-        throw postTypeError
-      }
-    }
-
-    fetchData();
-  }, []);
-
-
-
   const handleSubmit = async (event) => {
+ 
     event.preventDefault();
 
     try {
@@ -126,21 +92,71 @@ console.warn(publicationData,postTypeData)
 
       console.log('Article created:', data);
 
-    
+      // After saving, reset the form change state and set the button color to blue.
+      setFormChanged(false);
+      setSaveButtonColor('blue');
 
+      
     } catch (error) {
       console.error('Error creating article:', error);
     }
   };
 
- 
-
-  const handleTextChange = (content) => {
-    setBody(content);
-   
+  // Handle category change
+  const handleCategoryChange = (selectedCategoryInfo) => {
+    setFormChanged(true);
+    setCategory_id(selectedCategoryInfo.category_id);
+    setCategory_url(selectedCategoryInfo.category_url);
   };
 
+  // Handle author change
+  const handleAuthorChange = (selectedAuthorId) => {
+    setFormChanged(true);
+    setAuthorId(selectedAuthorId);
+  };
 
+  // Fetch data from Supabase on component mount
+  useEffect(() => {
+    async function fetchData() {
+      // Fetch data from the 'publication' table
+      const { data: publicationData, error } = await supabase
+        .from('publication')
+        .select('*');
+
+      if (publicationData) {
+        setPublicationData(publicationData);
+      } else {
+        throw error;
+      }
+
+      // Fetch data from the 'post_type' table
+      const { data: postTypeData, error: postTypeError } = await supabase
+        .from('post_type')
+        .select('*');
+
+      if (postTypeData) {
+        setPostTypeData(postTypeData);
+      } else {
+        throw postTypeError;
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  // Handle text change in the Quill editor
+  const handleTextChange = (content) => {
+    setBody(content);
+  };
+
+  const changeButtonColor = () => {
+    setSaveButtonColor(formChanged ? 'gray' : 'blue');
+  };
+
+  useEffect(changeButtonColor, [formChanged]);
+
+
+  // Define Quill editor modules and formats
   const TextEditorModules = {
     toolbar: [
       [{ 'header': [1, 2, false] }],
@@ -161,8 +177,6 @@ console.warn(publicationData,postTypeData)
     'link', 'image',
   ];
 
-  
- console.log(postTypeData)
   return (
     <div className="container">
       <div className="selectors">
@@ -172,7 +186,6 @@ console.warn(publicationData,postTypeData)
           onChange={handlePublicationChange}
           value={selectedPublication}
         >
-
           {publicationData.map((publication) => (
             <option
               key={publication.publication_id}
@@ -182,14 +195,12 @@ console.warn(publicationData,postTypeData)
             </option>
           ))}
         </select>
-
         <select
           name="postTypeDropdown"
           id="postTypeDropdown"
           onChange={handlePostTypeChange}
           value={selectedPostType}
         >
-
           {postTypeData.map((postType) => (
             <option
               key={postType.post_type_id}
@@ -205,6 +216,7 @@ console.warn(publicationData,postTypeData)
         <p style={{ marginRight: '1rem' }}>Add Page</p>
         <img src="/images/plus.svg" alt="" />
       </div>
+
       <div className="form-card">
         <div className="flex gap-between">
           <div className="flex child-margin">
@@ -216,7 +228,6 @@ console.warn(publicationData,postTypeData)
             />
           </div>
         </div>
-
         <div className="flex">
           <p style={{ marginRight: '1rem' }}>Category</p>
           <CategoryDropdown onCategoryChange={handleCategoryChange} required />
@@ -235,7 +246,6 @@ console.warn(publicationData,postTypeData)
             </span>
           </div>
         </div>
-
         <div className="flex">
           <p style={{ marginRight: '5rem' }}>SEO Score</p>
           <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -250,7 +260,6 @@ console.warn(publicationData,postTypeData)
             <p>%</p>
           </div>
         </div>
-
         <div className="flex">
           <input
             type="text"
@@ -259,7 +268,6 @@ console.warn(publicationData,postTypeData)
             onChange={(e) => setSeoTitle(e.target.value)} // onChange for seoTitle
           />
         </div>
-
         <div className="flex">
           <textarea
             placeholder="Enter SEO Description"
@@ -269,7 +277,6 @@ console.warn(publicationData,postTypeData)
             cols="10"
           />
         </div>
-
         <div className="flex">
           <input
             type="text"
@@ -278,7 +285,6 @@ console.warn(publicationData,postTypeData)
             onChange={(e) => setTag(e.target.value)} // onChange for tag
           />
         </div>
-
         <div className="flex">
           <input
             type="text"
@@ -287,21 +293,18 @@ console.warn(publicationData,postTypeData)
             onChange={(e) => setKeywords(e.target.value)} // onChange for keywords
           />
         </div>
-
         <div className="flex">
           <input
             type="text"
             placeholder="Featured Image"
             value={featuredImage}
-            onChange={(e) => setFeaturedImage(e.target.value)} // onChange for featuredImage
+            onChange={(e) => setFeaturedImage(e.target.value ) } // onChange for featuredImage
           />
         </div>
-
         <div className="flex">
           <p style={{ marginRight: '5rem' }}>Author</p>
           <AuthorDropdown onAuthorChange={handleAuthorChange} required />
         </div>
-
         <div className="flex">
           <p style={{ marginRight: '5rem' }}>Date</p>
           <input
@@ -311,7 +314,6 @@ console.warn(publicationData,postTypeData)
             onChange={(e) => setDate(e.target.value)} // onChange for date
           />
         </div>
-
         <div className="flex">
           <input
             type="text"
@@ -322,18 +324,16 @@ console.warn(publicationData,postTypeData)
             cols=""
           />
         </div>
-
-        <div  style={{ width: '1050px' }}>
-        <ReactQuill
+        <div style={{ width: '1050px' }}>
+          <ReactQuill
             value={body}
             onChange={handleTextChange}
             placeholder="Enter your text here..."
             modules={TextEditorModules}
             formats={TextEditorFormats}
-            style={{ height: '800px', marginBottom :'100px' }}
+            style={{ height: '800px', marginBottom: '100px' }}
           />
         </div>
-
         <div className="flex">
           <textarea
             placeholder="Note"
@@ -342,13 +342,16 @@ console.warn(publicationData,postTypeData)
             rows="4"
           />
         </div>
-
         <form action="" onSubmit={handleSubmit}>
           <div className="button-div">
             <button className="button-light btn" type="button">
               Delete
             </button>
-            <button className="button-dark btn" type="submit">
+            <button
+              className={`button-dark btn ${saveButtonColor}`}
+              type="submit"
+              onClick={() => setFormChanged(false)} // Reset form change state when clicked
+            >
               Save
             </button>
           </div>
