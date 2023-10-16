@@ -347,11 +347,9 @@ console.warn(publicationData,postTypeData)
             <button className="button-light btn" type="button">
               Delete
             </button>
-           { change ? <button className="button-dark btn" type="submit">
+          <button className="button-dark btn" type="submit">
               Save
-            </button>:<button className="button-dark btn" type="submit">
-              Save
-            </button>}
+            </button>
           </div>
         </form>
       </div>
