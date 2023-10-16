@@ -181,6 +181,8 @@ function FormPage() {
     },
   };
 
+
+  console.warn(saveButtonColor)
   const TextEditorFormats = [
     'header',
     'bold', 'italic', 'underline', 'strike', 'blockquote',
