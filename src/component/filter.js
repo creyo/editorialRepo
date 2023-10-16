@@ -40,7 +40,7 @@ export function formatDate(originalDate) {
     minute: 'numeric',
   };
 
-  const formattedDate = new Date(originalDate).toLocaleDateString('en-IN', options);
+  const formattedDate = new Date(dateWithoutTimezone ).toLocaleDateString('en-IN', options);
   return formattedDate;
 }
 
