@@ -42,7 +42,7 @@ function FormPage() {
 
   const [submit, setSubmit] = useState(false)
 
-console.log(setSaveButtonColor)
+
   const handleStatusChange = (selectedStatusId) => {
     setStatusId(selectedStatusId);
   };
