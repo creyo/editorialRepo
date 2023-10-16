@@ -91,3 +91,41 @@
   }
   
   
+
+  /* Back Button Styles */
+.back-button {
+  font-size: 1rem;
+  background-color: #F4F4F4;
+  padding: 10px;
+  border: none;
+  color: #C9C9C9;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.back-button-light {
+  border: 1px solid #457EFF;
+  background-color: white;
+  color: #457EFF;
+}
+
+.back-button-dark {
+  background-color: #457EFF;
+  color: white;
+}
+
+/* Add Page Button Styles */
+.add-page-button {
+  font-size: 1rem;
+  background-color: #457EFF;
+  padding: 10px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Apply margin to the buttons if needed */
+.button-margin {
+  margin: 0 1rem; /* Adjust the margin as needed */
+}
