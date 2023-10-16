@@ -38,7 +38,7 @@ function FormPage() {
   const [selectedPostType, setSelectedPostType] = useState(postTypeId);
 
 
-  
+
 
   const [submit, setSubmit] = useState(false)
 
@@ -128,7 +128,7 @@ function FormPage() {
       }
 
       console.log('Article created:', data);
-      
+
       setSubmit(true)
 
 
@@ -377,8 +377,7 @@ function FormPage() {
               Delete
             </button>
             <button
-              // className={submit ? `button-dark btn blue` : `button-dark btn`}
-              className={`button-dark btn ${submit ? 'grey' :""}`}
+              className={`button-dark btn ${submit ? 'button-grey' : 'button-blue'}`}
               type="submit"
               onClick={handleSubmit}
             >

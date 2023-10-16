@@ -45,9 +45,18 @@
     outline: none; /* Remove input outline */
   }
 
-  .grey{
-    background-color: #454545;
-  }
+  /* CSS for the grey button */
+.button-grey {
+  background-color: grey;
+  color: white; /* Text color */
+}
+
+/* CSS for the blue button */
+.button-blue {
+  background-color: blue;
+  color: white; /* Text color */
+}
+
   
   /* Apply styles to the button */
   .form-card .button {
