@@ -377,7 +377,7 @@ function FormPage() {
             Delete
           </button>
           <button
-            className={`button-dark btn ${saveButtonColor}`}
+            className="button-dark btn"
             type="submit"
             onClick={() => {
               setFormChanged(false); // Reset form change state when clicked
