@@ -43,26 +43,6 @@ function FormPage() {
   const [submit, setSubmit] = useState(false)
 
 
-  const handleStatusChange = (selectedStatusId) => {
-    setStatusId(selectedStatusId);
-  };
-
-  const handlePublicationChange = (event) => {
-    setSelectedPublication(event.target.value);
-  };
-
-  const handlePostTypeChange = (event) => {
-    setSelectedPostType(event.target.value);
-  };
-
-  const handleCategoryChange = (selectedCategoryInfo) => {
-    setCategory_id(selectedCategoryInfo.category_id);
-    setCategory_url(selectedCategoryInfo.category_url);
-  };
-
-  const handleAuthorChange = (selectedAuthorId) => {
-    setAuthorId(selectedAuthorId);
-  };
 
 
   useEffect(() => {
@@ -158,13 +138,89 @@ function FormPage() {
   };
 
 
-  const handleTextChange = (content) => {
-    setBody(content);
+  
+  const handleStatusChange = (selectedStatusId) => {
+    setStatusId(selectedStatusId);
+    setSubmit(false)
+  };
 
+  const handlePublicationChange = (event) => {
+    setSelectedPublication(event.target.value);
+    setSubmit(false)
+  };
+
+  const handlePostTypeChange = (event) => {
+    setSelectedPostType(event.target.value);
+    setSubmit(false)
+  };
+
+  const handleCategoryChange = (selectedCategoryInfo) => {
+    setCategory_id(selectedCategoryInfo.category_id);
+    setCategory_url(selectedCategoryInfo.category_url);
+    setSubmit(false)
+  };
+
+  const handleAuthorChange = (selectedAuthorId) => {
+    setAuthorId(selectedAuthorId);
+    setSubmit(false)
   };
 
 
+  const handleTextChange = (content) => {
+    setBody(content);
+    setSubmit(false)
 
+  };
+  const handleUrl = (e) => {
+    setTypedUrl(e.target.value)
+    setSubmit(false)
+  }
+
+  const handleSeoScore = (e) => {
+    setSeoScore(e.target.value)
+    setSubmit(false)
+  }
+
+  const handleSeoTitle = (e) => {
+    setSeoTitle(e.target.value)
+    setSubmit(false)
+  }
+
+  const handleSeoDescription = (e) => {
+    setSeoDescription(e.target.value)
+    setSubmit(false)
+  }
+
+  const handleTag = (e) => {
+    setTag(e.target.value)
+    setSubmit(false)
+  }
+
+  const handleKeywords = (e) => {
+    setKeywords(e.target.value)
+    setSubmit(false)
+  }
+
+  const handleFeatureImage = (e) => {
+    setFeaturedImage(e.target.value)
+    setSubmit(false)
+  }
+
+
+  const handleDate = (e) => {
+    setDate(e.target.value)
+    setSubmit(false)
+  }
+
+  const handleTitle =(e)=>{
+    setTitle(e.target.value)
+    setSubmit(false)
+  }
+
+  const handleNote =(e)=>{
+   setNote(e.target.value)
+   setSubmit(false)
+  }
 
 
 
@@ -189,7 +245,7 @@ function FormPage() {
   ];
 
 
-  console.log(postTypeData)
+
   return (
     <div className="container">
       <div className="selectors">
@@ -257,7 +313,7 @@ function FormPage() {
               <input
                 type="text"
                 value={typedUrl}
-                onChange={(e) => setTypedUrl(e.target.value)}
+                onChange={handleUrl}
                 placeholder="Type your URL here"
               />
             </span>
@@ -271,7 +327,7 @@ function FormPage() {
               type="number"
               placeholder="Enter SEO Score"
               value={seoScore}
-              onChange={(e) => setSeoScore(e.target.value)} // onChange for seoScore
+              onChange={handleSeoScore} // onChange for seoScore
               min="0"
               max="100"
             />
@@ -284,7 +340,7 @@ function FormPage() {
             type="text"
             placeholder="Enter SEO Title"
             value={seoTitle}
-            onChange={(e) => setSeoTitle(e.target.value)} // onChange for seoTitle
+            onChange={handleSeoTitle} // onChange for seoTitle
           />
         </div>
 
@@ -292,7 +348,7 @@ function FormPage() {
           <textarea
             placeholder="Enter SEO Description"
             value={seoDescription}
-            onChange={(e) => setSeoDescription(e.target.value)} // onChange for seoDescription
+            onChange={handleSeoDescription} // onChange for seoDescription
             rows="4"
             cols="10"
           />
@@ -303,7 +359,7 @@ function FormPage() {
             type="text"
             placeholder="Tag"
             value={tag}
-            onChange={(e) => setTag(e.target.value)} // onChange for tag
+            onChange={handleTag} // onChange for tag
           />
         </div>
 
@@ -312,7 +368,7 @@ function FormPage() {
             type="text"
             placeholder="Keywords"
             value={keywords}
-            onChange={(e) => setKeywords(e.target.value)} // onChange for keywords
+            onChange={handleKeywords} // onChange for keywords
           />
         </div>
 
@@ -321,7 +377,7 @@ function FormPage() {
             type="text"
             placeholder="Featured Image"
             value={featuredImage}
-            onChange={(e) => setFeaturedImage(e.target.value)} // onChange for featuredImage
+            onChange={handleFeatureImage} // onChange for featuredImage
           />
         </div>
 
@@ -336,7 +392,7 @@ function FormPage() {
             type="datetime-local"
             placeholder="Date"
             value={date}
-            onChange={(e) => setDate(e.target.value)} // onChange for date
+            onChange={handleDate} // onChange for date
           />
         </div>
 
@@ -345,7 +401,7 @@ function FormPage() {
             type="text"
             placeholder="Title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)} // onChange for title
+            onChange={handleTitle} // onChange for title
             rows="20"
             cols=""
           />
@@ -366,7 +422,7 @@ function FormPage() {
           <textarea
             placeholder="Note"
             value={note}
-            onChange={(e) => setNote(e.target.value)} // onChange for note
+            onChange={handleNote} // onChange for note
             rows="4"
           />
         </div>
