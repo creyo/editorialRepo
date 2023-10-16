@@ -39,7 +39,7 @@ export function formatDate(originalDate) {
     minute: 'numeric',
   };
 
-  const formattedDate = new Date(originalDate).toLocaleDateString('en-US', options);
+  const formattedDate = new Date(originalDate).toLocaleDateString('en-IN', options);
   return formattedDate;
 }
 
