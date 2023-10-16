@@ -38,7 +38,7 @@ function FormPage() {
   const [selectedPostType, setSelectedPostType] = useState(postTypeId);
 
 
-  const [saveButtonColor, setSaveButtonColor] = useState('blue');
+  
 
   const [submit, setSubmit] = useState(false)
 
@@ -377,7 +377,7 @@ console.log(setSaveButtonColor)
               Delete
             </button>
             <button
-              className={submit ? `button-dark btn ${saveButtonColor}` : `button-dark btn`}
+              className={submit ? `button-dark btn blue` : `button-dark btn`}
               type="submit"
               onClick={handleSubmit}
             >
