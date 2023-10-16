@@ -285,7 +285,8 @@ function FormPage() {
       </div>
 
       <div className="flex" style={{ margin: '1rem 0' }}>
-        <button class="back-button " onClick={() => navigate(-1)}>Back</button>
+    {/* back button will on home page */}
+        <button class="back-button " onClick={() => navigate("/")}>Back</button>
         <button class="add-page-button" onClick={resetForm}>Add Page</button>
         <img src="/images/plus.svg" alt="" />
       </div>
