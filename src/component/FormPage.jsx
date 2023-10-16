@@ -370,6 +370,16 @@ function FormPage() {
             <button className="button-light btn" type="button" onClick={resetForm}>
               Delete
             </button>
+           <button className={`button-dark btn ${saveButtonColor}`} type="submit"  onClick={() => setFormChanged(false)}>
+              Save
+            </button>
+          </div>
+        </form>
+        {/* <form action="" onSubmit={handleSubmit}>
+          <div className="button-div">
+            <button className="button-light btn" type="button" onClick={resetForm}>
+              Delete
+            </button>
             <button
               className={`button-dark btn ${saveButtonColor}`}
               type="submit"
@@ -378,7 +388,7 @@ function FormPage() {
               Save
             </button>
           </div>
-        </form>
+        </form> */}
       </div>
     </div>
   );
