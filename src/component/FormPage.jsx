@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams,  useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -134,24 +134,24 @@ function FormPage() {
   };
 
 
-    // Function to reset the form to its default values
-    const resetForm = () => {
-      setStatusId(1);
-      setTypedUrl('');
-      setSeoScore(0);
-      setCategory_id(0);
-      setCategory_url('');
-      setSeoTitle('');
-      setSeoDescription('');
-      setTag('');
-      setKeywords('');
-      setFeaturedImage('');
-      setAuthorId(0);
-      setDate('');
-      setTitle('');
-      setBody('');
-      setNote('');
-    };
+  // Function to reset the form to its default values
+  const resetForm = () => {
+    setStatusId(1);
+    setTypedUrl('');
+    setSeoScore(0);
+    setCategory_id(0);
+    setCategory_url('');
+    setSeoTitle('');
+    setSeoDescription('');
+    setTag('');
+    setKeywords('');
+    setFeaturedImage('');
+    setAuthorId(0);
+    setDate('');
+    setTitle('');
+    setBody('');
+    setNote('');
+  };
 
 
   const handleTextChange = (content) => {
@@ -372,22 +372,21 @@ function FormPage() {
         </div>
 
         <form action="" onSubmit={handleSubmit}>
-        <div className="button-div">
-          <button className="button-light btn" type="button" onClick={resetForm}>
-            Delete
-          </button>
-          <button
-            className="button-dark btn"
-            type="submit"
-            onClick={() => {
-              setFormChanged(false); // Reset form change state when clicked
-            }}
-            disabled={!formChanged}
-          >
-            Save
-          </button>
-        </div>
-      </form>
+          <div className="button-div">
+            <button className="button-light btn" type="button" onClick={resetForm}>
+              Delete
+            </button>
+            <button
+              className="button-dark btn"
+              type="submit"
+              onClick={() => {
+                setFormChanged(false); // Reset form change state when clicked
+              }}
+            >
+              Save
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
