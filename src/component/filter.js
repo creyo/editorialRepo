@@ -11,7 +11,7 @@ export function filterArticles(articles, selectedPublicationId, selectedPostType
 
     // Calculate the commonData using logical AND
     const commonData = matchesPublication && matchesPostType && matchesStatus;
-    console.log(commonData)
+    console.warn(commonData)
 
     return commonData;
   });

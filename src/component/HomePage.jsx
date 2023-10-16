@@ -124,7 +124,7 @@ export default function HomePage() {
 
 
   
-  
+
 
   return (
     <div className="container">
@@ -200,8 +200,8 @@ export default function HomePage() {
                 <p className="crumb">
                   /{articleItem.categories.url}/{articleItem.url}
                 </p>
-                <p>{articleItem.date}</p>
-                <p>{articleItem.created_at}</p>
+                <p>{formatDate(articleItem.date)}</p>
+                <p>{formatDate(articleItem.created_at)}</p>
               </div>
 
               <div className="buttons-others flex">
