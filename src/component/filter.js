@@ -28,9 +28,7 @@ export function filterDataByUserId(data, user_id,email) {
 
 }
 
-
 export function formatDate(originalDate) {
-  
   const options = {
     year: 'numeric',
     month: 'short',
@@ -39,9 +37,16 @@ export function formatDate(originalDate) {
     minute: 'numeric',
   };
 
-  const formattedDate = new Date(originalDate).toLocaleDateString('en-IN', options);
-  return formattedDate;
+  let dateObject = new Date(originalDate);
+
+  if (isNaN(dateObject)) {
+    // Handle the case of an invalid date by returning the original date string
+    return originalDate;
+  }
+
+  return dateObject.toLocaleDateString('en-IN', options);
 }
+
 
 
 
