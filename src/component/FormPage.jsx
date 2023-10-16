@@ -377,7 +377,7 @@ function FormPage() {
               Delete
             </button>
             <button
-              className={`button-dark btn ${submit ? 'button-grey' : 'button-blue'}`}
+              className={`${submit ? 'button-grey' : 'button-blue'}`}
               type="submit"
               onClick={handleSubmit}
             >
