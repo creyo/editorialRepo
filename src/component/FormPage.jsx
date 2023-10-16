@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams , useHistory} from 'react-router-dom';
+import { useParams , useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './FormPage.css'; // Import your CSS file
@@ -11,7 +11,7 @@ import supabase from '../config/supabase'; // Import the Supabase instance
 function FormPage() {
   // Get publicationId and postTypeId from the URL parameters
   const { publicationId, postTypeId } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate(); // Initialize useNavigate
 
   // Define state variables for form fields and other data
   const [statusId, setStatusId] = useState(1);
@@ -235,7 +235,7 @@ function FormPage() {
       </div>
 
       <div className="flex" style={{ margin: '1rem 0' }}>
-        <button onClick={() => history.goBack()}>Back</button>
+      <button onClick={() => navigate(-1)}>Back</button>
         <button onClick={resetForm}>Add Page</button>
         <img src="/images/plus.svg" alt="" />
       </div>
