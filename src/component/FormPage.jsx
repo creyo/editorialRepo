@@ -126,6 +126,7 @@ function FormPage() {
       }
 
       console.log('Article created:', data);
+      setFormChanged("false")
 
 
     } catch (error) {
@@ -167,11 +168,7 @@ function FormPage() {
   // Add an effect to watch for form changes
   useEffect(changeButtonColor, [formChanged]);
 
-  const handleClick =()=>{
-    console.log("click")
-    setFormChanged(false); // Reset form change state when clicked
-  
-  }
+ 
 
 
   const TextEditorModules = {
