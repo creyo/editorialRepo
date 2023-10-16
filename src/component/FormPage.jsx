@@ -85,7 +85,7 @@ function FormPage() {
 
       };
 
-      const { data, error } = await supabase.from('articles').upsert([newArticle]);
+      const { data, error } = await supabase.select('articles').upsert([newArticle]);
 
       if (error) {
 
