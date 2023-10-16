@@ -101,6 +101,7 @@
   color: #C9C9C9;
   cursor: pointer;
   border-radius: 5px;
+  margin-right: 10px; /* Add margin to create a gap between buttons */
 }
 
 .back-button-light {
@@ -123,6 +124,7 @@
   color: white;
   cursor: pointer;
   border-radius: 5px;
+  margin-right: 10px; /* Add margin to create a gap between buttons */
 }
 
 /* Apply margin to the buttons if needed */

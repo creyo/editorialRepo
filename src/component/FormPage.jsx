@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams , useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './FormPage.css'; // Import your CSS file
@@ -235,7 +235,7 @@ function FormPage() {
       </div>
 
       <div className="flex" style={{ margin: '1rem 0' }}>
-      <button class="back-button button-dark" onClick={() => navigate(-1)}>Back</button>
+        <button class="back-button button-dark" onClick={() => navigate(-1)}>Back</button>
         <button class="add-page-button" onClick={resetForm}>Add Page</button>
         <img src="/images/plus.svg" alt="" />
       </div>
@@ -370,7 +370,14 @@ function FormPage() {
             <button className="button-light btn" type="button" onClick={resetForm}>
               Delete
             </button>
-           <button className={`button-dark btn ${saveButtonColor}`} type="submit"  onClick={() => setFormChanged(false)}>
+            <button
+              className={`button-dark btn ${saveButtonColor}`}
+              type="submit"
+              onClick={() => {
+                setFormChanged(false); // Reset form change state when clicked
+              }}
+              disabled={!formChanged}
+            >
               Save
             </button>
           </div>
