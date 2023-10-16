@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams,  useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -38,8 +38,10 @@ function FormPage() {
   const [selectedPostType, setSelectedPostType] = useState(postTypeId);
 
 
-  const [saveButtonColor, setSaveButtonColor] = useState('blue');
-  const [formChanged, setFormChanged] = useState(false);
+  const [saveButtonColor, setSaveButtonColor] = useState('.blue');
+
+  const [submit, setSubmit] = useState(false)
+
 
   const handleStatusChange = (selectedStatusId) => {
     setStatusId(selectedStatusId);
@@ -127,6 +129,7 @@ function FormPage() {
 
       console.log('Article created:', data);
       setFormChanged("false")
+      setSubmit(true)
 
 
     } catch (error) {
@@ -135,24 +138,24 @@ function FormPage() {
   };
 
 
-    // Function to reset the form to its default values
-    const resetForm = () => {
-      setStatusId(1);
-      setTypedUrl('');
-      setSeoScore(0);
-      setCategory_id(0);
-      setCategory_url('');
-      setSeoTitle('');
-      setSeoDescription('');
-      setTag('');
-      setKeywords('');
-      setFeaturedImage('');
-      setAuthorId(0);
-      setDate('');
-      setTitle('');
-      setBody('');
-      setNote('');
-    };
+  // Function to reset the form to its default values
+  const resetForm = () => {
+    setStatusId(1);
+    setTypedUrl('');
+    setSeoScore(0);
+    setCategory_id(0);
+    setCategory_url('');
+    setSeoTitle('');
+    setSeoDescription('');
+    setTag('');
+    setKeywords('');
+    setFeaturedImage('');
+    setAuthorId(0);
+    setDate('');
+    setTitle('');
+    setBody('');
+    setNote('');
+  };
 
 
   const handleTextChange = (content) => {
@@ -160,15 +163,9 @@ function FormPage() {
 
   };
 
-  // Define a function to change the button color
-  const changeButtonColor = () => {
-    setSaveButtonColor(formChanged ? 'gray' : 'blue');
-  };
 
-  // Add an effect to watch for form changes
-  useEffect(changeButtonColor, [formChanged]);
 
- 
+
 
 
   const TextEditorModules = {
@@ -375,20 +372,19 @@ function FormPage() {
         </div>
 
         <form action="" >
-        <div className="button-div">
-          <button className="button-light btn" type="button" onClick={resetForm}>
-            Delete
-          </button>
+          <div className="button-div">
+            <button className="button-light btn" type="button" onClick={resetForm}>
+              Delete
+            </button>
             <button
-            className={`button-dark btn ${saveButtonColor}`}
-            type="submit"
-            onClick={handleSubmit}
-      
-          >
-            Save
-          </button>
-        </div>
-      </form>
+              className={submit ? `button-dark btn ${saveButtonColor}` : `button-dark btn`}
+              type="submit"
+              onClick={handleSubmit}
+            >
+              Save
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

@@ -44,6 +44,10 @@
     margin-top: 1rem;
     outline: none; /* Remove input outline */
   }
+
+  .blue{
+    background-color: #454545;
+  }
   
   /* Apply styles to the button */
   .form-card .button {
