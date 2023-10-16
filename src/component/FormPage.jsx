@@ -39,7 +39,7 @@ function FormPage() {
 
 
   const [saveButtonColor, setSaveButtonColor] = useState('blue');
-  const [formChanged, setFormChanged] = useState(false);
+
 
   const handleStatusChange = (selectedStatusId) => {
     setStatusId(selectedStatusId);
@@ -56,6 +56,7 @@ function FormPage() {
   const handleCategoryChange = (selectedCategoryInfo) => {
     setCategory_id(selectedCategoryInfo.category_id);
     setCategory_url(selectedCategoryInfo.category_url);
+    setSaveButtonColor("grey")
   };
 
   const handleAuthorChange = (selectedAuthorId) => {
@@ -159,13 +160,7 @@ function FormPage() {
 
   };
 
-  // Define a function to change the button color
-  const changeButtonColor = () => {
-    setSaveButtonColor(formChanged ? 'gray' : 'blue');
-  };
-
-  // Add an effect to watch for form changes
-  useEffect(changeButtonColor, [formChanged]);
+ 
 
 
   const TextEditorModules = {
@@ -381,9 +376,6 @@ function FormPage() {
             <button
               className="button-dark btn"
               type="submit"
-              onClick={() => {
-                setFormChanged(false); // Reset form change state when clicked
-              }}
             >
               Save
             </button>
