@@ -92,6 +92,7 @@ function FormPage() {
         console.warn(error)
         throw error;
       }
+      console.log("done")
 
       console.log('Article created:', data);
 
