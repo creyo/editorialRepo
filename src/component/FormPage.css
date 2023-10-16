@@ -61,7 +61,8 @@
 /* CSS for the blue button */
 .button-blue {
   background-color: blue;
-  color: white; /* Text color */  font-size: 1rem;
+  color: white; /* Text color */
+  font-size: 1rem;
   padding: 10px;
   border: none;
   cursor: pointer;

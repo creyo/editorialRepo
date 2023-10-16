@@ -229,7 +229,7 @@ function FormPage() {
       </div>
 
       <div className="flex" style={{ margin: '1rem 0' }}>
-        <button class="back-button button-dark" onClick={() => navigate(-1)}>Back</button>
+        <button class="back-button " onClick={() => navigate(-1)}>Back</button>
         <button class="add-page-button" onClick={resetForm}>Add Page</button>
         <img src="/images/plus.svg" alt="" />
       </div>
