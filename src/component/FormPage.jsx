@@ -167,6 +167,12 @@ function FormPage() {
   // Add an effect to watch for form changes
   useEffect(changeButtonColor, [formChanged]);
 
+  const handleClick =()=>{
+    console.log("click")
+    setFormChanged(false); // Reset form change state when clicked
+  
+  }
+
 
   const TextEditorModules = {
     toolbar: [
@@ -379,9 +385,7 @@ function FormPage() {
             <button
             className={`button-dark btn ${saveButtonColor}`}
             type="submit"
-            onClick={() => {
-              setFormChanged(false); // Reset form change state when clicked
-            }}
+            onClick={handleClick}
             disabled={!formChanged}
           >
             Save
