@@ -377,7 +377,7 @@ function FormPage() {
           />
         </div>
 
-        <form action="" onSubmit={handleSubmit}>
+        <form action="" >
         <div className="button-div">
           <button className="button-light btn" type="button" onClick={resetForm}>
             Delete
@@ -385,7 +385,7 @@ function FormPage() {
             <button
             className={`button-dark btn ${saveButtonColor}`}
             type="submit"
-            onClick={handleClick}
+            onClick={handleSubmit}
             disabled={!formChanged}
           >
             Save
