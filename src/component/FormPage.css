@@ -60,7 +60,7 @@
 
 /* CSS for the blue button */
 .button-blue {
-  background-color: blue;
+  background-color:  #457EFF;
   color: white; /* Text color */
   font-size: 1rem;
   padding: 10px;
@@ -122,7 +122,7 @@
   /* Back Button Styles */
 .back-button {
  
-  background-color: #F4F4F4;
+  background-color:  #457EFF;;
   color: #C9C9C9;
   font-size: 1rem;
   padding: 10px;
