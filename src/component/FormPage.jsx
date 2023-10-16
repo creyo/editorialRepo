@@ -38,7 +38,7 @@ function FormPage() {
   const [selectedPostType, setSelectedPostType] = useState(postTypeId);
 
 
-  const [saveButtonColor, setSaveButtonColor] = useState('.blue');
+  const [saveButtonColor, setSaveButtonColor] = useState('blue');
 
   const [submit, setSubmit] = useState(false)
 
