@@ -28,3 +28,17 @@ export function filterDataByUserId(data, user_id,email) {
 }
 
 
+
+export function formatDate(originalDate) {
+  const options = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  };
+
+  const formattedDate = new Date(originalDate).toLocaleDateString('en-US', options);
+  return formattedDate;
+}
+
