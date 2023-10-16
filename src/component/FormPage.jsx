@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams , useHistory} from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './FormPage.css'; // Import your CSS file
@@ -11,6 +11,7 @@ import supabase from '../config/supabase'; // Import the Supabase instance
 function FormPage() {
   // Get publicationId and postTypeId from the URL parameters
   const { publicationId, postTypeId } = useParams();
+  const history = useHistory();
 
   // Define state variables for form fields and other data
   const [statusId, setStatusId] = useState(1);
@@ -35,7 +36,7 @@ function FormPage() {
   const [selectedPublication, setSelectedPublication] = useState(publicationId);
   const [selectedPostType, setSelectedPostType] = useState(postTypeId);
 
-  
+
   const [saveButtonColor, setSaveButtonColor] = useState('blue');
   const [formChanged, setFormChanged] = useState(false);
 
@@ -57,8 +58,10 @@ function FormPage() {
     setSelectedPostType(event.target.value);
   };
 
+
+
   const handleSubmit = async (event) => {
- 
+
     event.preventDefault();
 
     try {
@@ -78,7 +81,7 @@ function FormPage() {
         date,
         title,
         body
-        
+
 
       };
 
@@ -96,7 +99,7 @@ function FormPage() {
       setFormChanged(false);
       setSaveButtonColor('blue');
 
-      
+
     } catch (error) {
       console.error('Error creating article:', error);
     }
@@ -154,6 +157,25 @@ function FormPage() {
   };
 
   useEffect(changeButtonColor, [formChanged]);
+
+  // Function to reset the form to its default values
+  const resetForm = () => {
+    setStatusId(1);
+    setTypedUrl('');
+    setSeoScore(0);
+    setCategory_id(0);
+    setCategory_url('');
+    setSeoTitle('');
+    setSeoDescription('');
+    setTag('');
+    setKeywords('');
+    setFeaturedImage('');
+    setAuthorId(0);
+    setDate('');
+    setTitle('');
+    setBody('');
+    setNote('');
+  };
 
 
   // Define Quill editor modules and formats
@@ -213,7 +235,8 @@ function FormPage() {
       </div>
 
       <div className="flex" style={{ margin: '1rem 0' }}>
-        <p style={{ marginRight: '1rem' }}>Add Page</p>
+        <button onClick={() => history.goBack()}>Back</button>
+        <button onClick={resetForm}>Add Page</button>
         <img src="/images/plus.svg" alt="" />
       </div>
 
@@ -298,7 +321,7 @@ function FormPage() {
             type="text"
             placeholder="Featured Image"
             value={featuredImage}
-            onChange={(e) => setFeaturedImage(e.target.value ) } // onChange for featuredImage
+            onChange={(e) => setFeaturedImage(e.target.value)} // onChange for featuredImage
           />
         </div>
         <div className="flex">
@@ -344,7 +367,7 @@ function FormPage() {
         </div>
         <form action="" onSubmit={handleSubmit}>
           <div className="button-div">
-            <button className="button-light btn" type="button">
+            <button className="button-light btn" type="button" onClick={resetForm}>
               Delete
             </button>
             <button
