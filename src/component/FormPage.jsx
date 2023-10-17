@@ -94,7 +94,7 @@ function FormPage() {
   }, []);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+   
 
     try {
       const newArticle = {
@@ -252,6 +252,7 @@ function FormPage() {
   
   // Add Page button click handler
   const handleAddPage = () => {
+    console.log(highestarticleid)
     setIsUpdating(false)
     resetForm(); // Reset the form
     handleSubmit(); // Submit the data
