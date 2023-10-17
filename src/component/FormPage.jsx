@@ -255,7 +255,8 @@ function FormPage() {
     console.log(highestarticleid)
     setIsUpdating(false)
     resetForm(); // Reset the form
-    handleSubmit(); // Submit the data
+    const syntheticEvent = { preventDefault: () => {} }; // Create a synthetic event
+    handleSubmit(syntheticEvent);// Submit the data
   };
   
 
