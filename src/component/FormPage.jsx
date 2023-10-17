@@ -252,8 +252,8 @@ function FormPage() {
   
   // Add Page button click handler
   const handleAddPage = () => {
-    setHighestArticleId(highestarticleid+1)
     setIsUpdating(false)
+    setHighestArticleId(highestarticleid+1)
     resetForm(); // Reset the form
     const syntheticEvent = { preventDefault: () => {} }; // Create a synthetic event
     handleSubmit(syntheticEvent);// Submit the data
