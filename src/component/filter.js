@@ -50,19 +50,4 @@ export function formatDate(originalDate) {
 
 
 
-export function findLargestArticleId(articles) {
-  if (!Array.isArray(articles) || articles.length === 0) {
-    return null;
-  }
-
-  let largestArticleId = articles[0].article_id;
-
-  for (let i = 1; i < articles.length; i++) {
-    if (articles[i].article_id > largestArticleId) {
-      largestArticleId = articles[i].article_id;
-    }
-  }
-
-  return largestArticleId;
-}
 

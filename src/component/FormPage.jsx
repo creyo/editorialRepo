@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { findLargestArticleId } from './filter';
+
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './FormPage.css'; // Import your CSS file
@@ -37,11 +37,12 @@ function FormPage() {
   const [selectedPublication, setSelectedPublication] = useState(publicationId);
   const [selectedPostType, setSelectedPostType] = useState(postTypeId);
  
+  const[highestarticleid,setHighestArticleId]= useState(0)
+
+  const [submit, setSubmit] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
 
-
-
-  const [submit, setSubmit] = useState(false)
 
 
 
@@ -78,23 +79,19 @@ function FormPage() {
 
   //find highest article_id
   useEffect(() => {
-    async function highestarticleid() {
-      // Fetch data from the 'publication' table
-      const { data, error } = await supabase
-        .from('articles')
-        .select('*');
+    async function fetchHighestArticleId() {
+      // Fetch data from the 'articles' table to find the highest article_id
+      const { data, error } = await supabase.from('articles').select('article_id').order('article_id', { ascending: false }).limit(1);
 
-       let largest_id = findLargestArticleId(data)
-        if(error){
-          return error.message 
-        }else{
-          console.log(largest_id)
-        }
-
+      if (error) {
+        console.error(error);
+      } else if (data.length > 0) {
+        setHighestArticleId(data[0].article_id+1);
       }
-      highestarticleid()
-  }, []);
+    }
 
+    fetchHighestArticleId();
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -115,26 +112,37 @@ function FormPage() {
         category_id: category_id,
         date,
         title,
-        body
-
-
+        body,
       };
 
-      const { data: articles, error } = await supabase.from('articles').upsert([newArticle]);
+      if (isUpdating) {
+        // Update the article with the highest article_id
+        const { data: updatedArticles, error } = await supabase
+          .from('articles')
+          .update(newArticle)
+          .eq('article_id', highestarticleid);
 
-      if (error) {
+        if (error) {
+          console.warn(error);
+          throw error;
+        }
 
-        console.warn(error)
-        throw error;
+        console.log('Article updated:', updatedArticles);
+      } else {
+        // Create a new article
+        const { data: articles, error } = await supabase.from('articles').upsert([newArticle]);
+
+        if (error) {
+          console.warn(error);
+          throw error;
+        }
+
+        console.log('Article created:', articles);
       }
 
-      console.log('Article created:', articles);
-
-      setSubmit(true)
-
-
+      setSubmit(true);
     } catch (error) {
-      console.error('Error creating article:', error);
+      console.error('Error creating/updating article:', error);
     }
   };
 
@@ -244,6 +252,7 @@ function FormPage() {
   
   // Add Page button click handler
   const handleAddPage = () => {
+    setIsUpdating(false)
     resetForm(); // Reset the form
     handleSubmit(); // Submit the data
   };
