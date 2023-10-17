@@ -252,12 +252,13 @@ function FormPage() {
   
   // Add Page button click handler
   const handleAddPage = () => {
-    setIsUpdating((prevIsUpdating) => !prevIsUpdating);
-    setHighestArticleId(highestarticleid+1)
+    setIsUpdating(!isUpdating); // Toggle isUpdating directly
+    setHighestArticleId(highestarticleid + 1);
     resetForm(); // Reset the form
     const syntheticEvent = { preventDefault: () => {} }; // Create a synthetic event
-    handleSubmit(syntheticEvent);// Submit the data
+    handleSubmit(syntheticEvent); // Submit the data
   };
+  
   
 
 
