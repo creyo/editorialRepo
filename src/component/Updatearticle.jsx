@@ -452,7 +452,7 @@ function Updatearticle() {
           />
         </div>
 
-        <form action="" onSubmit={handleSubmit}>
+        <form action="" onSubmit={(event) => handleSubmit(event)}>
           <div className="button-div">
             <button className="button-light btn" type="button">
               Delete
