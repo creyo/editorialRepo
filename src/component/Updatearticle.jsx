@@ -225,9 +225,9 @@ function Updatearticle() {
 
   };
 
-   // Function to reset the form to its default values
-   const resetForm = () => {
-    handleSubmit()
+  
+
+  const resetForm = () => {
     setStatusId(1);
     setTypedUrl('');
     setSeoScore(0);
@@ -244,7 +244,13 @@ function Updatearticle() {
     setBody('');
     setNote('');
   };
-
+  
+  // Add Page button click handler
+  const handleAddPage = () => {
+    resetForm(); // Reset the form
+    handleSubmit(); // Submit the data
+  };
+  
 
   const TextEditorModules = {
     toolbar: [
@@ -306,7 +312,7 @@ function Updatearticle() {
       </div>
       <div className="flex" style={{ margin: '1rem 0' }}>
         <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>
-        <button class="add-page-button" onClick={resetForm} >Add Page</button>
+        <button class="add-page-button" onClick={handleAddPage} >Add Page</button>
         <img src="/images/plus.svg" alt="" />
       </div>
       <div className="form-card">
