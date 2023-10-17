@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import supabase from '../config/supabase';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; 
+import 'react-quill/dist/quill.snow.css';
 import StatusSelection from '../FormDataInformation/StatusSelection';
 import CategoryDropdown from '../FormDataInformation/CategoryDropDown';
 import AuthorDropdown from '../FormDataInformation/AuthorDropdown';
@@ -25,9 +25,9 @@ function Updatearticle() {
   const [note, setNote] = useState('');
   const [dateInput, setDateInput] = useState('');
 
-  const[categoryValue , setCategoryValue] = useState('')
-  const[authorValue,setAuthorValue] = useState('')
- console.log(category_id,authorId);
+  const [categoryValue, setCategoryValue] = useState('')
+  const [authorValue, setAuthorValue] = useState('')
+  console.log(category_id, authorId);
 
 
   // Dropdown 
@@ -86,7 +86,7 @@ function Updatearticle() {
           .eq('article_id', articleId)
           .single();
 
-           
+
         if (error) {
           console.error('Error fetching article data:', error);
           // Handle error as needed (e.g., show an error message to the user)
@@ -111,7 +111,7 @@ function Updatearticle() {
         // Handle Date
         if (data.date) {
           const parsedDate = new Date(data.date);
-           setDateInput(formatDateForInput(parsedDate)); // Set the initial value for the editable input
+          setDateInput(formatDateForInput(parsedDate)); // Set the initial value for the editable input
         }
 
         setTitle(data.title);
@@ -168,8 +168,8 @@ function Updatearticle() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    console.warn("id" ,articleId)
-  
+    console.warn("id", articleId)
+
     try {
       const updatedArticle = {
         status: statusId,
@@ -189,30 +189,30 @@ function Updatearticle() {
         body,
       };
 
-     
 
-     
-   
-   
+
+
+
+
       // Use the `articleId` from the route to identify the article to update
       const { data, error } = await supabase
         .from('articles')
-        .update( updatedArticle)
+        .update(updatedArticle)
         .eq('article_id', articleId)
-      
-        
 
-        console.log('before updated:', data);
-        
-  
+
+
+      console.log('before updated:', data);
+
+
       if (error) {
         console.error('Error updating article:');
         // Handle error as needed (e.g., show an error message to the user)
         return error.message;
       }
-  
+
       console.log('Article updated:', data);
-  
+
       // Optionally, you can show a success message to the user
     } catch (error) {
       console.error('Error updating article:', error);
@@ -220,12 +220,12 @@ function Updatearticle() {
   };
 
 
-  
+
 
   const handleTextChange = (content) => {
     setBody(content);
     // Update the review content in the formData state
-    
+
   };
 
 
@@ -249,8 +249,8 @@ function Updatearticle() {
     'link', 'image',
   ];
 
-  
- 
+
+
 
   return (
     <div className="container">
@@ -288,7 +288,8 @@ function Updatearticle() {
         </select>
       </div>
       <div className="flex" style={{ margin: '1rem 0' }}>
-        <p style={{ marginRight: '1rem' }}>Add Page</p>
+        <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>
+        <button class="add-page-button" >Add Page</button>
         <img src="/images/plus.svg" alt="" />
       </div>
       <div className="form-card">
@@ -298,14 +299,14 @@ function Updatearticle() {
             <StatusSelection
               selectedStatusId={statusId}
               onStatusChange={handleStatusChange}
-               required
+              required
             />
           </div>
         </div>
 
         <div className="flex">
           <p style={{ marginRight: '1rem' }}>Category</p>
-          <CategoryDropdown onCategoryChange={handleCategoryChange} categoryValue={categoryValue}   required />
+          <CategoryDropdown onCategoryChange={handleCategoryChange} categoryValue={categoryValue} required />
         </div>
 
         <div className="flex">
@@ -386,7 +387,7 @@ function Updatearticle() {
 
         <div className="flex">
           <p style={{ marginRight: '5rem' }}>Author</p>
-          <AuthorDropdown onAuthorChange={handleAuthorChange} authorValue = {authorValue} required />
+          <AuthorDropdown onAuthorChange={handleAuthorChange} authorValue={authorValue} required />
         </div>
 
         <div className="flex">
@@ -408,14 +409,14 @@ function Updatearticle() {
           />
         </div>
 
-        <div  style={{ width: '1050px' }}>
-        <ReactQuill
+        <div style={{ width: '1050px' }}>
+          <ReactQuill
             value={body}
             onChange={handleTextChange}
             placeholder="Enter your text here..."
             modules={TextEditorModules}
             formats={TextEditorFormats}
-            style={{ height: '800px', marginBottom :'100px' }}
+            style={{ height: '800px', marginBottom: '100px' }}
           />
         </div>
 
