@@ -191,15 +191,19 @@ function Updatearticle() {
 
      
 
-     // let data1 = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
+     
+     let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
+        const jsonObject = JSON.parse(tokenInfo);
+        const access_token = jsonObject.access_token
    
       // Use the `articleId` from the route to identify the article to update
       const { data, error } = await supabase
         .from('articles')
         .update(updatedArticle)
         .eq('article_id', articleId)
-        // Make an authenticated request with the token in the headers
-       
+        .auth(access_token)
+        
+
         console.log('before updated:', data);
         
   
