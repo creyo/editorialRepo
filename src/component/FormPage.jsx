@@ -40,7 +40,7 @@ function FormPage() {
   const[highestarticleid,setHighestArticleId]= useState(0)
 
   const [submit, setSubmit] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(true);
 
 
 
@@ -115,7 +115,7 @@ function FormPage() {
         body,
       };
       console.log(isUpdating)
-      if (isUpdating) {
+      if (!isUpdating) {
         // Update the article with the highest article_id
         const { data: updatedArticles, error } = await supabase
           .from('articles')
@@ -139,7 +139,7 @@ function FormPage() {
 
         console.log('Article created:', articles);
       }
-      setIsUpdating(true)
+      setIsUpdating(false)
       setSubmit(true);
     } catch (error) {
       console.error('Error creating/updating article:', error);
@@ -252,7 +252,7 @@ function FormPage() {
   
   // Add Page button click handler
   const handleAddPage = () => {
-    setIsUpdating(false)
+    setIsUpdating(true)
     setHighestArticleId(highestarticleid+1)
     resetForm(); // Reset the form
     const syntheticEvent = { preventDefault: () => {} }; // Create a synthetic event
