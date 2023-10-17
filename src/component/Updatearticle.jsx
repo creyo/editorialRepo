@@ -204,9 +204,9 @@ function Updatearticle() {
         
   
       if (error) {
-        console.error('Error updating article:', error);
+        console.error('Error updating article:');
         // Handle error as needed (e.g., show an error message to the user)
-        return;
+        return error.message;
       }
   
       console.log('Article updated:', data);
