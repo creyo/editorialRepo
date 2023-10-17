@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
+import { findLargestArticleId } from './filter';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './FormPage.css'; // Import your CSS file
@@ -84,11 +84,11 @@ function FormPage() {
         .from('articles')
         .select('*');
 
-        
+       let largest_id = findLargestArticleId(data)
         if(error){
           return error.message 
         }else{
-          console.log(data)
+          console.log(largest_id)
         }
 
       }
