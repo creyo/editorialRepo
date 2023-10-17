@@ -40,7 +40,7 @@ function FormPage() {
   const[highestarticleid,setHighestArticleId]= useState(0)
 
   const [submit, setSubmit] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(true);
+  const [isUpdating, setIsUpdating] = useState(false);
 
 
 
@@ -139,7 +139,7 @@ function FormPage() {
 
         console.log('Article created:', articles);
       }
-      setIsUpdating(false)
+      setIsUpdating(true)
       setSubmit(true);
     } catch (error) {
       console.error('Error creating/updating article:', error);
@@ -252,7 +252,7 @@ function FormPage() {
   
   // Add Page button click handler
   const handleAddPage = () => {
-    setIsUpdating(true)
+    setIsUpdating((prevIsUpdating) => !prevIsUpdating);
     setHighestArticleId(highestarticleid+1)
     resetForm(); // Reset the form
     const syntheticEvent = { preventDefault: () => {} }; // Create a synthetic event
