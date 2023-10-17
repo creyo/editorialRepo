@@ -201,7 +201,7 @@ function Updatearticle() {
         .from('articles')
         .update(updatedArticle)
         .eq('article_id', articleId)
-        .auth(access_token)
+        .auth({ token: access_token })
         
 
         console.log('before updated:', data);
