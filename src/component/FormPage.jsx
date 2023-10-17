@@ -81,7 +81,7 @@ function FormPage() {
     async function highestarticleid() {
       // Fetch data from the 'publication' table
       const { data, error } = await supabase
-        .from('publication')
+        .from('articles')
         .select('*');
 
         
