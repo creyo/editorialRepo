@@ -139,7 +139,7 @@ function FormPage() {
 
         console.log('Article created:', articles);
       }
-
+      setIsUpdating(true)
       setSubmit(true);
     } catch (error) {
       console.error('Error creating/updating article:', error);
