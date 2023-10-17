@@ -189,7 +189,7 @@ function Updatearticle() {
         body,
       };
 
-      console.warn(updatedArticle)
+     
 
      // let data1 = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
    
@@ -200,7 +200,7 @@ function Updatearticle() {
         .eq('article_id', articleId)
         // Make an authenticated request with the token in the headers
        
-       
+        console.log('before updated:', data);
         
   
       if (error) {
