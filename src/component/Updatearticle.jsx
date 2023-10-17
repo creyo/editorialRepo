@@ -171,23 +171,23 @@ function Updatearticle() {
     console.warn("id" ,articleId)
   
     try {
-      const updatedArticle = {
-        status: statusId,
-        publication_id: selectedPublication,
-        post_type: selectedPostType,
-        url: category_url + '/' + typedUrl,
-        seo_score: seoScore,
-        seo_title: seoTitle,
-        seo_description: seoDescription,
-        tag,
-        keyword: keywords,
-        featured_image: featuredImage,
-        author_id: authorId,
-        category_id: category_id,
-        date: dateInput, // Use dateInput as the date value
-        title,
-        body,
-      };
+      // const updatedArticle = {
+      //   status: statusId,
+      //   publication_id: selectedPublication,
+      //   post_type: selectedPostType,
+      //   url: category_url + '/' + typedUrl,
+      //   seo_score: seoScore,
+      //   seo_title: seoTitle,
+      //   seo_description: seoDescription,
+      //   tag,
+      //   keyword: keywords,
+      //   featured_image: featuredImage,
+      //   author_id: authorId,
+      //   category_id: category_id,
+      //   date: dateInput, // Use dateInput as the date value
+      //   title,
+      //   body,
+      // };
 
      
 
@@ -197,7 +197,7 @@ function Updatearticle() {
       // Use the `articleId` from the route to identify the article to update
       const { data, error } = await supabase
         .from('articles')
-        .update(updatedArticle)
+        .update({status: statusId})
         .eq('article_id', articleId)
       
         
