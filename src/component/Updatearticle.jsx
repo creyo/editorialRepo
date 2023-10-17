@@ -201,7 +201,9 @@ function Updatearticle() {
         .from('articles')
         .update(updatedArticle)
         .eq('article_id', articleId)
-        .auth({ token: access_token })
+        .headers({
+          Authorization: `Bearer ${access_token}`, // Replace access_token with your actual token
+        })
         
 
         console.log('before updated:', data);
