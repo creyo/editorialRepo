@@ -120,6 +120,7 @@ function FormPage() {
 
   // Function to reset the form to its default values
   const resetForm = () => {
+    handleSubmit()
     setStatusId(1);
     setTypedUrl('');
     setSeoScore(0);
