@@ -36,6 +36,7 @@ function FormPage() {
   const [postTypeData, setPostTypeData] = useState([]);
   const [selectedPublication, setSelectedPublication] = useState(publicationId);
   const [selectedPostType, setSelectedPostType] = useState(postTypeId);
+ 
 
 
 
@@ -73,6 +74,26 @@ function FormPage() {
     fetchData();
   }, []);
 
+
+
+  //find highest article_id
+  useEffect(() => {
+    async function highestarticleid() {
+      // Fetch data from the 'publication' table
+      const { data, error } = await supabase
+        .from('publication')
+        .select('*');
+
+        
+        if(error){
+          return error.message 
+        }else{
+          console.log(data)
+        }
+
+      }
+      highestarticleid()
+  }, []);
 
 
   const handleSubmit = async (event) => {
