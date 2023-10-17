@@ -23,7 +23,7 @@ export default function HomePage() {
   useEffect(() => {
     async function fetchArticles() {
 
-      let { data: articles, error } = await supabase
+      let { data, error } = await supabase
         .from('articles')
         .select(`
         *,
@@ -38,7 +38,7 @@ export default function HomePage() {
       if (error) {
         console.error('Error fetching articles:', error);
       } else {
-        setArticles(articles);
+        setArticles(data);
       }
     }
 
@@ -59,8 +59,8 @@ export default function HomePage() {
     async function fetchPublications() {
       try {
         const { data, error } = await supabase.from('publication').select(`
-          *`
-          
+          *,
+          auth(*)`
         );
         if (error) {
           throw error;
