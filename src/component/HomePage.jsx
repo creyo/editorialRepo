@@ -99,7 +99,6 @@ export default function HomePage() {
     }
   };
 
-  //console.warn(articles);
 
 
 

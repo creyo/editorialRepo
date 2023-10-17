@@ -168,8 +168,6 @@ function Updatearticle() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    console.warn("id", articleId)
-
     try {
       const updatedArticle = {
         status: statusId,
@@ -202,16 +200,15 @@ function Updatearticle() {
 
 
 
-      console.log('before updated:', data);
 
 
       if (error) {
-        console.error('Error updating article:');
+        console.error('data',data);
         // Handle error as needed (e.g., show an error message to the user)
         return error.message;
       }
 
-      console.log('Article updated:', data);
+     
 
       // Optionally, you can show a success message to the user
     } catch (error) {
@@ -226,6 +223,26 @@ function Updatearticle() {
     setBody(content);
     // Update the review content in the formData state
 
+  };
+
+   // Function to reset the form to its default values
+   const resetForm = () => {
+    handleSubmit()
+    setStatusId(1);
+    setTypedUrl('');
+    setSeoScore(0);
+    setCategory_id(0);
+    setCategory_url('');
+    setSeoTitle('');
+    setSeoDescription('');
+    setTag('');
+    setKeywords('');
+    setFeaturedImage('');
+    setAuthorId(0);
+    setDateInput('');
+    setTitle('');
+    setBody('');
+    setNote('');
   };
 
 
@@ -289,7 +306,7 @@ function Updatearticle() {
       </div>
       <div className="flex" style={{ margin: '1rem 0' }}>
         <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>
-        <button class="add-page-button" >Add Page</button>
+        <button class="add-page-button" onClick={resetForm} >Add Page</button>
         <img src="/images/plus.svg" alt="" />
       </div>
       <div className="form-card">
