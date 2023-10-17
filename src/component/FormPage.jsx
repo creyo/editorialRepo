@@ -114,7 +114,7 @@ function FormPage() {
         title,
         body,
       };
-
+      console.log(isUpdating)
       if (isUpdating) {
         // Update the article with the highest article_id
         const { data: updatedArticles, error } = await supabase
