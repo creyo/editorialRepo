@@ -192,18 +192,14 @@ function Updatearticle() {
      
 
      
-     let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
-        const jsonObject = JSON.parse(tokenInfo);
-        const access_token = jsonObject.access_token
+   
    
       // Use the `articleId` from the route to identify the article to update
       const { data, error } = await supabase
         .from('articles')
         .update(updatedArticle)
         .eq('article_id', articleId)
-        .headers({
-          Authorization: `Bearer ${access_token}`, // Replace access_token with your actual token
-        })
+      
         
 
         console.log('before updated:', data);
