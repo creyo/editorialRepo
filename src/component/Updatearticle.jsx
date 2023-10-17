@@ -197,7 +197,7 @@ function Updatearticle() {
       // Use the `articleId` from the route to identify the article to update
       const { data, error } = await supabase
         .from('articles')
-        .update({status: 2})
+        .update({status: 1})
         .eq('article_id', articleId)
       
         
