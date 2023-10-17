@@ -171,7 +171,7 @@ export default function HomePage() {
         <div className="key">
           <p style={{ color: '#457EFF', fontWeight: 600 }}>
             <Link to={`/addarticle/${selectedPublicationId}/${selectedPostTypeId}`}>
-              <img src={plusImage} alt="Plus" /> Add Page
+              <img src={plusImage} alt="Plus" /> Add {selectedPostType}
             </Link>
           </p>
         </div>
