@@ -94,7 +94,7 @@ function FormPage() {
   }, []);
 
   const handleSubmit = async (event) => {
-      event.preventDefault()
+    event.preventDefault();
 
     try {
       const newArticle = {
