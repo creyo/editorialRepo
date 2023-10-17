@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import supabase from '../config/supabase';
 import ReactQuill from 'react-quill';
@@ -9,6 +9,7 @@ import AuthorDropdown from '../FormDataInformation/AuthorDropdown';
 import './FormPage.css'; // Import your CSS file
 
 function Updatearticle() {
+  const formRef = useRef();
   const [statusId, setStatusId] = useState(1);
   const [typedUrl, setTypedUrl] = useState('');
   const [seoScore, setSeoScore] = useState(0);
@@ -228,6 +229,7 @@ function Updatearticle() {
   
 
   const resetForm = () => {
+    formRef.current.reset(); // Reset the form
     setStatusId(1);
     setTypedUrl('');
     setSeoScore(0);
@@ -247,6 +249,7 @@ function Updatearticle() {
   
   // Add Page button click handler
   const handleAddPage = () => {
+    
     resetForm(); // Reset the form
     handleSubmit(); // Submit the data
   };
@@ -452,7 +455,7 @@ function Updatearticle() {
           />
         </div>
 
-        <form action="" onSubmit={(event) => handleSubmit(event)}>
+        <form ref={formRef} action="" onSubmit={(event) => handleSubmit(event)}>
           <div className="button-div">
             <button className="button-light btn" type="button">
               Delete
