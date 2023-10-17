@@ -99,7 +99,7 @@ function FormPage() {
 
       };
 
-      const { data, error } = await supabase.from('articles').upsert([newArticle]);
+      const { data: articles, error } = await supabase.from('articles').upsert([newArticle]);
 
       if (error) {
 
@@ -107,7 +107,7 @@ function FormPage() {
         throw error;
       }
 
-      console.log('Article created:', data);
+      console.log('Article created:', articles);
 
       setSubmit(true)
 

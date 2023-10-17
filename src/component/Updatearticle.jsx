@@ -9,7 +9,7 @@ import AuthorDropdown from '../FormDataInformation/AuthorDropdown';
 import './FormPage.css'; // Import your CSS file
 
 function Updatearticle() {
-  
+
   const [statusId, setStatusId] = useState(1);
   const [typedUrl, setTypedUrl] = useState('');
   const [seoScore, setSeoScore] = useState(0);
@@ -166,27 +166,32 @@ function Updatearticle() {
     setDateInput(event.target.value);
   };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-  const updatedArticle = {
-    status: statusId,
-    publication_id: selectedPublication,
-    post_type: selectedPostType,
-    url: category_url + '/' + typedUrl,
-    seo_score: seoScore,
-    seo_title: seoTitle,
-    seo_description: seoDescription,
-    tag,
-    keyword: keywords,
-    featured_image: featuredImage,
-    author_id: authorId,
-    category_id: category_id,
-    date: dateInput, // Use dateInput as the date value
-    title,
-    body
-  }
-  const handleSubmit = async () => {
-  
-    
+    try {
+      const updatedArticle = {
+        status: statusId,
+        publication_id: selectedPublication,
+        post_type: selectedPostType,
+        url: category_url + '/' + typedUrl,
+        seo_score: seoScore,
+        seo_title: seoTitle,
+        seo_description: seoDescription,
+        tag,
+        keyword: keywords,
+        featured_image: featuredImage,
+        author_id: authorId,
+        category_id: category_id,
+        date: dateInput, // Use dateInput as the date value
+        title,
+        body,
+      };
+
+
+
+
+
 
       // Use the `articleId` from the route to identify the article to update
       const { data, error } = await supabase
@@ -195,19 +200,18 @@ function Updatearticle() {
         .eq('article_id', articleId)
 
 
-
-
-
       if (error) {
-        console.error('data',data);
+        console.error('data', data);
         // Handle error as needed (e.g., show an error message to the user)
         return error.message;
       }
 
-     
+
 
       // Optionally, you can show a success message to the user
-    
+    } catch (error) {
+      console.error('Error updating article:', error);
+    }
   };
 
 
@@ -219,7 +223,7 @@ function Updatearticle() {
 
   };
 
-  
+
 
   const resetForm = () => {
     setStatusId(1);
@@ -238,13 +242,13 @@ function Updatearticle() {
     setBody('');
     setNote('');
   };
-  
+
   // Add Page button click handler
   const handleAddPage = () => {
     resetForm(); // Reset the form
     handleSubmit(); // Submit the data
   };
-  
+
 
   const TextEditorModules = {
     toolbar: [

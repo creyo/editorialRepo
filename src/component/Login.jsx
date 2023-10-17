@@ -49,6 +49,7 @@ function Login() {
         // Handle error here
       } else {
         // User successfully logged in using Google
+        console.log(data)
 
         // Save the login status in local storage
         localStorage.setItem('login', data);
