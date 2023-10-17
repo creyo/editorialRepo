@@ -184,9 +184,8 @@ function Updatearticle() {
     title,
     body
   }
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  const handleSubmit = async () => {
+  
     
 
       // Use the `articleId` from the route to identify the article to update
