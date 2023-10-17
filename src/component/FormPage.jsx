@@ -47,6 +47,7 @@ function FormPage() {
 
 
 
+
   useEffect(() => {
     async function fetchData() {
       // Fetch data from the 'publication' table
@@ -136,11 +137,11 @@ function FormPage() {
           console.warn(error);
           throw error;
         }
-
+        setIsUpdating(true)
+        setSubmit(true);
         console.log('Article created:', articles);
       }
-      setIsUpdating(true)
-      setSubmit(true);
+      
     } catch (error) {
       console.error('Error creating/updating article:', error);
     }
