@@ -198,7 +198,7 @@ function Updatearticle() {
         .from('articles')
         .update(updatedArticle)
         .eq('article_id', articleId)
-        .auth(data1)// Make an authenticated request with the token in the headers
+        // Make an authenticated request with the token in the headers
        
        
         
