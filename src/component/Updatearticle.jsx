@@ -191,7 +191,7 @@ function Updatearticle() {
 
       console.warn(updatedArticle)
 
-      let data1 = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
+     // let data1 = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
    
       // Use the `articleId` from the route to identify the article to update
       const { data, error } = await supabase
