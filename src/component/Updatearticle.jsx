@@ -517,7 +517,7 @@ const handleNote=(e) => {
               Delete
             </button>
             <button 
-             className={`${update ? 'button-grey' : 'button-blue'}`}
+             className={`${update ? 'button-blue':'button-grey'  }`}
             type="submit">
               Save
             </button>
