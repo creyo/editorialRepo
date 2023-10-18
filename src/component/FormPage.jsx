@@ -262,7 +262,10 @@ function FormPage() {
   };
   
   
-console.log(postTypeData)
+  let value  = findPostTypeNameById(postTypeData,selectedPostType)
+  console.log(value)
+  console.log(postTypeData,selectedPostType);
+
 
   const TextEditorModules = {
     toolbar: [
@@ -327,7 +330,7 @@ console.log(postTypeData)
       <div className="flex" style={{ margin: '1rem 0' }}>
     {/* back button will on home page */}
     <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>
-    <button class="add-page-button" onClick={handleAddPage}>Add {findPostTypeNameById(postTypeData, selectedPostType)}</button>
+    <button class="add-page-button" onClick={handleAddPage}>Add page </button>
         <img src="/images/plus.svg" alt="" />
       </div>
       <div className="form-card">
