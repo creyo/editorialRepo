@@ -93,7 +93,10 @@ export function countArticlesByStatus(articles) {
 }
 
 
-export function findPostTypeName(postTypeId, postTypeData) {
+
+
+// Define a function to find the type name based on post_type_id
+export function findPostTypeNameById(postTypeData, postTypeId) {
   const postType = postTypeData.find((type) => type.post_type_id === postTypeId);
   return postType ? postType.type_name : '';
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {findPostTypeName} from "./filter"
+import {findPostTypeNameById} from "./filter"
 import supabase from '../config/supabase';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -311,7 +311,7 @@ function Updatearticle() {
       </div>
       <div className="flex" style={{ margin: '1rem 0' }}>
         <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>
-        <button class="add-page-button" onClick={handleAddPage} >Add {selectedPostType === '' ? 'Page' : findPostTypeName(selectedPostType, postTypeData)}</button>
+        <button class="add-page-button" onClick={handleAddPage} >Add{selectedPostType === '' ? 'Page' : findPostTypeNameById(postTypeData, selectedPostType)}</button>
         <img src="/images/plus.svg" alt="" />
       </div>
       <div className="form-card">
