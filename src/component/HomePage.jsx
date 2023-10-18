@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import supabase from '../config/supabase';
-import { filterArticles, filterDataByUserId ,formatDate, countArticlesByStatus} from './filter.js';
+import { filterArticles, filterDataByUserId ,formatDate} from './filter.js';
 import './HomePage.css';
 
 // Import images from the "./images" directory
