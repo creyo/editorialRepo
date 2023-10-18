@@ -517,11 +517,11 @@ function Updatearticle() {
         </div>
 
         <form action="" onSubmit={handleSubmit}>
-          <div className={`${update ? 'button-grey' : 'button-blue'}`}>
+          <div className="button-div">
             <button className="button-light btn" type="button">
               Delete
             </button>
-            <button className="button-dark btn" type="submit">
+            <button className={`${update ? 'button-grey' : 'button-blue'}`} type="submit">
               Save
             </button>
           </div>
