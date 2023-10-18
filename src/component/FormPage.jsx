@@ -284,7 +284,7 @@ function FormPage() {
     'link', 'image',
   ];
 
-
+console.log(postTypeData)
 
   return (
     <div className="container">
