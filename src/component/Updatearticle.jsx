@@ -7,6 +7,7 @@ import 'react-quill/dist/quill.snow.css';
 import StatusSelection from '../FormDataInformation/StatusSelection';
 import CategoryDropdown from '../FormDataInformation/CategoryDropDown';
 import AuthorDropdown from '../FormDataInformation/AuthorDropdown';
+import ReactHtmlParser from 'react-html-parser';
 import './FormPage.css'; // Import your CSS file
 
 function Updatearticle() {
@@ -442,10 +443,7 @@ function Updatearticle() {
             style={{ height: '800px', marginBottom: '100px' }}
           />
         </div>
-
-        <div
-        dangerouslySetInnerHTML={{ __html: body }}
-      />
+          {ReactHtmlParser(body)}
 
         <div className="flex">
           <textarea
