@@ -85,9 +85,9 @@ function FormPage() {
       const { data, error } = await supabase.from('articles').select('*').order('article_id', { ascending: false }).limit(1);
 
       if (error) {
-        console.error(error);
+        throw error
       } else if (data.length > 0) {
-        console.log(data)
+        
         setHighestArticleId(data[0].article_id+1);
       }
     }
@@ -119,32 +119,31 @@ function FormPage() {
       
       if (isUpdating) {
         // Update the article with the highest article_id
-        const { data: updatedArticles, error } = await supabase
+        const {  error } = await supabase
           .from('articles')
           .update(newArticle)
           .eq('article_id', highestarticleid);
 
         if (error) {
-          console.warn(error);
-          throw error;
+        throw error;
         }
 
-        console.log('Article updated:', updatedArticles);
+       
       } else {
         // Create a new article
-        const { data: articles, error } = await supabase.from('articles').upsert([newArticle]);
+        const {  error } = await supabase.from('articles').upsert([newArticle]);
 
         if (error) {
-          console.warn(error);
+         
           throw error;
         }
         setIsUpdating(true)
         setSubmit(true);
-        console.log('Article created:', articles);
+       
       }
       
     } catch (error) {
-      console.error('Error creating/updating article:', error);
+      throw error
     }
   };
 
@@ -261,6 +260,7 @@ function FormPage() {
     handleSubmit(syntheticEvent); // Submit the data
   };
   
+  
 
 
 
@@ -284,7 +284,7 @@ function FormPage() {
     'link', 'image',
   ];
 
-console.log(postTypeData)
+
 
   return (
     <div className="container">
