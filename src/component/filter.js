@@ -11,7 +11,7 @@ export function filterArticles(articles, selectedPublicationId, selectedPostType
 
     // Calculate the commonData using logical AND
     const commonData = matchesPublication && matchesPostType && matchesStatus;
-    
+    console.log(commonData)
 
     return commonData;
   });
@@ -23,7 +23,7 @@ export function filterDataByUserId(data, user_id,email) {
     return Array.isArray(item.auth) && item.auth.some((authItem) => authItem.user_id === user_id && authItem.email === email);
   });
 
-  console.log( filteredData)
+  
   return filteredData
 
 }
