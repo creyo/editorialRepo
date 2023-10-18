@@ -19,7 +19,7 @@ export default function HomePage() {
   const [selectedPostTypeId, setSelectedPostTypeId] = useState(1);
   const [selectedPublicationId, setSelectedPublicationId] = useState(1);
   const [selectedStatusId, setSelectedStatusId] = useState(null);
-  const [articleCount,setArticleCount] = useState({})
+ 
 
   useEffect(() => {
     async function fetchArticles() {
@@ -121,8 +121,7 @@ export default function HomePage() {
 
   // Use the filtering function to get filtered articles based on selectedPublicationId and selectedPostTypeId
   const filteredArticles = filterArticles(articles, selectedPublicationId, selectedPostTypeId, selectedStatusId)
-   setArticleCount(countArticlesByStatus(filteredArticles))
-   console.log(articleCount)
+
 
 
   
