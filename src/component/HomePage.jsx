@@ -122,7 +122,7 @@ export default function HomePage() {
   // Use the filtering function to get filtered articles based on selectedPublicationId and selectedPostTypeId
   const filteredArticles = filterArticles(articles, selectedPublicationId, selectedPostTypeId, selectedStatusId)
 
-
+  console.log(filteredArticles)
 
   
 
