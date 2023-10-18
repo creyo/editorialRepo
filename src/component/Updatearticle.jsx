@@ -38,7 +38,7 @@ function Updatearticle() {
   const [selectedPublication, setSelectedPublication] = useState(1);
   const [selectedPostType, setSelectedPostType] = useState(2);
 
-const [update ,setUpdated] = useState(false)
+const [update ,setUpdated] = useState(true)
 
 
   
