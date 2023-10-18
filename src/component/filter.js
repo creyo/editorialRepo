@@ -51,3 +51,43 @@ export function formatDate(originalDate) {
 
 
 
+
+export function countArticlesByStatus(articles) {
+  // Initialize counters for each status type
+  let allCount = 0;
+  let publishedCount = 0;
+  let reviewCount = 0;
+  let draftCount = 0;
+
+  // Iterate through the articles and count them based on status
+  articles.forEach((article) => {
+    const statusId = article.articlestatus?.status_id;
+
+    switch (statusId) {
+      case 1: // Published
+        publishedCount++;
+        break;
+      case 2: // Review
+        reviewCount++;
+        break;
+      case 3: // Draft
+        draftCount++;
+        break;
+      default:
+        break;
+    }
+
+    // Count all articles, regardless of status
+    allCount++;
+  });
+
+  // Create an object to store the counts for each status type
+  const counts = {
+    all: allCount,
+    published: publishedCount,
+    review: reviewCount,
+    draft: draftCount,
+  };
+
+  return counts;
+}
