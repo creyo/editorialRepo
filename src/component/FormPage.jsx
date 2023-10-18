@@ -82,11 +82,12 @@ function FormPage() {
   useEffect(() => {
     async function fetchHighestArticleId() {
       // Fetch data from the 'articles' table to find the highest article_id
-      const { data, error } = await supabase.from('articles').select('article_id').order('article_id', { ascending: false }).limit(1);
+      const { data, error } = await supabase.from('articles').select('article_id').order('*', { ascending: false }).limit(1);
 
       if (error) {
         console.error(error);
       } else if (data.length > 0) {
+        console.log(data)
         setHighestArticleId(data[0].article_id+1);
       }
     }
@@ -115,7 +116,7 @@ function FormPage() {
         title,
         body,
       };
-      console.log(isUpdating)
+      
       if (isUpdating) {
         // Update the article with the highest article_id
         const { data: updatedArticles, error } = await supabase
