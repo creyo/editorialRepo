@@ -434,7 +434,7 @@ function FormPage() {
             placeholder="Date"
             value={date}
             onChange={handleDate} // onChange for date
-            style={{ width: '100px' }} 
+            style={{ width: '200px' }} 
           />
         </div>
 
