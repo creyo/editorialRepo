@@ -37,7 +37,8 @@ function Updatearticle() {
   const [postTypeData, setPostTypeData] = useState([]);
   const [selectedPublication, setSelectedPublication] = useState(1);
   const [selectedPostType, setSelectedPostType] = useState(2);
-
+  const[highestarticleid,setHighestArticleId]= useState(0)
+  const[newPage,setNewPage] = useState(true)
 const [update ,setUpdated] = useState(true)
 
 
@@ -74,6 +75,23 @@ const [update ,setUpdated] = useState(true)
     }
 
     fetchData();
+  }, []);
+
+  //find highest article_id
+  useEffect(() => {
+    async function fetchHighestArticleId() {
+      // Fetch data from the 'articles' table to find the highest article_id
+      const { data, error } = await supabase.from('articles').select('*').order('article_id', { ascending: false }).limit(1);
+
+      if (error) {
+        console.error(error);
+      } else if (data.length > 0) {
+        console.log(data)
+        setHighestArticleId(data[0].article_id+1);
+      }
+    }
+
+    fetchHighestArticleId();
   }, []);
 
   useEffect(() => {
@@ -181,7 +199,7 @@ const [update ,setUpdated] = useState(true)
     event.preventDefault();
 
     try {
-      const updatedArticle = {
+      const newArticle = {
         status: statusId,
         publication_id: selectedPublication,
         post_type: selectedPostType,
@@ -194,34 +212,38 @@ const [update ,setUpdated] = useState(true)
         featured_image: featuredImage,
         author_id: authorId,
         category_id: category_id,
-        date: dateInput, // Use dateInput as the date value
+        date: dateInput,
         title,
         body,
       };
+      
+      if (newPage) {
+        // Update the article with the highest article_id
+        const { data: updatedArticles, error } = await supabase
+          .from('articles')
+          .update(newArticle)
+          .eq('article_id', highestarticleid);
 
+        if (error) {
+          console.warn(error);
+          throw error;
+        }
 
+        console.log('Article updated:', updatedArticles);
+      } else {
+        // Create a new article
+        const { data: articles, error } = await supabase.from('articles').upsert([newArticle]);
 
-
-
-
-      // Use the `articleId` from the route to identify the article to update
-      const { data, error } = await supabase
-        .from('articles')
-        .update(updatedArticle)
-        .eq('article_id', articleId)
-
-
-      if (error) {
-        console.error('data', data);
-        // Handle error as needed (e.g., show an error message to the user)
-        return error.message;
+        if (error) {
+          console.warn(error);
+          throw error;
+        }
+        setNewPage(true)
+        console.log('Article created:', articles);
       }
-
-
-
-      // Optionally, you can show a success message to the user
+      
     } catch (error) {
-      console.error('Error updating article:', error);
+      console.error('Error creating/updating article:', error);
     }
   };
 
@@ -303,6 +325,7 @@ const handleNote=(e) => {
 
   // Add Page button click handler
   const handleAddPage = () => {
+    setNewPage(false)
     resetForm(); // Reset the form
     setUpdated(false)
     const syntheticEvent = { preventDefault: () => {} }; // Create a synthetic event
