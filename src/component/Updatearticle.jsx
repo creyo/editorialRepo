@@ -521,7 +521,7 @@ function Updatearticle() {
             <button className="button-light btn" type="button">
               Delete
             </button>
-            <button className={`${update ? 'button-grey' : 'button-blue'}`} type="submit">
+            <button className={`${update ? 'button-blue' : 'button-grey'}`} type="submit">
               Save
             </button>
           </div>
