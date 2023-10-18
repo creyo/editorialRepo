@@ -122,6 +122,7 @@ export default function HomePage() {
   // Use the filtering function to get filtered articles based on selectedPublicationId and selectedPostTypeId
   const filteredArticles = filterArticles(articles, selectedPublicationId, selectedPostTypeId, selectedStatusId)
    setArticleCount(countArticlesByStatus(filteredArticles))
+   console.log(articleCount)
 
 
   
@@ -164,10 +165,10 @@ export default function HomePage() {
 
       <div className="top-card">
         <div className="buttons-others">
-          <p className={`all ${selectedStatusId === null ? 'select' : ''}`} onClick={() => setSelectedStatusId(null)}>All({articleCount.all})</p>
-          <p className={`draft ${selectedStatusId === 1 ? 'select' : ''}`} onClick={() => setSelectedStatusId(1)}>Draft({articleCount.draft})</p>
-          <p className={`published ${selectedStatusId === 2 ? 'select' : ''}`} onClick={() => setSelectedStatusId(2)}>Published({articleCount.published})</p>
-          <p className={`review ${selectedStatusId === 3 ? 'select' : ''}`} onClick={() => setSelectedStatusId(3)}>Review({articleCount.review})</p>
+          <p className={`all ${selectedStatusId === null ? 'select' : ''}`} onClick={() => setSelectedStatusId(null)}>All(103)</p>
+          <p className={`draft ${selectedStatusId === 1 ? 'select' : ''}`} onClick={() => setSelectedStatusId(1)}>Draft(103)</p>
+          <p className={`published ${selectedStatusId === 2 ? 'select' : ''}`} onClick={() => setSelectedStatusId(2)}>Published(103)</p>
+          <p className={`review ${selectedStatusId === 3 ? 'select' : ''}`} onClick={() => setSelectedStatusId(3)}>Review(103)</p>
         </div>
         <div className="key">
           <p style={{ color: '#457EFF', fontWeight: 600 }}>
