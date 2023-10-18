@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
+import {findPostTypeName} from "./filter"
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './FormPage.css'; // Import your CSS file
@@ -327,7 +327,7 @@ function FormPage() {
       <div className="flex" style={{ margin: '1rem 0' }}>
     {/* back button will on home page */}
     <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>
-    <button class="add-page-button" onClick={handleAddPage}>Add {selectedPostType==='' ? "Page":selectedPostType}</button>
+    <button class="add-page-button" onClick={handleAddPage}>Add {selectedPostType === '' ? 'Page' : findPostTypeName(selectedPostType, postTypeData)}</button>
         <img src="/images/plus.svg" alt="" />
       </div>
       <div className="form-card">

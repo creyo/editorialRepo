@@ -91,3 +91,9 @@ export function countArticlesByStatus(articles) {
 
   return counts;
 }
+
+
+export function findPostTypeName(postTypeId, postTypeData) {
+  const postType = postTypeData.find((type) => type.post_type_id === postTypeId);
+  return postType ? postType.type_name : '';
+}
