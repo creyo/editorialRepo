@@ -82,7 +82,7 @@ function FormPage() {
   useEffect(() => {
     async function fetchHighestArticleId() {
       // Fetch data from the 'articles' table to find the highest article_id
-      const { data, error } = await supabase.from('articles').select('article_id').order('*', { ascending: false }).limit(1);
+      const { data, error } = await supabase.from('articles').select('*').order('article_id', { ascending: false }).limit(1);
 
       if (error) {
         console.error(error);
