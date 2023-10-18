@@ -311,7 +311,7 @@ function Updatearticle() {
       </div>
       <div className="flex" style={{ margin: '1rem 0' }}>
         <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>
-        <button class="add-page-button" onClick={handleAddPage} >Add{findPostTypeNameById(postTypeData,parseInt(selectedPostType))}</button>
+        <button class="add-page-button" onClick={handleAddPage} >Add {findPostTypeNameById(postTypeData,parseInt(selectedPostType))}</button>
         <img src="/images/plus.svg" alt="" />
       </div>
       <div className="form-card">
@@ -419,6 +419,7 @@ function Updatearticle() {
             placeholder="Date"
             value={dateInput}
             onChange={handleDateInputChange}
+            style={{ width: '200px' }}
           />
         </div>
 
@@ -451,7 +452,7 @@ function Updatearticle() {
           />
         </div>
 
-        <form action="" onSubmit={(event) => handleSubmit(event)}>
+        <form action="" onSubmit={handleSubmit}>
           <div className="button-div">
             <button className="button-light btn" type="button">
               Delete
