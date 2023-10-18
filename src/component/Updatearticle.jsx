@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {findPostTypeNameById} from "./filter"
+import { findPostTypeNameById } from "./filter"
 import supabase from '../config/supabase';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import StatusSelection from '../FormDataInformation/StatusSelection';
 import CategoryDropdown from '../FormDataInformation/CategoryDropDown';
 import AuthorDropdown from '../FormDataInformation/AuthorDropdown';
+import { Link } from 'react-router-dom';
+
 import './FormPage.css'; // Import your CSS file
 
 function Updatearticle() {
@@ -38,10 +40,10 @@ function Updatearticle() {
   const [selectedPublication, setSelectedPublication] = useState(1);
   const [selectedPostType, setSelectedPostType] = useState(2);
 
-const [update ,setUpdated] = useState(false)
+  const [update, setUpdated] = useState(false)
 
 
-  
+
   const { articleId } = useParams();
 
 
@@ -218,7 +220,7 @@ const [update ,setUpdated] = useState(false)
       }
 
 
-    setUpdated(true)
+      setUpdated(true)
       // Optionally, you can show a success message to the user
     } catch (error) {
       console.error('Error updating article:', error);
@@ -235,48 +237,48 @@ const [update ,setUpdated] = useState(false)
 
   };
 
-  const handleTypeUrl =(e)=>{
+  const handleTypeUrl = (e) => {
     setTypedUrl(e.target.value)
-}
-
-const handleSeoScore = (e) => {
-  setSeoScore(e.target.value)
-}
-
-const handleFeaturedImage=(e) => {
-  setKeywords(e.target.value)
-}
-
-const handleTag=(e) => {
-  setTag(e.target.value)
-   setUpdated(true)
   }
 
-const handleKeyword=(e) => {
-  setKeywords(e.target.value)
-  setUpdated(true)
-}
+  const handleSeoScore = (e) => {
+    setSeoScore(e.target.value)
+  }
 
-const handleSeoDescription=(e) => {
-  setSeoDescription(e.target.value)
-  setUpdated(true)
-}
+  const handleFeaturedImage = (e) => {
+    setKeywords(e.target.value)
+  }
 
-const handleSeoTitle=(e) =>{ 
-  setSeoTitle(e.target.value)
-  setUpdated(true)
-}
+  const handleTag = (e) => {
+    setTag(e.target.value)
+    setUpdated(true)
+  }
+
+  const handleKeyword = (e) => {
+    setKeywords(e.target.value)
+    setUpdated(true)
+  }
+
+  const handleSeoDescription = (e) => {
+    setSeoDescription(e.target.value)
+    setUpdated(true)
+  }
+
+  const handleSeoTitle = (e) => {
+    setSeoTitle(e.target.value)
+    setUpdated(true)
+  }
 
 
-const handleTitle=(e) => {
-  setTitle(e.target.value)
-  setUpdated(true)
-}
+  const handleTitle = (e) => {
+    setTitle(e.target.value)
+    setUpdated(true)
+  }
 
-const handleNote=(e) => {
-  setNote(e.target.value)
-  setUpdated(true)
-}
+  const handleNote = (e) => {
+    setNote(e.target.value)
+    setUpdated(true)
+  }
 
 
 
@@ -306,7 +308,7 @@ const handleNote=(e) => {
     resetForm(); // Reset the form
     handleSubmit(); // Submit the data
     setUpdated(false)
-    const syntheticEvent = { preventDefault: () => {} }; // Create a synthetic event
+    const syntheticEvent = { preventDefault: () => { } }; // Create a synthetic event
     handleSubmit(syntheticEvent); // Submit the data
   };
 
@@ -371,7 +373,9 @@ const handleNote=(e) => {
       </div>
       <div className="flex" style={{ margin: '1rem 0' }}>
         <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>
-        <button class="add-page-button" onClick={handleAddPage} >Add {findPostTypeNameById(postTypeData,parseInt(selectedPostType))}</button>
+        <Link to={`/addarticle/:${selectedPublication}/:${selectedPostType}`} className="add-page-button" onClick={handleAddPage}>
+          Add {findPostTypeNameById(postTypeData, parseInt(selectedPostType))}
+        </Link>
         <img src="/images/plus.svg" alt="" />
       </div>
       <div className="form-card">
