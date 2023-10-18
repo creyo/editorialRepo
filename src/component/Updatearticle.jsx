@@ -38,6 +38,10 @@ function Updatearticle() {
   const [selectedPublication, setSelectedPublication] = useState(1);
   const [selectedPostType, setSelectedPostType] = useState(2);
 
+const [update ,setUpdated] = useState(false)
+
+
+  
   const { articleId } = useParams();
 
 
@@ -143,28 +147,34 @@ function Updatearticle() {
 
   const handleStatusChange = (selectedStatusId) => {
     setStatusId(selectedStatusId);
+    setUpdated(true)
   };
 
   const handlePublicationChange = (event) => {
     setSelectedPublication(event.target.value);
+    setUpdated(true)
   };
 
   const handlePostTypeChange = (event) => {
     setSelectedPostType(event.target.value);
+    setUpdated(true)
   };
 
   const handleCategoryChange = (selectedCategoryInfo) => {
     setCategory_id(selectedCategoryInfo.category_id);
     setCategory_url(selectedCategoryInfo.category_url);
+    setUpdated(true)
   };
 
   const handleAuthorChange = (selectedAuthorId) => {
     setAuthorId(selectedAuthorId);
+    setUpdated(true)
   };
 
   const handleDateInputChange = (event) => {
     // Update the dateInput state when the editable input value changes
     setDateInput(event.target.value);
+    setUpdated(true)
   };
 
   const handleSubmit = async (event) => {
@@ -220,9 +230,56 @@ function Updatearticle() {
 
   const handleTextChange = (content) => {
     setBody(content);
+    setUpdated(true)
     // Update the review content in the formData state
 
   };
+
+  const handleTypeUrl =(e)=>{
+    setTypedUrl(e.target.value)
+}
+
+const handleSeoScore = (e) => {
+  setSeoScore(e.target.value)
+}
+
+const handleFeaturedImage=(e) => {
+  setKeywords(e.target.value)
+}
+
+const handleTag=(e) => {
+  setTag(e.target.value)
+   setUpdated(true)
+  }
+
+const handleKeyword=(e) => {
+  setKeywords(e.target.value)
+  setUpdated(true)
+}
+
+const handleSeoDescription=(e) => {
+  setSeoDescription(e.target.value)
+  setUpdated(true)
+}
+
+const handleSeoTitle=(e) =>{ 
+  setSeoTitle(e.target.value)
+  setUpdated(true)
+}
+
+
+const handleTitle=(e) => {
+  setTitle(e.target.value)
+  setUpdated(true)
+}
+
+const handleNote=(e) => {
+  setNote(e.target.value)
+  setUpdated(true)
+}
+
+
+
 
 
 
@@ -248,6 +305,7 @@ function Updatearticle() {
   const handleAddPage = () => {
     resetForm(); // Reset the form
     handleSubmit(); // Submit the data
+    setUpdated(false)
   };
 
 
@@ -339,7 +397,7 @@ function Updatearticle() {
               <input
                 type="text"
                 value={typedUrl}
-                onChange={(e) => setTypedUrl(e.target.value)}
+                onChange={handleTypeUrl}
                 placeholder="Type your URL here"
               />
             </span>
@@ -353,7 +411,7 @@ function Updatearticle() {
               type="number"
               placeholder="Enter SEO Score"
               value={seoScore}
-              onChange={(e) => setSeoScore(e.target.value)}
+              onChange={handleSeoScore}
               min="0"
               max="100"
             />
@@ -366,7 +424,7 @@ function Updatearticle() {
             type="text"
             placeholder="Enter SEO Title"
             value={seoTitle}
-            onChange={(e) => setSeoTitle(e.target.value)}
+            onChange={handleSeoTitle}
           />
         </div>
 
@@ -374,7 +432,7 @@ function Updatearticle() {
           <textarea
             placeholder="Enter SEO Description"
             value={seoDescription}
-            onChange={(e) => setSeoDescription(e.target.value)}
+            onChange={handleSeoDescription}
             rows="4"
             cols="10"
           />
@@ -385,7 +443,7 @@ function Updatearticle() {
             type="text"
             placeholder="Tag"
             value={tag}
-            onChange={(e) => setTag(e.target.value)}
+            onChange={handleTag}
           />
         </div>
 
@@ -394,7 +452,7 @@ function Updatearticle() {
             type="text"
             placeholder="Keywords"
             value={keywords}
-            onChange={(e) => setKeywords(e.target.value)}
+            onChange={handleKeyword}
           />
         </div>
 
@@ -403,7 +461,7 @@ function Updatearticle() {
             type="text"
             placeholder="Featured Image"
             value={featuredImage}
-            onChange={(e) => setFeaturedImage(e.target.value)}
+            onChange={handleFeaturedImage}
           />
         </div>
 
@@ -428,7 +486,7 @@ function Updatearticle() {
             type="text"
             placeholder="Title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={handleTitle}
           />
         </div>
 
@@ -447,13 +505,13 @@ function Updatearticle() {
           <textarea
             placeholder="Note"
             value={note}
-            onChange={(e) => setNote(e.target.value)}
+            onChange={handleNote}
             rows="4"
           />
         </div>
 
         <form action="" onSubmit={handleSubmit}>
-          <div className="button-div">
+          <div className={`${update ? 'button-grey' : 'button-blue'}`}>
             <button className="button-light btn" type="button">
               Delete
             </button>
