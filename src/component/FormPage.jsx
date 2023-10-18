@@ -327,7 +327,7 @@ function FormPage() {
       <div className="flex" style={{ margin: '1rem 0' }}>
     {/* back button will on home page */}
     <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>
-    <button class="add-page-button" onClick={handleAddPage}>Add Page</button>
+    <button class="add-page-button" onClick={handleAddPage}>Add {selectedPostType==='' ? "Page":selectedPostType}</button>
         <img src="/images/plus.svg" alt="" />
       </div>
       <div className="form-card">
@@ -434,6 +434,7 @@ function FormPage() {
             placeholder="Date"
             value={date}
             onChange={handleDate} // onChange for date
+            style={{ width: '100px' }} 
           />
         </div>
 

@@ -310,7 +310,7 @@ function Updatearticle() {
       </div>
       <div className="flex" style={{ margin: '1rem 0' }}>
         <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>
-        <button class="add-page-button" onClick={handleAddPage} >Add Page</button>
+        <button class="add-page-button" onClick={handleAddPage} >Add {selectedPostType==='' ? "Page":selectedPostType}</button>
         <img src="/images/plus.svg" alt="" />
       </div>
       <div className="form-card">
