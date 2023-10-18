@@ -373,7 +373,7 @@ function Updatearticle() {
       </div>
       <div className="flex" style={{ margin: '1rem 0' }}>
         <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>
-        <Link to={`/addarticle/:${selectedPublication}/:${selectedPostType}`} className="add-page-button" onClick={handleAddPage}>
+        <Link to={`/addarticle/${selectedPublication}/${selectedPostType}`} className="add-page-button" onClick={handleAddPage}>
           Add {findPostTypeNameById(postTypeData, parseInt(selectedPostType))}
         </Link>
         <img src="/images/plus.svg" alt="" />
