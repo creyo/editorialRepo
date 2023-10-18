@@ -443,6 +443,10 @@ function Updatearticle() {
           />
         </div>
 
+        <div
+        dangerouslySetInnerHTML={{ __html: body }}
+      />
+
         <div className="flex">
           <textarea
             placeholder="Note"
