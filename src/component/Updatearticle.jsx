@@ -40,7 +40,7 @@ function Updatearticle() {
   const [selectedPublication, setSelectedPublication] = useState(1);
   const [selectedPostType, setSelectedPostType] = useState(2);
 
-  const [update, setUpdated] = useState(false)
+  const [update, setUpdated] = useState(true)
 
 
 
@@ -220,7 +220,7 @@ function Updatearticle() {
       }
 
 
-      setUpdated(true)
+      setUpdated(false)
       // Optionally, you can show a success message to the user
     } catch (error) {
       console.error('Error updating article:', error);
@@ -306,7 +306,7 @@ function Updatearticle() {
   // Add Page button click handler
   const handleAddPage = () => {
     resetForm(); // Reset the form
-    handleSubmit(); // Submit the data
+   
     setUpdated(false)
     const syntheticEvent = { preventDefault: () => { } }; // Create a synthetic event
     handleSubmit(syntheticEvent); // Submit the data
