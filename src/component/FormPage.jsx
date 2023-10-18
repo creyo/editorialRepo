@@ -262,7 +262,7 @@ function FormPage() {
   };
   
   
-
+console.log(postTypeData)
 
   const TextEditorModules = {
     toolbar: [
