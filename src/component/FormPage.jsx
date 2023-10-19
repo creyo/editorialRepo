@@ -247,9 +247,8 @@ function FormPage() {
   };
 
   const saveProfile = (name, bio) => {
-    setBody(name , bio)
-    console.log('Name:', name);
-    console.log('Bio:', bio);
+    const authorInfo = `Author: ${name}\nBio: ${bio}`;
+    setBody((prevBody) => `${prevBody}\n${authorInfo}`);
   };
 
   //function to reset after click on add page 
