@@ -520,12 +520,16 @@ function Updatearticle() {
           />
         </div>
 
-        <form action="" onSubmit={handleSubmit}>
+        <form action="" >
           <div className="button-div">
-            <button className="button-light btn" type="button">
+            <button className="button-light btn" type="button" onClick={resetForm}>
               Delete
             </button>
-            <button className={`${update ? 'button-blue' : 'button-grey'}`} type="submit">
+            <button
+              className={`${update ? 'button-blue'  : 'button-grey'}`}
+              type="submit"
+              onClick={handleSubmit}
+            >
               Save
             </button>
           </div>

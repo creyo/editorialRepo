@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {findPostTypeNameById} from "./filter"
 import ReactQuill from 'react-quill';
+import ProfilePopup from './popUp/ProfilePopup';
 import 'react-quill/dist/quill.snow.css';
 import './FormPage.css'; // Import your CSS file
 import StatusSelection from '../FormDataInformation/StatusSelection';
 import CategoryDropdown from '../FormDataInformation/CategoryDropDown';
 import AuthorDropdown from '../FormDataInformation/AuthorDropdown';
 import supabase from '../config/supabase'; // Import the Supabase instance
+
 
 function FormPage() {
 
@@ -41,6 +43,8 @@ function FormPage() {
 
   const [submit, setSubmit] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+
+  const [isProfilePopupOpen, setProfilePopupOpen] = useState(false);
 
 
 
@@ -231,6 +235,22 @@ function FormPage() {
    setNote(e.target.value)
    setSubmit(false)
   }
+
+  
+
+  const openProfilePopup = () => {
+    setProfilePopupOpen(true);
+  };
+
+  const closeProfilePopup = () => {
+    setProfilePopupOpen(false);
+  };
+
+  const saveProfile = (name, bio) => {
+    // Handle the name and bio data as needed
+    console.log('Name:', name);
+    console.log('Bio:', bio);
+  };
 
    //function to reset after click on add page 
   const resetForm = () => {
@@ -449,6 +469,14 @@ function FormPage() {
           />
         </div>
 
+        <button onClick={openProfilePopup}>Open Profile Popup</button>
+      <ProfilePopup
+        isOpen={isProfilePopupOpen}
+        onClose={closeProfilePopup}
+        onSave={saveProfile}
+      />
+
+
         <div style={{ width: '1050px' }}>
           <ReactQuill
             value={body}
@@ -459,6 +487,7 @@ function FormPage() {
             style={{ height: '800px', marginBottom: '100px' }}
           />
         </div>
+        
 
         <div className="flex">
           <textarea
