@@ -491,7 +491,7 @@ function FormPage() {
           />
         </div>
 
-        <button onClick={openProfilePopup} className="button-style">Add Author</button>
+        <button onClick={openProfilePopup} className="open-profile-button">Add Author</button>
         <ProfilePopup
           isOpen={isProfilePopupOpen}
           onClose={closeProfilePopup}
@@ -499,7 +499,7 @@ function FormPage() {
         />
 
 
-        <button className="button-style" onClick={openAddProduct}>Open Add Button</button>
+        <button className="open-profile-button" onClick={openAddProduct}>Add Product</button>
         {isAddButtonOpen && (
           <AddProduct isOpen={isAddButtonOpen}
            onClose={closeAddProduct}
