@@ -108,7 +108,7 @@ function Updatearticle() {
         setCategory_id(data.categories.category_id);
         if(data.categories.url){
           let data = data.categories.url.split("/");
-          setCategory_url(data)
+          setCategory_url(data[1])
         }
         setSeoTitle(data.seo_title);
         setSeoDescription(data.seo_description);
