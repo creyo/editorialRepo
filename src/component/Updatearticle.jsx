@@ -107,8 +107,9 @@ function Updatearticle() {
         setSeoScore(data.seo_score);
         setCategory_id(data.categories.category_id);
         if(data.categories.url){
-          let data1 = data.categories.url.split("/");
-          setCategory_url(data1[1])
+          let inputText = data.categories.url
+          const result = inputText.replace(/^[^/]+/, "");
+          setCategory_url(result)
         }
         setSeoTitle(data.seo_title);
         setSeoDescription(data.seo_description);
