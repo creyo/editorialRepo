@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import {findPostTypeNameById} from "./filter"
+import { findPostTypeNameById } from "./filter"
 import ReactQuill from 'react-quill';
 import ProfilePopup from './popUp/ProfilePopup';
 import 'react-quill/dist/quill.snow.css';
@@ -14,7 +14,7 @@ import supabase from '../config/supabase'; // Import the Supabase instance
 function FormPage() {
 
   const { publicationId, postTypeId } = useParams();
-  
+
   const [statusId, setStatusId] = useState(1);
   const [typedUrl, setTypedUrl] = useState('');
   const [seoScore, setSeoScore] = useState(0);
@@ -38,8 +38,8 @@ function FormPage() {
   const [postTypeData, setPostTypeData] = useState([]);
   const [selectedPublication, setSelectedPublication] = useState(publicationId);
   const [selectedPostType, setSelectedPostType] = useState(postTypeId);
- 
-  const[highestarticleid,setHighestArticleId]= useState(0)
+
+  const [highestarticleid, setHighestArticleId] = useState(0)
 
   const [submit, setSubmit] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -91,8 +91,8 @@ function FormPage() {
       if (error) {
         throw error
       } else if (data.length > 0) {
-        
-        setHighestArticleId(data[0].article_id+1);
+
+        setHighestArticleId(data[0].article_id + 1);
       }
     }
 
@@ -120,39 +120,39 @@ function FormPage() {
         title,
         body,
       };
-      
+
       if (isUpdating) {
         // Update the article with the highest article_id
-        const {  error } = await supabase
+        const { error } = await supabase
           .from('articles')
           .update(newArticle)
           .eq('article_id', highestarticleid);
 
         if (error) {
-        throw error;
+          throw error;
         }
 
-       
+
       } else {
         // Create a new article
-        const {  error } = await supabase.from('articles').upsert([newArticle]);
+        const { error } = await supabase.from('articles').upsert([newArticle]);
 
         if (error) {
-         
+
           throw error;
         }
         setIsUpdating(true)
         setSubmit(true);
-       
+
       }
-      
+
     } catch (error) {
       throw error
     }
   };
 
 
-   
+
   const handleStatusChange = (selectedStatusId) => {
     setStatusId(selectedStatusId);
     setSubmit(false)
@@ -226,17 +226,17 @@ function FormPage() {
     setSubmit(false)
   }
 
-  const handleTitle =(e)=>{
+  const handleTitle = (e) => {
     setTitle(e.target.value)
     setSubmit(false)
   }
 
-  const handleNote =(e)=>{
-   setNote(e.target.value)
-   setSubmit(false)
+  const handleNote = (e) => {
+    setNote(e.target.value)
+    setSubmit(false)
   }
 
-  
+
 
   const openProfilePopup = () => {
     setProfilePopupOpen(true);
@@ -252,7 +252,7 @@ function FormPage() {
     console.log('Bio:', bio);
   };
 
-   //function to reset after click on add page 
+  //function to reset after click on add page 
   const resetForm = () => {
     setStatusId(1);
     setTypedUrl('');
@@ -270,17 +270,17 @@ function FormPage() {
     setBody('');
     setNote('');
   };
-  
+
   // Add Page button click handler
   const handleAddPage = () => {
     setIsUpdating(!isUpdating); // Toggle isUpdating directly
     setHighestArticleId(highestarticleid + 1);
     resetForm(); // Reset the form
-    const syntheticEvent = { preventDefault: () => {} }; // Create a synthetic event
+    const syntheticEvent = { preventDefault: () => { } }; // Create a synthetic event
     handleSubmit(syntheticEvent); // Submit the data
   };
-  
-  
+
+
 
 
 
@@ -289,8 +289,9 @@ function FormPage() {
       [{ 'header': [1, 2, false] }],
       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
       [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
-      ['link', 'image'],
+      ['link', 'image'], // Example: Image button
       ['clean'],
+      [{ 'profile': 'Open Profile' }], // Custom "Open Profile" button
     ],
     clipboard: {
       matchVisual: false,
@@ -301,9 +302,9 @@ function FormPage() {
     'header',
     'bold', 'italic', 'underline', 'strike', 'blockquote',
     'list', 'bullet', 'indent',
-    'link', 'image',
+    'link', 'image', // Example: Image format
+    'profile', // Custom button format
   ];
-
 
 
   return (
@@ -345,9 +346,9 @@ function FormPage() {
       </div>
 
       <div className="flex" style={{ margin: '1rem 0' }}>
-    {/* back button will on home page */}
-    <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>
-    <button class="add-page-button" onClick={handleAddPage}>Add {findPostTypeNameById(postTypeData,parseInt(selectedPostType))}</button>
+        {/* back button will on home page */}
+        <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>
+        <button class="add-page-button" onClick={handleAddPage}>Add {findPostTypeNameById(postTypeData, parseInt(selectedPostType))}</button>
         <img src="/images/plus.svg" alt="" />
       </div>
       <div className="form-card">
@@ -454,7 +455,7 @@ function FormPage() {
             placeholder="Date"
             value={date}
             onChange={handleDate} // onChange for date
-            style={{ width: '200px' }} 
+            style={{ width: '200px' }}
           />
         </div>
 
@@ -470,11 +471,11 @@ function FormPage() {
         </div>
 
         <button onClick={openProfilePopup} className="open-profile-button">Open Profile Popup</button>
-      <ProfilePopup
-        isOpen={isProfilePopupOpen}
-        onClose={closeProfilePopup}
-        onSave={saveProfile}
-      />
+        <ProfilePopup
+          isOpen={isProfilePopupOpen}
+          onClose={closeProfilePopup}
+          onSave={saveProfile}
+        />
 
 
         <div style={{ width: '1050px' }}>
@@ -486,8 +487,18 @@ function FormPage() {
             formats={TextEditorFormats}
             style={{ height: '800px', marginBottom: '100px' }}
           />
+          <button onClick={openProfilePopup} className="open-profile-button">
+            Open Profile
+          </button>
+          <ProfilePopup
+            isOpen={isProfilePopupOpen}
+            onClose={closeProfilePopup}
+            onSave={saveProfile}
+            body={body} // Pass the body value as a prop
+            handleTextChange={handleTextChange} // Pass the handleTextChange function as a prop
+          />
         </div>
-        
+
 
         <div className="flex">
           <textarea
