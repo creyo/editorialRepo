@@ -105,7 +105,7 @@ function Updatearticle() {
         setStatusId(data.articlestatus.status_id);
         if (data.url) {
           let inputText = data.url
-          const result = inputText.replace(/^[^/]+/, "");
+          const result = inputText.replace(/^[^/]*\//, "")
           setTypedUrl(result);
         }
         setSeoScore(data.seo_score);
