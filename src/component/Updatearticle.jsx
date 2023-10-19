@@ -106,7 +106,10 @@ function Updatearticle() {
         setTypedUrl(data.url);
         setSeoScore(data.seo_score);
         setCategory_id(data.categories.category_id);
-        setCategory_url(data.categories.url);
+        if(data.categories.url){
+          let data = data.categories.url.split("/");
+          setCategory_url(data)
+        }
         setSeoTitle(data.seo_title);
         setSeoDescription(data.seo_description);
         setTag(data.tag);
