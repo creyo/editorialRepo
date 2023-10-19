@@ -252,7 +252,6 @@ function FormPage() {
   const saveProfile = (name, bio) => {
    // const authorInfo = `Author: ${name}<br>Bio: ${bio}`;
    const authorInfo = ` <div class="blog-component-card author-info">
-        <img src="images/sample4.png" alt="">
         <div class="author-name-intro">
             <h3>${name}</h3>
             <p>${bio}</p>
