@@ -164,14 +164,16 @@
 /* popup */
 
 /* CSS for the "Open Profile" button */
+/* CSS for the "Open Profile" button */
 .open-profile-button {
   background: #007bff;
   color: #fff;
   border: none;
   border-radius: 3px;
   padding: 5px 10px; /* Adjust the padding to control button size */
-  font-size: 14px; /* Adjust the font size */
+  font-size: 14px;
   cursor: pointer;
+  width: 100px; /* Adjust the width as desired */
 }
 
 .open-profile-button:hover {
