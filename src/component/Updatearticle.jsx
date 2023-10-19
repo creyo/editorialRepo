@@ -106,6 +106,7 @@ function Updatearticle() {
         setTypedUrl(data.url);
         setSeoScore(data.seo_score);
         setCategory_id(data.categories.category_id);
+       
         if(data.categories.url){
           let inputText = data.categories.url
           const result = inputText.replace(/^[^/]+/, "");
@@ -522,7 +523,7 @@ function Updatearticle() {
 
         <form action="" onSubmit={handleSubmit}>
           <div className="button-div">
-            <button className="button-light btn" type="button">
+            <button className="button-light btn" type="button" onClick={resetForm}>
               Delete
             </button>
             <button className={`${update ? 'button-blue' : 'button-grey'}`} type="submit">
