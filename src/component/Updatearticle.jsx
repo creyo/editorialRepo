@@ -103,9 +103,10 @@ function Updatearticle() {
 
         // Populate the form fields with the fetched data
         setStatusId(data.articlestatus.status_id);
-        setTypedUrl(data.url);
-        if(data.url){
-          console.log(data.url)
+        if (data.url) {
+          let inputText = data.url
+          const result = inputText.replace(/^[^/]+/, "");
+          setTypedUrl(result);
         }
         setSeoScore(data.seo_score);
         setCategory_id(data.categories.category_id);
@@ -309,7 +310,7 @@ function Updatearticle() {
   // Add Page button click handler
   const handleAddPage = () => {
     resetForm(); // Reset the form
-   
+
     setUpdated(false)
     const syntheticEvent = { preventDefault: () => { } }; // Create a synthetic event
     handleSubmit(syntheticEvent); // Submit the data
