@@ -268,7 +268,7 @@ function FormPage() {
   const handleAddButtonSave = (productData) => {
     // Handle the product data here
   // You can format the product data as needed
-  const productInfo = `Product: ${productData.title}, Description: ${productData.description}, Link: ${productData.link}`;
+  const productInfo = `Product: ${productData.title}, <br> Description: ${productData.description}, <br> Link: ${productData.link}`;
   setBody((prevBody) => `${prevBody}<br>${productInfo}`);
   closeAddProduct();
   };
