@@ -104,11 +104,12 @@ function Updatearticle() {
         // Populate the form fields with the fetched data
         setStatusId(data.articlestatus.status_id);
         setTypedUrl(data.url);
+        if(data.url){
+          console.log(data.url)
+        }
         setSeoScore(data.seo_score);
         setCategory_id(data.categories.category_id);
-        if( data.categories.url){
-          console.log( data.categories.url)
-        }
+        setCategory_url(data.categories.url);
         setSeoTitle(data.seo_title);
         setSeoDescription(data.seo_description);
         setTag(data.tag);
