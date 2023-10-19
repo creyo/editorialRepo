@@ -159,3 +159,21 @@
 .button-margin {
   margin: 0 1rem; /* Adjust the margin as needed */
 }
+
+
+/* popup */
+
+/* CSS for the "Open Profile" button */
+.open-profile-button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px; /* Adjust the padding to control button size */
+  font-size: 14px; /* Adjust the font size */
+  cursor: pointer;
+}
+
+.open-profile-button:hover {
+  background: #0056b3;
+}

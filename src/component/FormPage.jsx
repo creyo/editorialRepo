@@ -469,7 +469,7 @@ function FormPage() {
           />
         </div>
 
-        <button onClick={openProfilePopup}>Open Profile Popup</button>
+        <button onClick={openProfilePopup} className="open-profile-button">Open Profile Popup</button>
       <ProfilePopup
         isOpen={isProfilePopupOpen}
         onClose={closeProfilePopup}
