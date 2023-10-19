@@ -247,7 +247,7 @@ function FormPage() {
   };
 
   const saveProfile = (name, bio) => {
-    // Handle the name and bio data as needed
+    setBody(name , bio)
     console.log('Name:', name);
     console.log('Bio:', bio);
   };
