@@ -289,9 +289,8 @@ function FormPage() {
       [{ 'header': [1, 2, false] }],
       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
       [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
-      ['link', 'image'], // Example: Image button
+      ['link', 'image'],
       ['clean'],
-      [{ 'profile': 'Open Profile' }], // Custom "Open Profile" button
     ],
     clipboard: {
       matchVisual: false,
@@ -302,9 +301,9 @@ function FormPage() {
     'header',
     'bold', 'italic', 'underline', 'strike', 'blockquote',
     'list', 'bullet', 'indent',
-    'link', 'image', // Example: Image format
-    'profile', // Custom button format
+    'link', 'image',
   ];
+
 
 
   return (
@@ -470,7 +469,7 @@ function FormPage() {
           />
         </div>
 
-        <button onClick={openProfilePopup} className="open-profile-button">Open Profile Popup</button>
+        <button onClick={openProfilePopup} className="open-profile-button">Add Author</button>
         <ProfilePopup
           isOpen={isProfilePopupOpen}
           onClose={closeProfilePopup}
@@ -486,16 +485,6 @@ function FormPage() {
             modules={TextEditorModules}
             formats={TextEditorFormats}
             style={{ height: '800px', marginBottom: '100px' }}
-          />
-          <button onClick={openProfilePopup} className="open-profile-button">
-            Open Profile
-          </button>
-          <ProfilePopup
-            isOpen={isProfilePopupOpen}
-            onClose={closeProfilePopup}
-            onSave={saveProfile}
-            body={body} // Pass the body value as a prop
-            handleTextChange={handleTextChange} // Pass the handleTextChange function as a prop
           />
         </div>
 

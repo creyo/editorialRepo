@@ -29,7 +29,7 @@ function ProfilePopup({ isOpen, onClose, onSave }) {
         <button className="close-button" onClick={onClose}>
           Close
         </button>
-        <h2>Profile Information</h2>
+        <h2>Author</h2>
         <label>
           Name:
           <input type="text" value={name} onChange={handleNameChange} />
