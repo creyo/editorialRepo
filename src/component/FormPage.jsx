@@ -3,12 +3,14 @@ import { useParams } from 'react-router-dom';
 import { findPostTypeNameById } from "./filter"
 import ReactQuill from 'react-quill';
 import ProfilePopup from './popUp/ProfilePopup';
+
 import 'react-quill/dist/quill.snow.css';
 import './FormPage.css'; // Import your CSS file
 import StatusSelection from '../FormDataInformation/StatusSelection';
 import CategoryDropdown from '../FormDataInformation/CategoryDropDown';
 import AuthorDropdown from '../FormDataInformation/AuthorDropdown';
 import supabase from '../config/supabase'; // Import the Supabase instance
+import AddProduct from './popUp/AddProduct';
 
 
 function FormPage() {
@@ -45,6 +47,7 @@ function FormPage() {
   const [isUpdating, setIsUpdating] = useState(false);
 
   const [isProfilePopupOpen, setProfilePopupOpen] = useState(false);
+  const [isAddButtonOpen, setIsAddButtonOpen] = useState(false);
 
 
 
@@ -250,6 +253,26 @@ function FormPage() {
     const authorInfo = `Author: ${name}<br>Bio: ${bio}`;
     setBody((prevBody) => `${prevBody}<br>${authorInfo}`);
   };
+
+
+
+
+  const openAddProduct = () => {
+    setIsAddButtonOpen(true);
+  };
+
+  const closeAddProduct = () => {
+    setIsAddButtonOpen(false);
+  };
+
+  const handleAddButtonSave = (productData) => {
+    // Handle the product data here
+  // You can format the product data as needed
+  const productInfo = `Product: ${productData.title}, Description: ${productData.description}, Link: ${productData.link}`;
+  setBody((prevBody) => `${prevBody}<br>${productInfo}`);
+  closeAddProduct();
+  };
+
 
   //function to reset after click on add page 
   const resetForm = () => {
@@ -475,6 +498,13 @@ function FormPage() {
           onSave={saveProfile}
         />
 
+
+        <button className="button-style" onClick={openAddProduct}>Open Add Button</button>
+        {isAddButtonOpen && (
+          <AddProduct isOpen={isAddButtonOpen}
+           onClose={closeAddProduct}
+            onSave={handleAddButtonSave} />
+        )}
 
         <div style={{ width: '1050px' }}>
           <ReactQuill
