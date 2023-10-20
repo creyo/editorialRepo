@@ -251,7 +251,7 @@ function FormPage() {
 
   const saveProfile = (name, bio) => {
    // const authorInfo = `Author: ${name}<br>Bio: ${bio}`;
-   const authorInfo = ` <div class="blog-component-card author-info">
+   const authorInfo = `<div class="blog-component-card author-info">
         <div class="author-name-intro">
             <h3>${name}</h3>
             <p>${bio}</p>
