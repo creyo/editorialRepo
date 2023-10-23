@@ -58,7 +58,7 @@ function FormPage() {
   useEffect(() => {
 
     let login = localStorage.getItem('sb-narivuecshkbtcueblcl-auth-token')
-    console.log(login)
+
 
     
     async function fetchData() {
@@ -90,6 +90,11 @@ function FormPage() {
 
 
 
+  let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
+  const jsonObject = JSON.parse(tokenInfo);
+  let userId = jsonObject.user.id
+  console.log(userId)
+
   //find highest article_id
   useEffect(() => {
     async function fetchHighestArticleId() {
@@ -110,10 +115,7 @@ function FormPage() {
   const handleSubmit = async (event) => {
     event.preventDefault(); 
 
- let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
-        const jsonObject = JSON.parse(tokenInfo);
-        let userId = jsonObject.user.id
-        console.log(userId)
+
 
     try {
       const newArticle = {
