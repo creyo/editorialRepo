@@ -1,23 +1,30 @@
+
 import './App.css';
 import React from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import PrivateRoute from './component/PrivateRoute';
+import FormPage from './component/FormPage';
+import HomePage from './component/HomePage';
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Updatearticle from './component/Updatearticle';
+
 import Login from './component/Login';
 import SignUp from './component/SignUp';
-import FormPage from './component/FormPage';
-import Updatearticle from './component/Updatearticle';
-import HomePage from './component/HomePage';
+
+
 
 function App() {
+
+
+
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/" element={<PrivateRoute element={HomePage} />} />
-          <Route path="/addarticle/:publicationId/:postTypeId" element={<PrivateRoute element={FormPage} />} />
-          <Route path="/updatearticle/:articleId" element={<PrivateRoute element={Updatearticle} />} />
+           
+          <Route path ="/login" element ={<Login/>} />
+          <Route path ="/signup" element ={<SignUp/>} />
+           <Route path="/" element={<HomePage/>} /> 
+          <Route path="/addarticle/:publicationId/:postTypeId" element={<FormPage />}/>
+          <Route path='/updatearticle/:articleId' element={<Updatearticle/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>

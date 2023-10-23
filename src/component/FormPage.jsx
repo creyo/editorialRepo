@@ -56,6 +56,11 @@ function FormPage() {
 
 
   useEffect(() => {
+
+    let login = localStorage.getItem('sb-narivuecshkbtcueblcl-auth-token')
+    console.log(login)
+    
+    
     async function fetchData() {
       // Fetch data from the 'publication' table
       const { data: publicationData, error } = await supabase
