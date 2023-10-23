@@ -107,6 +107,7 @@ function FormPage() {
 
   let userData = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
   let userId = userData.user.id
+  console.log(userId)
 
     try {
       const newArticle = {
