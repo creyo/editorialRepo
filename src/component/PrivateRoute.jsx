@@ -2,7 +2,7 @@ import React from 'react';
 import {  Route, useNavigate } from 'react-router-dom';
 
 function PrivateRoute({ element: Element, ...rest }) {
-    const navigate = useNavigate
+    const navigate = useNavigate()
   
 const isAuthenticated = localStorage.getItem('sb-narivuecshkbtcueblcl-auth-token') 
 
