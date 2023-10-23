@@ -103,7 +103,9 @@ function FormPage() {
   }, []);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault(); 
+
+    let userId = localStorage.setItem('sb-narivuecshkbtcueblcl-auth-token', user.access_token);
 
     try {
       const newArticle = {
@@ -122,6 +124,7 @@ function FormPage() {
         date,
         title,
         body,
+        user_id
       };
 
       if (isUpdating) {
@@ -302,7 +305,7 @@ function FormPage() {
   // Add Page button click handler
   const handleAddPage = () => {
     setIsUpdating(!isUpdating); // Toggle isUpdating directly
-    setHighestArticleId(highestarticleid + 1);
+    setHighestArticleId(highestarticleid + 1)
     resetForm(); // Reset the form
     const syntheticEvent = { preventDefault: () => { } }; // Create a synthetic event
     handleSubmit(syntheticEvent); // Submit the data
@@ -385,14 +388,14 @@ function FormPage() {
             <StatusSelection
               selectedStatusId={statusId}
               onStatusChange={handleStatusChange}
-              required
+              
             />
           </div>
         </div>
 
         <div className="flex">
           <p style={{ marginRight: '1rem' }}>Category</p>
-          <CategoryDropdown onCategoryChange={handleCategoryChange} required />
+          <CategoryDropdown onCategoryChange={handleCategoryChange}  />
         </div>
         <div className="flex">
           <p style={{ marginRight: '1rem' }}>URL</p>
@@ -472,7 +475,7 @@ function FormPage() {
 
         <div className="flex">
           <p style={{ marginRight: '5rem' }}>Author</p>
-          <AuthorDropdown onAuthorChange={handleAuthorChange} required />
+          <AuthorDropdown onAuthorChange={handleAuthorChange}  />
         </div>
 
         <div className="flex">

@@ -17,16 +17,25 @@ export function filterArticles(articles, selectedPublicationId, selectedPostType
   });
 }
 
+
+
+
 export function filterDataByUserId(data, user_id,email) {
   // Use the `filter` method to find items where the `user_id` exists in the "user" array
   const filteredData = data.filter((item) => {
-    return Array.isArray(item.user) && item.user.some((userItem) => userItem.user_id === user_id && userItem.email === email);
+    return Array.isArray(item.user) && item.user.some((userItem) =>
+     userItem.user_id === user_id && userItem.email === email);
   });
 
   
   return filteredData
 
 }
+
+
+
+
+
 
 export function formatDate(originalDate) {
   const options = {

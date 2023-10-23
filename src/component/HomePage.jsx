@@ -39,6 +39,7 @@ export default function HomePage() {
       if (error) {
         console.error('Error fetching articles:', error);
       } else {
+        console.log(data)
         setArticles(data);
       }
     }
