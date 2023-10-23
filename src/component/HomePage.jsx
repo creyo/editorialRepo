@@ -79,7 +79,7 @@ export default function HomePage() {
          console.log(data)
         let filterData =  filterPublicationsByUserEmail(data,email)
         if (filterData.length === 0) {
-          navigate("/NoDataFoundPage");
+          navigate("/blank");
         }
        
         setPublications(filterData);
