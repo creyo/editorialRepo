@@ -112,7 +112,7 @@ function FormPage() {
 
  let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
         const jsonObject = JSON.parse(tokenInfo);
-        let email = jsonObject.user.id
+        let userId = jsonObject.user.id
 
     try {
       const newArticle = {
