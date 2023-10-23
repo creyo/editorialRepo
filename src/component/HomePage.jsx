@@ -60,10 +60,10 @@ export default function HomePage() {
 
     async function fetchPublications() {
       try {
-        const { data, error } = await supabase.from('publication').select(`
+        const { data, error } = await supabase.from('user_publication').select(`
           *,
           user(*),
-          user_publication(*)`
+          publication(*)`
         );
         if (error) {
           throw error;
