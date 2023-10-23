@@ -9,8 +9,7 @@ if (isAuthenticated !== null) {
   // User is authenticated
   console.log('User is authenticated');
 } else {
-  // User is not authenticated
-  console.log('User is not authenticated');
+  Navigate("/login")
 }
 
 
