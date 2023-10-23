@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import supabase from '../config/supabase';
 import { filterArticles, filterPublicationsByUserEmail ,formatDate} from './filter.js';
 import './HomePage.css';
@@ -10,6 +10,7 @@ import keyImage from './images/key.svg';
 import chit from "./images/chit.svg"
 
 export default function HomePage() {
+  const navigate = useNavigate()
   const [articles, setArticles] = useState([]);
   const [postTypes, setPostTypes] = useState([]);
   const [publications, setPublications] = useState([]);
@@ -19,6 +20,8 @@ export default function HomePage() {
   const [selectedPostTypeId, setSelectedPostTypeId] = useState(1);
   const [selectedPublicationId, setSelectedPublicationId] = useState(1);
   const [selectedStatusId, setSelectedStatusId] = useState(null);
+
+  
  
 
   useEffect(() => {
@@ -75,7 +78,10 @@ export default function HomePage() {
         // console.log(user_id)
          console.log(data)
         let filterData =  filterPublicationsByUserEmail(data,email)
-       // console.log(filterData)
+        if (filterData.length === 0) {
+          navigate("/NoDataFoundPage");
+        }
+       
         setPublications(filterData);
       } catch (error) {
         console.error('Error fetching publications:', error.message);
@@ -130,7 +136,7 @@ export default function HomePage() {
   
 
 
-  return (
+ return (
     <div className="container">
       <div className="selectors">
         <select
