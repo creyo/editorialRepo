@@ -91,7 +91,7 @@ export default function HomePage() {
     fetchArticles();
     fetchPostTypes();
     fetchPublications();
-  }, []);
+  }, [navigate]);
 
   const handlePostTypeChange = (event) => {
     const selectedValue = event.target.value;

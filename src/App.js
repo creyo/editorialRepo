@@ -7,6 +7,7 @@ import SignUp from './component/SignUp';
 import FormPage from './component/FormPage';
 import Updatearticle from './component/Updatearticle';
 import HomePage from './component/HomePage';
+import NoDataFoundPage from './component/ExtraPage/NoDataFoundPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<PrivateRoute Component={HomePage} />} />
           <Route path="/addarticle/:publicationId/:postTypeId" element={<PrivateRoute Component={FormPage} />} />
           <Route path="/updatearticle/:articleId" element={<PrivateRoute Component={Updatearticle} />} />
+          <Route path ="/blank" element = {<NoDataFoundPage/>} />
         </Routes>
       </BrowserRouter>
     </div>
