@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import supabase from '../config/supabase'; // Import your Supabase client
+import {filterItemsByCategoryId} from '../component/filter'
 
 const customStyles = {
   container: {
@@ -18,7 +19,7 @@ const customStyles = {
   },
 };
 
-function CategoryDropdown({ onCategoryChange ,categoryValue}) {
+function CategoryDropdown({ onCategoryChange ,categoryValue,publicationValue}) {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('real-estate'); // Adjust the initial selected category
  
@@ -26,10 +27,12 @@ function CategoryDropdown({ onCategoryChange ,categoryValue}) {
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const { data, error } = await supabase.from('categories').select('*');
+        let { data, error } = await supabase.from('categories').select('*');
         if (error) {
           throw error;
         }
+
+        data = filterItemsByCategoryId(data,publicationValue)
   
         setCategories(data);
         
@@ -40,7 +43,7 @@ function CategoryDropdown({ onCategoryChange ,categoryValue}) {
     }
 
     fetchCategories();
-  }, []);
+  }, [publicationValue]);
 
   const handleCategoryChange = (event) => {
     const selectedValue = event.target.value;

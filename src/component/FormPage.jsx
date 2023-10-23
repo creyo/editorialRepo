@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { findPostTypeNameById } from "./filter"
+import { findPostTypeNameById,filterPublicationsByUserEmail } from "./filter"
 import ReactQuill from 'react-quill';
 import ProfilePopup from './popUp/ProfilePopup';
 
@@ -58,19 +58,22 @@ function FormPage() {
   useEffect(() => {
     async function fetchData() {
       // Fetch data from the 'publication' table
-      const { data: publicationData, error } = await supabase
-        .from('user_publication')
-        .select(`*,
-        publication(*)
-        `
+      const { data, error } = await supabase.from('user_publication').select(`
+          *,
+          user(*),
+          publication(*)`
         );
+        if (error) {
+          throw error;
+        }
 
-      if (publicationData) {
-          console.log(publicationData)
-        setPublicationData(publicationData);
-      } else {
-        throw error
-      }
+        let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
+        const jsonObject = JSON.parse(tokenInfo);
+        let email = jsonObject.user.email
+        // console.log(user_id)
+         console.log(data)
+        let filterData =  filterPublicationsByUserEmail(data,email)   
+        setPublicationData(filterData);
 
       // Fetch data from the 'post_type' table
       const { data: postTypeData, error: postTypeError } = await supabase
@@ -404,7 +407,7 @@ function FormPage() {
 
         <div className="flex">
           <p style={{ marginRight: '1rem' }}>Category</p>
-          <CategoryDropdown onCategoryChange={handleCategoryChange} />
+          <CategoryDropdown onCategoryChange={handleCategoryChange} publicationValue={publicationId} />
         </div>
         <div className="flex">
           <p style={{ marginRight: '1rem' }}>URL</p>
