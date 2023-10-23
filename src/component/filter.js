@@ -20,13 +20,21 @@ export function filterArticles(articles, selectedPublicationId, selectedPostType
 
 
 
-export function filterDataByUserId(data, user_id,email) {
-  // Use the `filter` method to find items where the `user_id` exists in the "user" array
-  const filteredData = data.filter((item) => {
-    return Array.isArray(item.user) && item.user.some((userItem) =>
-     userItem.user_id === user_id && userItem.email === email);
-  });
-  return filteredData
+export function filterPublicationsByUserEmail(data, userEmail) {
+  const filteredPublications = [];
+
+  for (const item of data) {
+    if (item.user.email === userEmail) {
+      const publicationDetails = {
+        publication_id: item.publication.publication_id,
+        publication_name: item.publication.publication_name,
+        domain_name: item.publication.domain_name
+      };
+      filteredPublications.push(publicationDetails);
+    }
+  }
+
+  return filteredPublications;
 }
 
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import supabase from '../config/supabase';
-import { filterArticles, filterDataByUserId ,formatDate} from './filter.js';
+import { filterArticles, filterPublicationsByUserEmail ,formatDate} from './filter.js';
 import './HomePage.css';
 
 // Import images from the "./images" directory
@@ -71,11 +71,10 @@ export default function HomePage() {
 
         let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
         const jsonObject = JSON.parse(tokenInfo);
-        let user_id = jsonObject.user.id
         let email = jsonObject.user.email
         // console.log(user_id)
          console.log(data)
-        let filterData =  filterDataByUserId(data, user_id,email)
+        let filterData =  filterPublicationsByUserEmail(data,email)
        // console.log(filterData)
         setPublications(filterData);
       } catch (error) {
