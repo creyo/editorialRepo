@@ -60,11 +60,14 @@ function FormPage() {
       // Fetch data from the 'publication' table
       const { data: publicationData, error } = await supabase
         .from('publication')
-        .select('*');
+        .select(`*,
+        user(*)
+        `
+        );
 
       if (publicationData) {
-        let filteredData = filterItemsByCategoryId(publicationData,selectedPublication)
-        setPublicationData(filteredData);
+          console.log(publicationData)
+        setPublicationData(publicationData);
       } else {
         throw error
       }
@@ -82,7 +85,7 @@ function FormPage() {
     }
 
     fetchData();
-  }, [selectedPublication]);
+  }, []);
 
 
 
