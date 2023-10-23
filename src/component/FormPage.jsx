@@ -57,7 +57,7 @@ function FormPage() {
 
   useEffect(() => {
 
-    let login = localStorage.getItem('sb-narivuecshkbtcueblcl-auth-token')
+   
 
 
     
