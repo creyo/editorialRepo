@@ -59,9 +59,9 @@ function FormPage() {
     async function fetchData() {
       // Fetch data from the 'publication' table
       const { data: publicationData, error } = await supabase
-        .from('publication')
+        .from('user_publication')
         .select(`*,
-        user(*)
+        publication(*)
         `
         );
 
