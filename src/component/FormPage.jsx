@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { findPostTypeNameById } from "./filter"
+import { findPostTypeNameById, filterItemsByCategoryId } from "./filter"
 import ReactQuill from 'react-quill';
 import ProfilePopup from './popUp/ProfilePopup';
 
@@ -56,11 +56,6 @@ function FormPage() {
 
 
   useEffect(() => {
-
-   
-
-
-    
     async function fetchData() {
       // Fetch data from the 'publication' table
       const { data: publicationData, error } = await supabase
@@ -68,7 +63,8 @@ function FormPage() {
         .select('*');
 
       if (publicationData) {
-        setPublicationData(publicationData);
+        let filteredData = filterItemsByCategoryId(publicationData,selectedPublication)
+        setPublicationData(filteredData);
       } else {
         throw error
       }
@@ -86,14 +82,14 @@ function FormPage() {
     }
 
     fetchData();
-  }, []);
+  }, [selectedPublication]);
 
 
 
   let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
   const jsonObject = JSON.parse(tokenInfo);
   let userId = jsonObject.user.id
- 
+
 
   //find highest article_id
   useEffect(() => {
@@ -113,7 +109,7 @@ function FormPage() {
   }, []);
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
 
 
 
@@ -134,7 +130,7 @@ function FormPage() {
         date,
         title,
         body,
-        user_id:userId
+        user_id: userId
       };
 
       if (isUpdating) {
@@ -263,8 +259,8 @@ function FormPage() {
   };
 
   const saveProfile = (name, bio) => {
-   // const authorInfo = `Author: ${name}<br>Bio: ${bio}`;
-   const authorInfo = `<div class="blog-component-card author-info">
+    // const authorInfo = `Author: ${name}<br>Bio: ${bio}`;
+    const authorInfo = `<div class="blog-component-card author-info">
         <div class="author-name-intro">
             <h3>${name}</h3>
             <p>${bio}</p>
@@ -286,10 +282,10 @@ function FormPage() {
 
   const handleAddButtonSave = (productData) => {
     // Handle the product data here
-  // You can format the product data as needed
-  const productInfo = `Product: ${productData.title}, <br> Description: ${productData.description}, <br> Link: ${productData.link}`;
-  setBody((prevBody) => `${prevBody}<br>${productInfo}`);
-  closeAddProduct();
+    // You can format the product data as needed
+    const productInfo = `Product: ${productData.title}, <br> Description: ${productData.description}, <br> Link: ${productData.link}`;
+    setBody((prevBody) => `${prevBody}<br>${productInfo}`);
+    closeAddProduct();
   };
 
 
@@ -398,14 +394,14 @@ function FormPage() {
             <StatusSelection
               selectedStatusId={statusId}
               onStatusChange={handleStatusChange}
-              
+
             />
           </div>
         </div>
 
         <div className="flex">
           <p style={{ marginRight: '1rem' }}>Category</p>
-          <CategoryDropdown onCategoryChange={handleCategoryChange}  />
+          <CategoryDropdown onCategoryChange={handleCategoryChange} />
         </div>
         <div className="flex">
           <p style={{ marginRight: '1rem' }}>URL</p>
@@ -485,7 +481,7 @@ function FormPage() {
 
         <div className="flex">
           <p style={{ marginRight: '5rem' }}>Author</p>
-          <AuthorDropdown onAuthorChange={handleAuthorChange}  />
+          <AuthorDropdown onAuthorChange={handleAuthorChange} />
         </div>
 
         <div className="flex">
@@ -521,7 +517,7 @@ function FormPage() {
         <button className="open-profile-button" onClick={openAddProduct}>Add Product</button>
         {isAddButtonOpen && (
           <AddProduct isOpen={isAddButtonOpen}
-           onClose={closeAddProduct}
+            onClose={closeAddProduct}
             onSave={handleAddButtonSave} />
         )}
 

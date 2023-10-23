@@ -114,3 +114,15 @@ export function findPostTypeNameById(postTypeData, postTypeId) {
   const postType = postTypeData.find((type) => type.post_type_id === postTypeId);
   return postType ? postType.type_name : '';
 }
+
+
+
+export function filterItemsByCategoryId(items, categoryIdToFilter) {
+  // Use the filter method to filter items based on category_id
+  const filteredItems = items.filter((item) => item.category_id === categoryIdToFilter);
+
+  // Map the filtered items to return only the publicationId property
+  const publicationIds = filteredItems.map((item) => item.publicationId);
+
+  return publicationIds;
+}
