@@ -1,18 +1,19 @@
-import React, {  useState } from 'react';
-import supabase from '../config/supabase'; // Import your Supabase configuration
-import './Login.css'; // Import your CSS file
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import supabase from '../config/supabase';
+import './Login.css';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const { user, error } = await supabase.auth.signUp({
+      const { user, error } = await supabase.auth.signIn({
         email,
         password,
       });
@@ -22,16 +23,11 @@ function Login() {
         return;
       }
 
-      console.warn( "user", user)
+      localStorage.setItem('sb-narivuecshkbtcueblcl-auth-token', user.access_token);
 
-      // Save the login status in local storage
-      localStorage.setItem('login', user);
-       
-
-      // User successfully logged in
       console.log('User logged in:', user);
 
-      // Redirect or perform other actions as needed
+      navigate('/');
     } catch (error) {
       console.error('Login error:', error.message);
       setError('An error occurred during login.');
@@ -46,19 +42,12 @@ function Login() {
 
       if (error) {
         console.error('Google login error:', error.message);
-        // Handle error here
       } else {
-        // User successfully logged in using Google
-        console.log(data)
-
-        // Save the login status in local storage
-        localStorage.setItem('login', data);
-
-        // Redirect or perform other actions as needed
+        localStorage.setItem('sb-narivuecshkbtcueblcl-auth-token', data.user.access_token);
+        navigate('/');
       }
     } catch (error) {
       console.error('Google login error:', error.message);
-      // Handle error here
     }
   };
 
