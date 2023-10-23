@@ -59,7 +59,7 @@ function FormPage() {
 
     let login = localStorage.getItem('sb-narivuecshkbtcueblcl-auth-token')
     console.log(login)
-    
+
     
     async function fetchData() {
       // Fetch data from the 'publication' table
@@ -110,9 +110,9 @@ function FormPage() {
   const handleSubmit = async (event) => {
     event.preventDefault(); 
 
-  let userData = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
-  let userId = userData.user.id
-  console.log(userId)
+ let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
+        const jsonObject = JSON.parse(tokenInfo);
+        let email = jsonObject.user.id
 
     try {
       const newArticle = {
