@@ -117,12 +117,7 @@ export function findPostTypeNameById(postTypeData, postTypeId) {
 
 
 
-export function filterItemsByCategoryId(items, categoryIdToFilter) {
-  // Use the filter method to filter items based on category_id
-  const filteredItems = items.filter((item) => item.category_id === categoryIdToFilter);
-
-  // Map the filtered items to return only the publicationId property
-  const publicationIds = filteredItems.map((item) => item.publicationId);
-
-  return publicationIds;
+export function filterItemsByPublicationId(items, publicationIdToFilter) {
+  // Use the filter method to filter items based on publicationId
+  return items.filter((item) => item.publicationId === publicationIdToFilter);
 }

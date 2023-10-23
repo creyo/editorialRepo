@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import supabase from '../config/supabase'; // Import your Supabase client
-import {filterItemsByCategoryId} from '../component/filter'
+import {filterItemsByPublicationId} from '../component/filter'
 
 const customStyles = {
   container: {
@@ -32,7 +32,7 @@ function CategoryDropdown({ onCategoryChange ,categoryValue,publicationValue}) {
           throw error;
         }
 
-        data = filterItemsByCategoryId(data,publicationValue)
+        data = filterItemsByPublicationId(data,publicationValue)
   
         setCategories(data);
         
