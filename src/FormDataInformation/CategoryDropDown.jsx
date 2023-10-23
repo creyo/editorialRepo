@@ -31,7 +31,7 @@ function CategoryDropdown({ onCategoryChange ,categoryValue,publicationValue}) {
         if (error) {
           throw error;
         }
-        console.log(publicationValue)
+        console.log(typeof(publicationValue))
 
         data = filterItemsByPublicationId(data,publicationValue)
   
