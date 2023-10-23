@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
-import {  Route, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import {   useNavigate } from 'react-router-dom';
 
-function PrivateRoute({ element: Element, ...rest }) {
+function PrivateRoute(props) {
 
+const {Component} =  props
 const navigate = useNavigate()
-  const [isAuthenticated ,setIsAuthenticated] = useState(false)
-const user = localStorage.getItem('sb-narivuecshkbtcueblcl-auth-token') 
 
-if (user !== null) {
-    isAuthenticated(true)
-} else {
-  navigate("/login")
-}
-
+useEffect (()=>{
+    let login = localStorage.getItem('sb-narivuecshkbtcueblcl-auth-token')
+    if(!login){
+        navigate('/login')
+    }
+})
 
   return (
-    <Route
-      {...rest}
-      element={isAuthenticated ? <Element /> : <Navigate to="/login" />}
-    />
+    <div>
+        <Component/>
+    </div>
   );
 }
 
