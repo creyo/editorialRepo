@@ -407,7 +407,7 @@ function FormPage() {
 
         <div className="flex">
           <p style={{ marginRight: '1rem' }}>Category</p>
-          <CategoryDropdown onCategoryChange={handleCategoryChange} publicationValue={publicationId} />
+          <CategoryDropdown onCategoryChange={handleCategoryChange} publicationValue={selectedPublication} />
         </div>
         <div className="flex">
           <p style={{ marginRight: '1rem' }}>URL</p>
