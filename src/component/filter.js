@@ -119,5 +119,5 @@ export function findPostTypeNameById(postTypeData, postTypeId) {
 
 export function filterItemsByPublicationId(items, publicationIdToFilter) {
   // Use the filter method to filter items based on publicationId
-  return items.filter((item) => item.publicationId === publicationIdToFilter);
+  return items.filter((item) => item.publication_id === publicationIdToFilter);
 }
