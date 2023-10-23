@@ -61,7 +61,7 @@ export default function HomePage() {
       try {
         const { data, error } = await supabase.from('publication').select(`
           *,
-          auth(*)`
+          user(*)`
         );
         if (error) {
           throw error;
