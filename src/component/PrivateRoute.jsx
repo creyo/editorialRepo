@@ -9,7 +9,7 @@ const navigate = useNavigate()
 useEffect (()=>{
     let login = localStorage.getItem('sb-narivuecshkbtcueblcl-auth-token')
     console.log(login)
-    if(!login){
+    if(login === undefined){
         navigate('/login')
     }
 })
