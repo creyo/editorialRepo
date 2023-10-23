@@ -45,7 +45,7 @@ function AuthorDropdown({ onAuthorChange ,authorValue}) {
     setSelectedAuthor(selectedValue);
 
     if (onAuthorChange) {
-      console.log("Selected Author ID (AuthorDropdown):", selectedValue); // Debug statement
+     
       onAuthorChange(selectedValue); // Pass the selected author's ID to the parent component
     }
   };
