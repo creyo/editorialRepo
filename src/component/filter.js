@@ -26,10 +26,7 @@ export function filterDataByUserId(data, user_id,email) {
     return Array.isArray(item.user) && item.user.some((userItem) =>
      userItem.user_id === user_id && userItem.email === email);
   });
-
-  
   return filteredData
-
 }
 
 

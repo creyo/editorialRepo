@@ -105,7 +105,8 @@ function FormPage() {
   const handleSubmit = async (event) => {
     event.preventDefault(); 
 
-    let userId = localStorage.setItem('sb-narivuecshkbtcueblcl-auth-token', user.access_token);
+  let userData = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
+  let userId = userData.user.id
 
     try {
       const newArticle = {
@@ -124,7 +125,7 @@ function FormPage() {
         date,
         title,
         body,
-        user_id
+        user_id:userId
       };
 
       if (isUpdating) {
