@@ -62,7 +62,8 @@ export default function HomePage() {
       try {
         const { data, error } = await supabase.from('publication').select(`
           *,
-          user(*)`
+          user(*),
+          user_publication(*)`
         );
         if (error) {
           throw error;
@@ -73,7 +74,7 @@ export default function HomePage() {
         let user_id = jsonObject.user.id
         let email = jsonObject.user.email
         // console.log(user_id)
-        // console.log(data)
+         console.log(data)
         let filterData =  filterDataByUserId(data, user_id,email)
        // console.log(filterData)
         setPublications(filterData);
