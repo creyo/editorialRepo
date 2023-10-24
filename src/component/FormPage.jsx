@@ -70,8 +70,7 @@ function FormPage() {
         let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
         const jsonObject = JSON.parse(tokenInfo);
         let email = jsonObject.user.email
-        // console.log(user_id)
-         console.log(data)
+       
         let filterData =  filterPublicationsByUserEmail(data,email)   
         setPublicationData(filterData);
 
@@ -487,7 +486,7 @@ function FormPage() {
 
         <div className="flex">
           <p style={{ marginRight: '5rem' }}>Author</p>
-          <AuthorDropdown onAuthorChange={handleAuthorChange} />
+          <AuthorDropdown onAuthorChange={handleAuthorChange}  publicationValue={selectedPublication}/>
         </div>
 
         <div className="flex">

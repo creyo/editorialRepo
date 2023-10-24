@@ -18,7 +18,7 @@ const customStyles = {
   },
 };
 
-function AuthorDropdown({ onAuthorChange ,authorValue}) {
+function AuthorDropdown({ onAuthorChange ,authorValue,publicationValue}) {
   const [authors, setAuthors] = useState([]);
   const [selectedAuthor, setSelectedAuthor] = useState('');
 

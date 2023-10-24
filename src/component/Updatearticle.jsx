@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { findPostTypeNameById } from "./filter"
+import { findPostTypeNameById ,filterPublicationsByUserEmail } from "./filter"
 import supabase from '../config/supabase';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -52,16 +52,22 @@ function Updatearticle() {
 
   useEffect(() => {
     async function fetchData() {
-      // Fetch data from the 'publication' table
-      const { data: publicationData, error } = await supabase
-        .from('publication')
-        .select('*');
+     // Fetch data from the 'publication' table
+     const { data, error } = await supabase.from('user_publication').select(`
+     *,
+     user(*),
+     publication(*)`
+   );
+   if (error) {
+     throw error;
+   }
 
-      if (publicationData) {
-        setPublicationData(publicationData);
-      } else {
-        throw error;
-      }
+   let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
+   const jsonObject = JSON.parse(tokenInfo);
+   let email = jsonObject.user.email
+  
+   let filterData =  filterPublicationsByUserEmail(data,email)   
+   setPublicationData(filterData);
 
       // Fetch data from the 'post_type' table
       const { data: postTypeData, error: postTypeError } = await supabase
@@ -480,7 +486,7 @@ function Updatearticle() {
 
         <div className="flex">
           <p style={{ marginRight: '5rem' }}>Author</p>
-          <AuthorDropdown onAuthorChange={handleAuthorChange} authorValue={authorValue} required />
+          <AuthorDropdown onAuthorChange={handleAuthorChange} authorValue={authorValue}  publicationValue={selectedPublication} required />
         </div>
 
         <div className="flex">
