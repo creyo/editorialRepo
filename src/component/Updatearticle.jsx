@@ -91,7 +91,8 @@ function Updatearticle() {
       try {
         const { data: author_publication, error } = await supabase
           .from('author_publication')
-          .select('*');
+          .select(`author(*),
+          publication(*)`);
 
         if (error) {
           throw error.message
