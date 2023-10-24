@@ -19,7 +19,7 @@ const customStyles = {
   },
 };
 
-function CategoryDropdown({ onCategoryChange ,categoryValue,publicationValue}) {
+function CategoryDropdown({ onCategoryChange ,categoryValue, publicationValue}) {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('real-estate'); // Adjust the initial selected category
  

@@ -243,14 +243,17 @@ function Updatearticle() {
 
   const handleTypeUrl = (e) => {
     setTypedUrl(e.target.value)
+    setUpdated(true)
   }
 
   const handleSeoScore = (e) => {
     setSeoScore(e.target.value)
+    setUpdated(true)
   }
 
   const handleFeaturedImage = (e) => {
     setFeaturedImage(e.target.value)
+    setUpdated(true)
   }
 
   const handleTag = (e) => {
@@ -396,7 +399,7 @@ function Updatearticle() {
 
         <div className="flex">
           <p style={{ marginRight: '1rem' }}>Category</p>
-          <CategoryDropdown onCategoryChange={handleCategoryChange} categoryValue={categoryValue} required />
+          <CategoryDropdown onCategoryChange={handleCategoryChange} categoryValue={categoryValue} publicationValue={selectedPublication} required />
         </div>
 
         <div className="flex">

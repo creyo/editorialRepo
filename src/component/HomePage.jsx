@@ -128,9 +128,6 @@ export default function HomePage() {
   // Use the filtering function to get filtered articles based on selectedPublicationId and selectedPostTypeId
   const filteredArticles = filterArticles(articles, selectedPublicationId, selectedPostTypeId, selectedStatusId)
 
-  console.log(filteredArticles)
-//  let count = countArticlesByStatus(filterArticles)
-//  console.log(count)
 
 
   //calling count function to count status count of articles 
