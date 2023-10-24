@@ -36,7 +36,8 @@ useEffect(() => {
       if (error) {
         throw error.message
       } else {
-        let data = filterAuthorsByPublication(author_publication,publicationValue)
+        let publicationid = parseInt(publicationValue)
+        let data = filterAuthorsByPublication(author_publication,publicationid)
         setAuthors(data);
       }
     } catch (error) {
