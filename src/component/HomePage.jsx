@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import supabase from '../config/supabase';
-import { filterArticles, filterPublicationsByUserEmail ,formatDate} from './filter.js';
+import { filterArticles, filterPublicationsByUserEmail ,formatDate, countArticlesByStatus} from './filter.js';
 import './HomePage.css';
 
 // Import images from the "./images" directory
@@ -42,7 +42,6 @@ export default function HomePage() {
       if (error) {
         console.error('Error fetching articles:', error);
       } else {
-        console.log(data)
         setArticles(data);
       }
     }
@@ -133,7 +132,8 @@ export default function HomePage() {
 //  let count = countArticlesByStatus(filterArticles)
 //  console.log(count)
 
-  
+  let count = countArticlesByStatus(articles)
+  console.log(count)
 
 
  return (
