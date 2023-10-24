@@ -121,3 +121,12 @@ export function filterItemsByPublicationId(items, publicationIdToFilter) {
   // Use the filter method to filter items based on publicationId
   return items.filter((item) => item.publication_id === publicationIdToFilter);
 }
+
+
+export function filterAuthorsByPublication(data, publicationIdToFilter) {
+  const filteredAuthors = data
+    .filter(item => item.publication.publication_id === publicationIdToFilter)
+    .map(item => item.authors);
+
+  return filteredAuthors;
+}

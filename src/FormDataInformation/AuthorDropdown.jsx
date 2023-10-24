@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import supabase from '../config/supabase';
+import {filterAuthorsByPublication} from "../component/filter"
 
 const customStyles = {
   container: {
@@ -22,23 +23,29 @@ function AuthorDropdown({ onAuthorChange ,authorValue,publicationValue}) {
   const [authors, setAuthors] = useState([]);
   const [selectedAuthor, setSelectedAuthor] = useState('');
 
-  useEffect(() => {
-    async function fetchAuthors() {
-      try {
-        const { data, error } = await supabase.from('authors').select('*');
-        if (error) {
-          throw error;
-        }
-      
-        setAuthors(data);
-      } catch (error) {
-        console.error('Error fetching authors:', error);
-        // Handle error as needed
-      }
-    }
+// author publication
+useEffect(() => {
+  async function fetchData() {
+    try {
+      const { data: author_publication, error } = await supabase
+        .from('author_publication').select(`
+        *,
+        authors(*),
+        publication(*)`);
 
-    fetchAuthors();
-  }, []);
+      if (error) {
+        throw error.message
+      } else {
+        let data = filterAuthorsByPublication(author_publication,publicationValue)
+        setAuthors(data);
+      }
+    } catch (error) {
+      throw error.message
+    }
+  }
+
+  fetchData();
+}, [publicationValue]); 
 
   const handleAuthorChange = (event) => {
     const selectedValue = event.target.value;
