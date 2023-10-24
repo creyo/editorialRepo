@@ -92,7 +92,7 @@ function Updatearticle() {
         const { data: author_publication, error } = await supabase
           .from('author_publication').select(`
           *,
-          author(*),
+          authors(*),
           publication(*)`);
 
         if (error) {
