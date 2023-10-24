@@ -90,8 +90,9 @@ function Updatearticle() {
     async function fetchData() {
       try {
         const { data: author_publication, error } = await supabase
-          .from('author_publication')
-          .select(`author(*),
+          .from('author_publication').select(`
+          *,
+          author(*),
           publication(*)`);
 
         if (error) {
