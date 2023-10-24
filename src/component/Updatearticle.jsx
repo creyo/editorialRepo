@@ -250,7 +250,7 @@ function Updatearticle() {
   }
 
   const handleFeaturedImage = (e) => {
-    setKeywords(e.target.value)
+    setFeaturedImage(e.target.value)
   }
 
   const handleTag = (e) => {

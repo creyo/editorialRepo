@@ -132,8 +132,10 @@ export default function HomePage() {
 //  let count = countArticlesByStatus(filterArticles)
 //  console.log(count)
 
+
+  //calling count function to count status count of articles 
   let count = countArticlesByStatus(articles)
-  console.log(count)
+  
 
 
  return (
