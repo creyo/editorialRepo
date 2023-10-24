@@ -41,6 +41,7 @@ function Updatearticle() {
   const [selectedPostType, setSelectedPostType] = useState(2);
 
   const [update, setUpdated] = useState(true)
+  const [authorPublicationData, setAuthorPublicationData] = useState([]);
 
 
 
@@ -83,6 +84,29 @@ function Updatearticle() {
 
     fetchData();
   }, []);
+
+// author publication
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { data: author_publication, error } = await supabase
+          .from('author_publication')
+          .select('*');
+
+        if (error) {
+          throw error.message
+        } else {
+          setAuthorPublicationData(author_publication);
+        }
+      } catch (error) {
+        throw error.message
+      }
+    }
+
+    fetchData();
+  }, []); 
+
+  console.log(authorPublicationData)
 
   useEffect(() => {
     async function fetchArticleData() {
