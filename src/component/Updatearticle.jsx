@@ -37,8 +37,8 @@ function Updatearticle() {
   // Dropdown 
   const [publicationData, setPublicationData] = useState([]);
   const [postTypeData, setPostTypeData] = useState([]);
-  const [selectedPublication, setSelectedPublication] = useState(1);
-  const [selectedPostType, setSelectedPostType] = useState(1);
+  const [selectedPublication, setSelectedPublication] = useState();
+  const [selectedPostType, setSelectedPostType] = useState();
 
   const [update, setUpdated] = useState(true)
   

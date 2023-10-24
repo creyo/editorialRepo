@@ -486,6 +486,7 @@ function FormPage() {
 
         <div className="flex">
           <p style={{ marginRight: '5rem' }}>Author</p>
+          
           <AuthorDropdown onAuthorChange={handleAuthorChange}  publicationValue={selectedPublication}/>
         </div>
 
