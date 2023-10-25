@@ -75,7 +75,7 @@ export default function HomePage() {
         const jsonObject = JSON.parse(tokenInfo);
         let email = jsonObject.user.email
         // console.log(user_id)
-         console.log(data)
+       //  console.log(data)
         let filterData =  filterPublicationsByUserEmail(data,email)
         if (filterData.length === 0) {
           navigate("/blank");
@@ -131,7 +131,7 @@ export default function HomePage() {
 
 
   //calling count function to count status count of articles 
-  let count = countArticlesByStatus(articles)
+  let count = countArticlesByStatus(filteredArticles)
   
 
 
