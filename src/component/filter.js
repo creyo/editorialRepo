@@ -78,14 +78,15 @@ export function countArticlesByStatus(articles) {
     const statusId = article.articlestatus?.status_id;
 
     switch (statusId) {
-      case 1: // Published
+      case 1: 
         draftCount++
         break;
       case 2: // Review
-        reviewCount++;
+      publishedCount++;
+        
         break;
-      case 3: // Draft
-        publishedCount++;
+      case 3: 
+      reviewCount++;
         break;
       default:
         break;
