@@ -11,7 +11,7 @@ export function filterArticles(articles, selectedPublicationId, selectedPostType
 
     // Calculate the commonData using logical AND
     const commonData = matchesPublication && matchesPostType && matchesStatus;
-    
+
 
     return commonData;
   });
@@ -79,13 +79,13 @@ export function countArticlesByStatus(articles) {
 
     switch (statusId) {
       case 1: // Published
-        publishedCount++;
+        draftCount++
         break;
       case 2: // Review
         reviewCount++;
         break;
       case 3: // Draft
-        draftCount++;
+        publishedCount++;
         break;
       default:
         break;
