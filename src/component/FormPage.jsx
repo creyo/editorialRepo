@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { findPostTypeNameById, filterPublicationsByUserEmail } from "./filter"
 import ReactQuill from 'react-quill';
 import ProfilePopup from './popUp/ProfilePopup';
-
+import Author from './BodyComponent/Author';
 import 'react-quill/dist/quill.snow.css';
 import './FormPage.css'; // Import your CSS file
 import StatusSelection from '../FormDataInformation/StatusSelection';
@@ -264,14 +264,7 @@ function FormPage() {
   };
 
   const saveProfile = (name, bio) => {
-    // const authorInfo = `Author: ${name}<br>Bio: ${bio}`;
-    const authorInfo = `<div class="blog-component-card author-info">
-        <div class="author-name-intro">
-            <h3>${name}</h3>
-            <p>${bio}</p>
-        </div>
-                </div>`
-    console.log(authorInfo)
+     let authorInfo = <Author/>
     setBody((prevBody) => `${prevBody}<br>${authorInfo}`);
   };
 
