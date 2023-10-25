@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import supabase from '../config/supabase';
-import { filterArticles, filterPublicationsByUserEmail ,formatDate, countArticlesByStatus} from './filter.js';
+import { filterArticles, filterPublicationsByUserEmail ,formatDate, countArticlesByStatus,filterArticlesCount} from './filter.js';
 import './HomePage.css';
 
 // Import images from the "./images" directory
@@ -127,11 +127,10 @@ export default function HomePage() {
 
   // Use the filtering function to get filtered articles based on selectedPublicationId and selectedPostTypeId
   const filteredArticles = filterArticles(articles, selectedPublicationId, selectedPostTypeId, selectedStatusId)
-
-   console.log(articles)
+  const forCount = filterArticlesCount(articles, selectedPublicationId, selectedPostTypeId)
 
   //calling count function to count status count of articles 
-  let count = countArticlesByStatus(filteredArticles)
+  let count = countArticlesByStatus(forCount)
   
 
 
