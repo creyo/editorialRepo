@@ -82,11 +82,10 @@ export function countArticlesByStatus(articles) {
         draftCount++
         break;
       case 2: // Review
-      publishedCount++;
-        
+       reviewCount++;
         break;
       case 3: 
-      reviewCount++;
+        publishedCount++;
         break;
       default:
         break;

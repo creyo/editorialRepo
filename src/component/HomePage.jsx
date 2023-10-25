@@ -174,8 +174,8 @@ export default function HomePage() {
         <div className="buttons-others">
           <p className={`all ${selectedStatusId === null ? 'select' : ''}`} onClick={() => setSelectedStatusId(null)}>All({count.all})</p>
           <p className={`draft ${selectedStatusId === 1 ? 'select' : ''}`} onClick={() => setSelectedStatusId(1)}>Draft({count.draft})</p>
-          <p className={`published ${selectedStatusId === 2 ? 'select' : ''}`} onClick={() => setSelectedStatusId(2)}>Published({count.published})</p>
-          <p className={`review ${selectedStatusId === 3 ? 'select' : ''}`} onClick={() => setSelectedStatusId(3)}>Review({count.review})</p>
+          <p className={`published ${selectedStatusId === 3 ? 'select' : ''}`} onClick={() => setSelectedStatusId(2)}>Published({count.published})</p>
+          <p className={`review ${selectedStatusId === 2 ? 'select' : ''}`} onClick={() => setSelectedStatusId(3)}>Review({count.review})</p>
         </div>
         <div className="key">
           <p style={{ color: '#457EFF', fontWeight: 600 }}>
