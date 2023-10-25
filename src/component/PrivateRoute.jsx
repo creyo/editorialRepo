@@ -11,8 +11,6 @@ useEffect (()=>{
    
     if(!login){
         navigate('/login')
-    }else{
-        navigate("/")
     }
 })
 
