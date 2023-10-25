@@ -270,7 +270,7 @@ function FormPage() {
             <h3>${name}</h3>
             <p>${bio}</p>
         </div>
-    </div>`
+   </div>`
     setBody((prevBody) => `${prevBody}<br>${authorInfo}`);
   };
 

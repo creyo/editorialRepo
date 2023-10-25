@@ -10,12 +10,14 @@ import HomePage from './component/HomePage';
 import NoDataFoundPage from './component/ExtraPage/NoDataFoundPage';
 import Logout from './component/Logout';
 
+
+
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
+         { <Route path="/login" element={<Login />} />}
           <Route path="/signup" element={<SignUp />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/" element={<PrivateRoute Component={HomePage} />} />
