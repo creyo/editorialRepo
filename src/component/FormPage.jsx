@@ -278,6 +278,7 @@ function FormPage() {
   };
 
 console.log(authorInfo)
+console.log(body)
 
 
 
