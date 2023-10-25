@@ -1,9 +1,9 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { findPostTypeNameById, filterPublicationsByUserEmail } from "./filter"
 import ReactQuill from 'react-quill';
 import ProfilePopup from './popUp/ProfilePopup';
-import Author from './BodyComponent/Author';
+
 import 'react-quill/dist/quill.snow.css';
 import './FormPage.css'; // Import your CSS file
 import StatusSelection from '../FormDataInformation/StatusSelection';
@@ -16,7 +16,6 @@ import AddProduct from './popUp/AddProduct';
 function FormPage() {
 
   const { publicationId, postTypeId } = useParams();
-  const quillRef = useRef(null);
 
   const [statusId, setStatusId] = useState(1);
   const [typedUrl, setTypedUrl] = useState('');
@@ -265,7 +264,14 @@ function FormPage() {
   };
 
   const saveProfile = (name, bio) => {
-     let authorInfo = <Author/>
+    // const authorInfo = `Author: ${name}<br>Bio: ${bio}`;
+    const authorInfo = `<div class="blog-component-card author-info">
+        <div class="author-name-intro">
+            <h3>${name}</h3>
+            <p>${bio}</p>
+        </div>
+       </div>`
+    console.log(authorInfo)
     setBody((prevBody) => `${prevBody}<br>${authorInfo}`);
   };
 
@@ -317,47 +323,34 @@ function FormPage() {
     handleSubmit(syntheticEvent); // Submit the data
   };
 
-  const handleCustomButton = () => {
-    const authorComponent = '<Author />'; // Modify the content as needed
-    const editor = quillRef.current.getEditor(); // Reference to the Quill editor instance
-    const cursorPosition = editor.getSelection().index; // Get the cursor position
-    editor.insertText(cursorPosition, authorComponent); // Insert the author component at the cursor position
-  };
-  
 
 
 
-  const TextEditorFormats = [
-    'header',
-    'bold',
-    'italic',
-    'underline',
-    'strike',
-    'blockquote',
-    'list',
-    'bullet',
-    'indent',
-    'link',
-    'image',
-  ];
-  
+
   const TextEditorModules = {
     toolbar: [
       [{ 'header': [1, 2, false] }],
       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
       [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
       ['link', 'image'],
-      [{ 'customAuthorButton': 'Insert Author' }],
       ['clean'],
     ],
     clipboard: {
       matchVisual: false,
-    },
-    handlers: {
-      customAuthorButton: handleCustomButton,
+      matchers: [
+        ['div', (node, delta) => {
+          return delta;
+        }],
+      ],
     },
   };
-  
+
+  const TextEditorFormats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image',
+  ];
 
 
 
@@ -541,14 +534,14 @@ function FormPage() {
         )}
 
         <div style={{ width: '1050px' }}>
-        <ReactQuill
-          ref={quillRef}
-          value={body}
-          onChange={handleTextChange}
-          modules={TextEditorModules}
-          formats={TextEditorFormats}
-          style={{ height: '800px', marginBottom: '100px' }}
-        />
+          <ReactQuill
+            value={body}
+            onChange={handleTextChange}
+            placeholder="Enter your text here..."
+            modules={TextEditorModules}
+            formats={TextEditorFormats}
+            style={{ height: '800px', marginBottom: '100px' }}
+          />
         </div>
 
 
