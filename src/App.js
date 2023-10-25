@@ -9,6 +9,7 @@ import Updatearticle from './component/Updatearticle';
 import HomePage from './component/HomePage';
 import NoDataFoundPage from './component/ExtraPage/NoDataFoundPage';
 import Logout from './component/Logout';
+import Trying from './component/Trying';
 
 
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/addarticle/:publicationId/:postTypeId" element={<PrivateRoute Component={FormPage} />} />
           <Route path="/updatearticle/:articleId" element={<PrivateRoute Component={Updatearticle} />} />
           <Route path ="/blank" element = {<NoDataFoundPage/>} />
+          <Route path="/trying" element={<Trying />} />
         </Routes>
       </BrowserRouter>
     </div>
