@@ -49,6 +49,8 @@ function FormPage() {
   const [isProfilePopupOpen, setProfilePopupOpen] = useState(false);
   const [isAddButtonOpen, setIsAddButtonOpen] = useState(false);
 
+  const [authorInfo,setAuthorInfo] = useState("")
+
 
 
 
@@ -272,8 +274,10 @@ function FormPage() {
         </div>
                 </div>`
     setBody((prevBody) => `${prevBody}<br>${authorInfo}`);
+    setAuthorInfo(authorInfo)
   };
 
+console.log(authorInfo)
 
 
 
@@ -529,6 +533,7 @@ function FormPage() {
             
             style={{ height: '800px', marginBottom: '100px' }}
           />
+          <div dangerouslySetInnerHTML={{ __html: authorInfo }}></div>
         </div>
 
 
