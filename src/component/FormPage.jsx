@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { findPostTypeNameById, filterPublicationsByUserEmail } from "./filter"
+import { findPostTypeNameById,filterPublicationsByUserEmail } from "./filter"
 import ReactQuill from 'react-quill';
 import ProfilePopup from './popUp/ProfilePopup';
 
@@ -62,17 +62,17 @@ function FormPage() {
           *,
           user(*),
           publication(*)`
-      );
-      if (error) {
-        throw error;
-      }
+        );
+        if (error) {
+          throw error;
+        }
 
-      let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
-      const jsonObject = JSON.parse(tokenInfo);
-      let email = jsonObject.user.email
-
-      let filterData = filterPublicationsByUserEmail(data, email)
-      setPublicationData(filterData);
+        let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
+        const jsonObject = JSON.parse(tokenInfo);
+        let email = jsonObject.user.email
+       
+        let filterData =  filterPublicationsByUserEmail(data,email)   
+        setPublicationData(filterData);
 
       // Fetch data from the 'post_type' table
       const { data: postTypeData, error: postTypeError } = await supabase
@@ -265,13 +265,12 @@ function FormPage() {
 
   const saveProfile = (name, bio) => {
     // const authorInfo = `Author: ${name}<br>Bio: ${bio}`;
-    const authorInfo = `<div class="blog-component-card author-info">
+    const authorInfo =  `<div class="blog-component-card author-info">
         <div class="author-name-intro">
             <h3>${name}</h3>
             <p>${bio}</p>
         </div>
-       </div>`
-    console.log(authorInfo)
+                </div>`
     setBody((prevBody) => `${prevBody}<br>${authorInfo}`);
   };
 
@@ -337,20 +336,10 @@ function FormPage() {
     ],
     clipboard: {
       matchVisual: false,
-      matchers: [
-        ['div', (node, delta) => {
-          return delta;
-        }],
-      ],
     },
   };
 
-  const TextEditorFormats = [
-    'header',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'list', 'bullet', 'indent',
-    'link', 'image',
-  ];
+ 
 
 
 
@@ -492,8 +481,8 @@ function FormPage() {
 
         <div className="flex">
           <p style={{ marginRight: '5rem' }}>Author</p>
-
-          <AuthorDropdown onAuthorChange={handleAuthorChange} publicationValue={selectedPublication} />
+          
+          <AuthorDropdown onAuthorChange={handleAuthorChange}  publicationValue={selectedPublication}/>
         </div>
 
         <div className="flex">
@@ -539,7 +528,7 @@ function FormPage() {
             onChange={handleTextChange}
             placeholder="Enter your text here..."
             modules={TextEditorModules}
-            formats={TextEditorFormats}
+            
             style={{ height: '800px', marginBottom: '100px' }}
           />
         </div>
