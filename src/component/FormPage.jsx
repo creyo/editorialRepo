@@ -125,7 +125,7 @@ function FormPage() {
         status: statusId,
         publication_id: selectedPublication,
         post_type: selectedPostType,
-        url: category_url + '/' + typedUrl,
+        url:  typedUrl,
         seo_score: seoScore,
         seo_title: seoTitle,
         seo_description: seoDescription,
