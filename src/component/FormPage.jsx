@@ -69,7 +69,7 @@ function FormPage() {
           throw error;
         }
 
-        let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
+        let tokenInfo = localStorage.getItem("sb-czlpeqcpksfalvtmrulq-auth-token")
         const jsonObject = JSON.parse(tokenInfo);
         let email = jsonObject.user.email
        
@@ -93,7 +93,7 @@ function FormPage() {
 
 
 
-  let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
+  let tokenInfo = localStorage.getItem("sb-czlpeqcpksfalvtmrulq-auth-token")
   const jsonObject = JSON.parse(tokenInfo);
   let userId = jsonObject.user.id
 
