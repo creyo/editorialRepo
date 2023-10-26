@@ -109,11 +109,7 @@ function Updatearticle() {
 
         // Populate the form fields with the fetched data
         setStatusId(data.articlestatus.status_id);
-        if (data.url) {
-          let inputText = data.url
-          const result = inputText.replace(/^[^/]*\//, "")
-          setTypedUrl(result);
-        }
+        setTypedUrl(data.url);       
         setSeoScore(data.seo_score);
         setCategory_id(data.categories.category_id);
         setCategory_url(data.categories.url);
