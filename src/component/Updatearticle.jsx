@@ -386,6 +386,20 @@ function Updatearticle() {
           Add {findPostTypeNameById(postTypeData, parseInt(selectedPostType))}
         </Link>
         <img src="/images/plus.svg" alt="" />
+                <form action="" >
+          <div className="button-div">
+            <button className="button-light btn" type="button" onClick={resetForm}>
+              Delete
+            </button>
+            <button
+              className={`${update ? 'button-blue'  : 'button-grey'}`}
+              type="submit"
+              onClick={handleSubmit}
+            >
+              Save
+            </button>
+          </div>
+        </form>
       </div>
       <div className="form-card">
         <div className="flex gap-between">
@@ -525,20 +539,7 @@ function Updatearticle() {
           />
         </div>
 
-        <form action="" >
-          <div className="button-div">
-            <button className="button-light btn" type="button" onClick={resetForm}>
-              Delete
-            </button>
-            <button
-              className={`${update ? 'button-blue'  : 'button-grey'}`}
-              type="submit"
-              onClick={handleSubmit}
-            >
-              Save
-            </button>
-          </div>
-        </form>
+
       </div>
     </div>
   );
