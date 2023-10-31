@@ -1,0 +1,154 @@
+/* Your existing CSS */
+.settings-container {
+	text-align: center;
+	margin: 20px;
+	padding: 20px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+  }
+  
+  button {
+	padding: 10px 20px; /* Increase padding for height and width */
+	font-size: 20px; /* Increase font size */
+	border: none;
+	cursor: pointer;
+  }
+  
+  .enabled {
+	background-color:  #457EFF;
+	color: white;
+  }
+  
+  .disabled {
+	background-color: red;
+	color: white;
+  }
+  
+  /* Your existing CSS for the switch */
+  .switch {
+	position: relative;
+	display: inline-block;
+	width: 100px;
+	height: 50px;
+  }
+  
+  /* Rest of your existing CSS for the switch */
+  
+  .switch input {
+	display: none;
+  }
+  
+  .slider {
+	position: absolute;
+	cursor: pointer;
+	top: 5px;
+	left: 5px;
+	right: 5px;
+	bottom: 5px;
+	background-color: #ccc;
+	-webkit-transition: 0.4s;
+	transition: 0.4s;
+	border-radius: 34px;
+  }
+  
+  .slider:before {
+	position: absolute;
+	content: "";
+	height: 30px;
+	width: 30px;
+	left: 5px;
+	bottom: 5px;
+	background-color: white;
+	-webkit-transition: 0.4s;
+	transition: 0.2s;
+	border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+	background-color:  #457EFF;
+  }
+  
+  input:checked + .slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+  }
+  
+ 
+
+
+  /* CSS for the Popup */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* Ensure it's above other content */
+    visibility: hidden; /* Initially hidden */
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s linear;
+  }
+  
+  .popup.open {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s linear;
+  }
+  
+  .popup-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    text-align: center;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #fffdfd;
+  }
+  
+  h2 {
+    margin: 0 0 20px;
+  }
+  
+  label {
+    display: block;
+    margin: 10px 0;
+  }
+  
+  input[type="text"],
+  textarea {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+    margin-top: 5px;
+  }
+  
+  button {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: #0056b3;
+  }

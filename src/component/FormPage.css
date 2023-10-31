@@ -180,5 +180,23 @@
 
 .open-profile-button:hover {
   background: #0056b3;
+  
 }
 
+/* Add this CSS to your FormPage.css */
+.tick-icon {
+  font-size: 40px;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+
+.formPage {
+    margin-left: 45rem;
+    margin-right: auto;
+  }
+
+
+  .selectors button{
+    margin-left: 25rem;
+  }

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { findPostTypeNameById,filterPublicationsByUserEmail } from "./filter"
+import { findPostTypeNameById, filterPublicationsByUserEmail } from "./filter"
 import ReactQuill from 'react-quill';
 import ProfilePopup from './popUp/ProfilePopup';
+import { selectValue} from "./configuration"
+
 
 import 'react-quill/dist/quill.snow.css';
 import './FormPage.css'; // Import your CSS file
@@ -11,12 +13,12 @@ import CategoryDropdown from '../FormDataInformation/CategoryDropDown';
 import AuthorDropdown from '../FormDataInformation/AuthorDropdown';
 import supabase from '../config/supabase'; // Import the Supabase instance
 import AddProduct from './popUp/AddProduct';
+import SwitchButtons from './Button/SwitchButtons';
 
 
 function FormPage() {
 
   const { publicationId, postTypeId } = useParams();
-
   const [statusId, setStatusId] = useState(1);
   const [typedUrl, setTypedUrl] = useState('');
   const [seoScore, setSeoScore] = useState(0);
@@ -49,8 +51,35 @@ function FormPage() {
   const [isProfilePopupOpen, setProfilePopupOpen] = useState(false);
   const [isAddButtonOpen, setIsAddButtonOpen] = useState(false);
 
-  const [authorInfo,setAuthorInfo] = useState("")
+  const [authorInfo, setAuthorInfo] = useState("")
+const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+  const [settings, setSettings] = useState({
+    category: false,
+    seo: false,
+    seoTitle: false,
+    seoBody: false,
+    tag: false,
+    keyword: false,
+    featuredImage: false,
+    author: false,
+    subTitle: false,
+    note: false,
+  });
+
+  console.log(settings)
+  const closePopup = () => {
+    setIsPopupOpen(false)
+  };
+
+  const openPopUp = () => {
+    setIsPopupOpen((prevIsPopupOpen) => !prevIsPopupOpen);
+  };
+
+
+  const updateSettings = (newSettings) => {
+    setSettings(newSettings);
+  };
 
 
 
@@ -64,17 +93,17 @@ function FormPage() {
           *,
           user(*),
           publication(*)`
-        );
-        if (error) {
-          throw error;
-        }
+      );
+      if (error) {
+        throw error;
+      }
 
-        let tokenInfo = localStorage.getItem("sb-czlpeqcpksfalvtmrulq-auth-token")
-        const jsonObject = JSON.parse(tokenInfo);
-        let email = jsonObject.user.email
-       
-        let filterData =  filterPublicationsByUserEmail(data,email)   
-        setPublicationData(filterData);
+      let tokenInfo = localStorage.getItem("sb-czlpeqcpksfalvtmrulq-auth-token")
+      const jsonObject = JSON.parse(tokenInfo);
+      let email = jsonObject.user.email
+
+      let filterData = filterPublicationsByUserEmail(data, email)
+      setPublicationData(filterData);
 
       // Fetch data from the 'post_type' table
       const { data: postTypeData, error: postTypeError } = await supabase
@@ -91,7 +120,7 @@ function FormPage() {
     fetchData();
   }, []);
 
-
+  console.log(publicationData)
 
   let tokenInfo = localStorage.getItem("sb-czlpeqcpksfalvtmrulq-auth-token")
   const jsonObject = JSON.parse(tokenInfo);
@@ -102,7 +131,9 @@ function FormPage() {
   useEffect(() => {
     async function fetchHighestArticleId() {
       // Fetch data from the 'articles' table to find the highest article_id
-      const { data, error } = await supabase.from('articles').select('*').order('article_id', { ascending: false }).limit(1);
+      const { data, error } = await supabase.from('articles')
+        // .select('*').order('article_id', { ascending: false }).limit(1);
+        .select('*').order('article_id', { ascending: false }).limit(1);
 
       if (error) {
         throw error
@@ -125,7 +156,7 @@ function FormPage() {
         status: statusId,
         publication_id: selectedPublication,
         post_type: selectedPostType,
-        url: category_url + '/' + typedUrl,
+        url: typedUrl,
         seo_score: seoScore,
         seo_title: seoTitle,
         seo_description: seoDescription,
@@ -245,10 +276,14 @@ function FormPage() {
     setSubmit(false)
   }
 
-  const handleTitle = (e) => {
-    setTitle(e.target.value)
+  const handleTitleChange = (e) => {
+    let title = e.target.value
+    setTitle(title)
     setSubmit(false)
   }
+
+
+
 
   const handleNote = (e) => {
     setNote(e.target.value)
@@ -267,7 +302,7 @@ function FormPage() {
 
   const saveProfile = (name, bio) => {
     // const authorInfo = `Author: ${name}<br>Bio: ${bio}`;
-    const authorInfo =  `<div class="blog-component-card author-info">
+    const authorInfo = `<div class="blog-component-card author-info">
         <div class="author-name-intro">
             <h3>${name}</h3>
             <p>${bio}</p>
@@ -277,8 +312,8 @@ function FormPage() {
     setAuthorInfo(authorInfo)
   };
 
-console.log(authorInfo)
-console.log(body)
+  console.log(authorInfo)
+  console.log(body)
 
 
 
@@ -342,8 +377,28 @@ console.log(body)
       matchVisual: false,
     },
   };
- 
 
+
+  console.log(selectedPublication)
+
+
+  const renderValidationTick = (length) => {
+    const validationColor = selectValue(length, selectedPublication);
+    if (validationColor === 'green') {
+      return (
+        <span className="tick-icon" style={{ color: 'green' }}>
+          ✓
+        </span>
+      );
+    } else if (validationColor === 'red') {
+      return (
+        <span className="tick-icon" style={{ color: 'red' }}>
+          ❌
+        </span>
+      );
+    }
+    return null;
+  };
 
 
   return (
@@ -382,8 +437,16 @@ console.log(body)
             </option>
           ))}
         </select>
+        <button onClick={openPopUp}>  {isPopupOpen ? "Close Setting" : "Setting"}</button>
       </div>
 
+      {isPopupOpen &&
+        <SwitchButtons
+          closePopup={closePopup}
+          currentSettings={settings}
+          updateSettings={updateSettings}
+        />
+      }
       <div className="flex" style={{ margin: '1rem 0' }}>
         {/* back button will on home page */}
         <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>
@@ -402,10 +465,10 @@ console.log(body)
           </div>
         </div>
 
-        <div className="flex">
+        {settings.category && <div className="flex">
           <p style={{ marginRight: '1rem' }}>Category</p>
           <CategoryDropdown onCategoryChange={handleCategoryChange} publicationValue={selectedPublication} />
-        </div>
+        </div>}
         <div className="flex">
           <p style={{ marginRight: '1rem' }}>URL</p>
           <div className="url-section">
@@ -421,7 +484,7 @@ console.log(body)
           </div>
         </div>
 
-        <div className="flex">
+        {settings.seo && <div className="flex">
           <p style={{ marginRight: '5rem' }}>SEO Score</p>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <input
@@ -431,21 +494,22 @@ console.log(body)
               onChange={handleSeoScore} // onChange for seoScore
               min="0"
               max="100"
+
             />
             <p>%</p>
           </div>
-        </div>
+        </div>}
 
-        <div className="flex">
+        {settings.seoTitle && <div className="flex">
           <input
             type="text"
             placeholder="Enter SEO Title"
             value={seoTitle}
             onChange={handleSeoTitle} // onChange for seoTitle
           />
-        </div>
+        </div>}
 
-        <div className="flex">
+        {settings.seoBody && <div className="flex">
           <textarea
             placeholder="Enter SEO Description"
             value={seoDescription}
@@ -453,40 +517,40 @@ console.log(body)
             rows="4"
             cols="10"
           />
-        </div>
+        </div>}
 
-        <div className="flex">
+        {settings.tag && <div className="flex">
           <input
             type="text"
             placeholder="Tag"
             value={tag}
             onChange={handleTag} // onChange for tag
           />
-        </div>
+        </div>}
 
-        <div className="flex">
+        {settings.keyword && <div className="flex">
           <input
             type="text"
             placeholder="Keywords"
             value={keywords}
             onChange={handleKeywords} // onChange for keywords
           />
-        </div>
+        </div>}
 
-        <div className="flex">
+        {settings.featuredImage && <div className="flex">
           <input
             type="text"
             placeholder="Featured Image"
             value={featuredImage}
             onChange={handleFeatureImage} // onChange for featuredImage
           />
-        </div>
+        </div>}
 
-        <div className="flex">
+        {settings.author && <div className="flex">
           <p style={{ marginRight: '5rem' }}>Author</p>
-          
-          <AuthorDropdown onAuthorChange={handleAuthorChange}  publicationValue={selectedPublication}/>
-        </div>
+
+          <AuthorDropdown onAuthorChange={handleAuthorChange} publicationValue={selectedPublication} />
+        </div>}
 
         <div className="flex">
           <p style={{ marginRight: '5rem' }}>Date</p>
@@ -499,15 +563,16 @@ console.log(body)
           />
         </div>
 
-        <div className="flex">
+        <div>
           <input
             type="text"
             placeholder="Title"
             value={title}
-            onChange={handleTitle} // onChange for title
-            rows="20"
-            cols=""
-          />
+            onChange={handleTitleChange}
+            min={40}
+            max={60} />
+          <span >{title.length}/60</span>
+          {renderValidationTick(title.length)}
         </div>
 
         <button onClick={openProfilePopup} className="open-profile-button">Add Author</button>
@@ -531,21 +596,21 @@ console.log(body)
             onChange={handleTextChange}
             placeholder="Enter your text here..."
             modules={TextEditorModules}
-            
+
             style={{ height: '800px', marginBottom: '100px' }}
           />
           <div dangerouslySetInnerHTML={{ __html: authorInfo }}></div>
         </div>
 
 
-        <div className="flex">
+        {settings.note && <div className="flex">
           <textarea
             placeholder="Note"
             value={note}
             onChange={handleNote} // onChange for note
             rows="4"
           />
-        </div>
+        </div>}
 
         <form action="" >
           <div className="button-div">

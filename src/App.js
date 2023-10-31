@@ -9,6 +9,7 @@ import Updatearticle from './component/Updatearticle';
 import HomePage from './component/HomePage';
 import NoDataFoundPage from './component/ExtraPage/NoDataFoundPage';
 import Logout from './component/Logout';
+import SwitchButtons from './component/Button/SwitchButtons';
 
 
 
@@ -18,6 +19,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           {<Route path="/login" element={<Login />} />}
+       
+          <Route path ="/setting" element= {<SwitchButtons />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/" element={<PrivateRoute Component={HomePage} />} />

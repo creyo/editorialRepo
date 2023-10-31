@@ -8,11 +8,11 @@ import './HomePage.css';
 import plusImage from './images/plus.svg';
 import keyImage from './images/key.svg';
 import chit from "./images/chit.svg"
+import PostTypeButton from './Button/PostTypeButton';
 
 export default function HomePage() {
   const navigate = useNavigate()
   const [articles, setArticles] = useState([]);
-  const [postTypes, setPostTypes] = useState([]);
   const [publications, setPublications] = useState([]);
   const [selectedPostType, setSelectedPostType] = useState('');
   const [selectedPublication, setSelectedPublication] = useState('');
@@ -37,7 +37,7 @@ export default function HomePage() {
         post_type(*),
         publication(*)
         
-      `);
+      `)
 
       if (error) {
         console.error('Error fetching articles:', error);
@@ -47,18 +47,7 @@ export default function HomePage() {
     }
 
 
-    async function fetchPostTypes() {
-      try {
-        const { data, error } = await supabase.from('post_type').select('*');
-        if (error) {
-          throw error;
-        }
-
-        setPostTypes(data);
-      } catch (error) {
-        console.error('Error fetching post_type:', error);
-      }
-    }
+  
 
     async function fetchPublications() {
       try {
@@ -88,27 +77,19 @@ export default function HomePage() {
     }
 
     fetchArticles();
-    fetchPostTypes();
+  
     fetchPublications();
   }, [navigate]);
 
-  const handlePostTypeChange = (event) => {
-    const selectedValue = event.target.value;
-    setSelectedPostType(selectedValue);
-
-    const selectedPostTypeObject = postTypes.find(
-      (postType) => postType?.type_name === selectedValue
-    );
-
-    if (selectedPostTypeObject) {
-      const postTypeId = selectedPostTypeObject?.post_type_id;
-      setSelectedPostTypeId(postTypeId);
-    }
+ 
+  const handleButtonClick = (id, value) => {
+    setSelectedPostTypeId(id);
+    setSelectedPostType(value);
+    // Handle other logic as needed
   };
 
 
-
-
+console.log(selectedPostType,selectedPostTypeId)
 
 
   const handlePublicationChange = (event) => {
@@ -151,24 +132,9 @@ export default function HomePage() {
           ))}
         </select>
 
-        <select
-          name=""
-          id=""
-          onChange={handlePostTypeChange}
-          value={selectedPostType}
-        >
+        <PostTypeButton onChangeValue={handleButtonClick} />
 
-
-          {postTypes.map((postType) => (
-            <option key={postType.post_type_id} value={postType.type_name}>
-              {postType.type_name}
-            </option>
-          ))}
-
-        </select>
-      </div>
-
-
+</div>
 
       <div className="top-card">
         <div className="buttons-others">

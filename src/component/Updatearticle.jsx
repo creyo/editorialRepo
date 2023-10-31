@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { findPostTypeNameById ,filterPublicationsByUserEmail } from "./filter"
+import { findPostTypeNameById, filterPublicationsByUserEmail } from "./filter"
 import supabase from '../config/supabase';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -41,7 +41,7 @@ function Updatearticle() {
   const [selectedPostType, setSelectedPostType] = useState();
 
   const [update, setUpdated] = useState(true)
-  
+
   const { articleId } = useParams();
 
 
@@ -50,22 +50,22 @@ function Updatearticle() {
 
   useEffect(() => {
     async function fetchData() {
-     // Fetch data from the 'publication' table
-     const { data, error } = await supabase.from('user_publication').select(`
+      // Fetch data from the 'publication' table
+      const { data, error } = await supabase.from('user_publication').select(`
      *,
      user(*),
      publication(*)`
-   );
-   if (error) {
-     throw error;
-   }
+      );
+      if (error) {
+        throw error;
+      }
 
-   let tokenInfo = localStorage.getItem("sb-czlpeqcpksfalvtmrulq-auth-token")
-   const jsonObject = JSON.parse(tokenInfo);
-   let email = jsonObject.user.email
-  
-   let filterData =  filterPublicationsByUserEmail(data,email)   
-   setPublicationData(filterData);
+      let tokenInfo = localStorage.getItem("sb-czlpeqcpksfalvtmrulq-auth-token")
+      const jsonObject = JSON.parse(tokenInfo);
+      let email = jsonObject.user.email
+
+      let filterData = filterPublicationsByUserEmail(data, email)
+      setPublicationData(filterData);
 
       // Fetch data from the 'post_type' table
       const { data: postTypeData, error: postTypeError } = await supabase
@@ -109,11 +109,7 @@ function Updatearticle() {
 
         // Populate the form fields with the fetched data
         setStatusId(data.articlestatus.status_id);
-        if (data.url) {
-          let inputText = data.url
-          const result = inputText.replace(/^[^/]*\//, "")
-          setTypedUrl(result);
-        }
+        setTypedUrl(data.url);
         setSeoScore(data.seo_score);
         setCategory_id(data.categories.category_id);
         setCategory_url(data.categories.url);
@@ -197,7 +193,7 @@ function Updatearticle() {
         status: statusId,
         publication_id: selectedPublication,
         post_type: selectedPostType,
-        url: category_url + '/' + typedUrl,
+        url:  typedUrl,
         seo_score: seoScore,
         seo_title: seoTitle,
         seo_description: seoDescription,
@@ -390,6 +386,22 @@ function Updatearticle() {
           Add {findPostTypeNameById(postTypeData, parseInt(selectedPostType))}
         </Link>
         <img src="/images/plus.svg" alt="" />
+        <div className='formPage'>
+        <form action="" >
+          <div className="button-div">
+            <button className="button-light btn" type="button" onClick={resetForm}>
+              Delete
+            </button>
+            <button
+              className={`${update ? 'button-blue' : 'button-grey'}`}
+              type="submit"
+              onClick={handleSubmit}
+            >
+              Save
+            </button>
+          </div>
+        </form>
+        </div>
       </div>
       <div className="form-card">
         <div className="flex gap-between">
@@ -486,7 +498,7 @@ function Updatearticle() {
 
         <div className="flex">
           <p style={{ marginRight: '5rem' }}>Author</p>
-          <AuthorDropdown onAuthorChange={handleAuthorChange} authorValue={authorValue}  publicationValue={selectedPublication} required />
+          <AuthorDropdown onAuthorChange={handleAuthorChange} authorValue={authorValue} publicationValue={selectedPublication} required />
         </div>
 
         <div className="flex">
@@ -529,20 +541,7 @@ function Updatearticle() {
           />
         </div>
 
-        <form action="" >
-          <div className="button-div">
-            <button className="button-light btn" type="button" onClick={resetForm}>
-              Delete
-            </button>
-            <button
-              className={`${update ? 'button-blue'  : 'button-grey'}`}
-              type="submit"
-              onClick={handleSubmit}
-            >
-              Save
-            </button>
-          </div>
-        </form>
+        
       </div>
     </div>
   );
