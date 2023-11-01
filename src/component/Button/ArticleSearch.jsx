@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 const ArticleSearch = ({ articles, onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -10,10 +11,11 @@ const ArticleSearch = ({ articles, onSearch }) => {
   };
 
   return (
-    <div>
+    <div className="article-search-container">
       <input
         type="text"
         placeholder="Search by title..."
+        className="article-search-input"
         value={searchQuery}
         onChange={handleSearch}
       />
