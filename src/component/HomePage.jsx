@@ -139,7 +139,7 @@ export default function HomePage() {
   const handleSearch = (query) => {
     // Use the query to filter the articles
     const searching = articles.filter((article) =>
-      new RegExp(`^${query}`, 'i').test(article.title)
+    new RegExp(`\\b${query}`, 'i').test(article.title)
     );
 
     setFinalData(searching)
