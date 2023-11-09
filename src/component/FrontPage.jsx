@@ -424,7 +424,7 @@ function FrontPage() {
                             onClick={toggleCheckbox}
                         />
                         <img
-                            src={trash}
+                            src={trash}  
                             alt="Click to open confirmation"
                             onClick={() => setIsConfirmationOpen(true)}
                         />

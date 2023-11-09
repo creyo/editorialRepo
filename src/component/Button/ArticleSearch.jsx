@@ -18,7 +18,7 @@ const ArticleSearch = ({ articles, onSearch }) => {
        value={searchQuery}
         onChange={handleSearch}>
           </input>
-    </div>
+    </div>  
 
 
   );

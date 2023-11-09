@@ -64,7 +64,7 @@ function FormPage() {
   //   featuredImage: false,
   //   author: false,
   //   subTitle: false,
-  //   note: false,
+  //   note: false,  
   // });
 
   const settings = useSelector((state) => state.settings);
@@ -179,7 +179,6 @@ function FormPage() {
   };
 
 
-  console.log(selectedPostType)
 
   const handleStatusChange = (selectedStatusId) => {
     setStatusId(selectedStatusId);
@@ -313,7 +312,7 @@ function FormPage() {
     
   };
 
-console.log(selectedPostType)
+
   //function to reset after click on add page 
   const resetForm = () => {
     setStatusId(1);
@@ -380,7 +379,7 @@ console.log(selectedPostType)
   };
 
 
-
+  console.log(selectedPublication)
 
 
   const renderValidationTick = (length) => {
@@ -400,8 +399,6 @@ console.log(selectedPostType)
     }
     return null;
   };
-
-
 
 
 

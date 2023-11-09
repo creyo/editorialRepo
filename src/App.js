@@ -6,7 +6,7 @@ import Login from './component/Login';
 import SignUp from './component/SignUp';
 import FormPage from './component/FormPage';
 import Updatearticle from './component/Updatearticle';
-import HomePage from './component/HomePage';
+
 import NoDataFoundPage from './component/ExtraPage/NoDataFoundPage';
 import Logout from './component/Logout';
 import FrontPage from './component/FrontPage';
@@ -27,7 +27,7 @@ function App() {
           <Route path="/updatearticle/:articleId" element={<PrivateRoute Component={Updatearticle} />} />
           <Route path="/blank" element={<NoDataFoundPage />} />
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter>  
     </div>
   );
 }
