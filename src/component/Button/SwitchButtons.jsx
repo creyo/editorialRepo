@@ -1,25 +1,24 @@
-import React, { useState } from 'react';
-import "./SettingsPage.css"
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateSettings } from '../../Reducers/SettingReducer';
+import './SettingsPage.css';
 
 const SwitchButtons = (props) => {
-  // Use the parent's fields state as initial state
-  const [fields, setFields] = useState(props.currentSettings);
+  const dispatch = useDispatch();
+  const fields = useSelector((state) => state.settings);
+  console.log(fields)
 
   const handleToggle = (field) => {
-    // Update the local state and use a callback to call props.updateSettings
-    setFields((prevFields) => {
-      const updatedFields = {
-        ...prevFields,
-        [field]: !prevFields[field],
-      };
-      // Call the function from the parent component to update the parent's state
-      props.updateSettings(updatedFields);
-      return updatedFields; // Return the updated state
-    });
+    const updatedFields = {
+      ...fields,
+      [field]: !fields[field],
+    };
+    console.log(field)
+    dispatch(updateSettings(updatedFields));
   };
 
   const handleSave = () => {
-    // Call the function from the parent component to close the popup
+    
     props.closePopup();
   };
 

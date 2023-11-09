@@ -8,6 +8,7 @@ import StatusSelection from '../FormDataInformation/StatusSelection';
 import CategoryDropdown from '../FormDataInformation/CategoryDropDown';
 import AuthorDropdown from '../FormDataInformation/AuthorDropdown';
 import { Link } from 'react-router-dom';
+import PostTypeButton from './Button/PostTypeButton';
 
 import './FormPage.css'; // Import your CSS file
 
@@ -163,10 +164,7 @@ function Updatearticle() {
     setUpdated(true)
   };
 
-  const handlePostTypeChange = (event) => {
-    setSelectedPostType(event.target.value);
-    setUpdated(true)
-  };
+
 
   const handleCategoryChange = (selectedCategoryInfo) => {
     setCategory_id(selectedCategoryInfo.category_id);
@@ -290,6 +288,11 @@ function Updatearticle() {
   }
 
 
+  const handleButtonClick = (id, value) => {
+    setSelectedPostType(id);
+  
+  };
+
 
 
 
@@ -364,21 +367,7 @@ function Updatearticle() {
           ))}
         </select>
 
-        <select
-          name="postTypeDropdown"
-          id="postTypeDropdown"
-          onChange={handlePostTypeChange}
-          value={selectedPostType}
-        >
-          {postTypeData.map((postType) => (
-            <option
-              key={postType.post_type_id}
-              value={postType.post_type_id}
-            >
-              {postType.type_name}
-            </option>
-          ))}
-        </select>
+        <PostTypeButton onChangeValue={handleButtonClick} formValue={selectedPostType}/>
       </div>
       <div className="flex" style={{ margin: '1rem 0' }}>
         <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>

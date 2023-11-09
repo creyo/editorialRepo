@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom';
 import { findPostTypeNameById, filterPublicationsByUserEmail } from "./filter"
 import ReactQuill from 'react-quill';
 import ProfilePopup from './popUp/ProfilePopup';
-import { selectValue} from "./configuration"
-
-
+import { selectValue } from "./configuration"
+import { useSelector } from 'react-redux';
+import PostTypeButton from './Button/PostTypeButton';
 import 'react-quill/dist/quill.snow.css';
 import './FormPage.css'; // Import your CSS file
 import StatusSelection from '../FormDataInformation/StatusSelection';
@@ -13,7 +13,7 @@ import CategoryDropdown from '../FormDataInformation/CategoryDropDown';
 import AuthorDropdown from '../FormDataInformation/AuthorDropdown';
 import supabase from '../config/supabase'; // Import the Supabase instance
 import AddProduct from './popUp/AddProduct';
-import SwitchButtons from './Button/SwitchButtons';
+
 
 
 function FormPage() {
@@ -52,40 +52,24 @@ function FormPage() {
   const [isAddButtonOpen, setIsAddButtonOpen] = useState(false);
 
   const [authorInfo, setAuthorInfo] = useState("")
-const [isPopupOpen, setIsPopupOpen] = useState(false);
+  
 
-  const [settings, setSettings] = useState({
-    category: false,
-    seo: false,
-    seoTitle: false,
-    seoBody: false,
-    tag: false,
-    keyword: false,
-    featuredImage: false,
-    author: false,
-    subTitle: false,
-    note: false,
-  });
+  // const [settings, setSettings] = useState({
+  //   category: false,
+  //   seo: false,
+  //   seoTitle: false,
+  //   seoBody: false,
+  //   tag: false,
+  //   keyword: false,
+  //   featuredImage: false,
+  //   author: false,
+  //   subTitle: false,
+  //   note: false,
+  // });
 
-  console.log(settings)
-  const closePopup = () => {
-    setIsPopupOpen(false)
-  };
+  const settings = useSelector((state) => state.settings);
 
-  const openPopUp = () => {
-    setIsPopupOpen((prevIsPopupOpen) => !prevIsPopupOpen);
-  };
-
-
-  const updateSettings = (newSettings) => {
-    setSettings(newSettings);
-  };
-
-
-
-
-
-
+  
   useEffect(() => {
     async function fetchData() {
       // Fetch data from the 'publication' table
@@ -149,26 +133,24 @@ const [isPopupOpen, setIsPopupOpen] = useState(false);
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-
-
     try {
       const newArticle = {
-        status: statusId,
-        publication_id: selectedPublication,
-        post_type: selectedPostType,
-        url: typedUrl,
-        seo_score: seoScore,
-        seo_title: seoTitle,
-        seo_description: seoDescription,
-        tag,
-        keyword: keywords,
-        featured_image: featuredImage,
-        author_id: authorId,
-        category_id: category_id,
-        date,
-        title,
-        body,
-        user_id: userId
+        status: statusId || null,
+        publication_id: selectedPublication || null,
+        post_type: selectedPostType || null,
+        url: typedUrl ,
+        seo_score: seoScore || null,
+        seo_title: seoTitle || null,
+        seo_description: seoDescription || null,
+        tag: tag || null,
+        keyword: keywords || null,
+        featured_image: featuredImage || null,
+        author_id: authorId || null,
+        category_id: category_id || null,
+        date: date ,
+        title: title ,
+        body: body ,
+        user_id: userId ,
       };
 
       if (isUpdating) {
@@ -181,27 +163,23 @@ const [isPopupOpen, setIsPopupOpen] = useState(false);
         if (error) {
           throw error;
         }
-
-
       } else {
         // Create a new article
         const { error } = await supabase.from('articles').upsert([newArticle]);
 
         if (error) {
-
           throw error;
         }
-        setIsUpdating(true)
+        setIsUpdating(true);
         setSubmit(true);
-
       }
-
     } catch (error) {
-      throw error
+      alert("fields can not be empty")
     }
   };
 
 
+  console.log(selectedPostType)
 
   const handleStatusChange = (selectedStatusId) => {
     setStatusId(selectedStatusId);
@@ -213,10 +191,7 @@ const [isPopupOpen, setIsPopupOpen] = useState(false);
     setSubmit(false)
   };
 
-  const handlePostTypeChange = (event) => {
-    setSelectedPostType(event.target.value);
-    setSubmit(false)
-  };
+
 
   const handleCategoryChange = (selectedCategoryInfo) => {
     setCategory_id(selectedCategoryInfo.category_id);
@@ -333,7 +308,12 @@ const [isPopupOpen, setIsPopupOpen] = useState(false);
     closeAddProduct();
   };
 
+  const handleButtonClick = (id, value) => {
+    setSelectedPostType(id);
+    
+  };
 
+console.log(selectedPostType)
   //function to reset after click on add page 
   const resetForm = () => {
     setStatusId(1);
@@ -346,7 +326,7 @@ const [isPopupOpen, setIsPopupOpen] = useState(false);
     setTag('');
     setKeywords('');
     setFeaturedImage('');
-    setAuthorId(0);
+    setAuthorId(1);
     setDate('');
     setTitle('');
     setBody('');
@@ -355,12 +335,33 @@ const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   // Add Page button click handler
   const handleAddPage = () => {
-    setIsUpdating(!isUpdating); // Toggle isUpdating directly
-    setHighestArticleId(highestarticleid + 1)
-    resetForm(); // Reset the form
-    const syntheticEvent = { preventDefault: () => { } }; // Create a synthetic event
-    handleSubmit(syntheticEvent); // Submit the data
+    const hasData =
+      statusId !== 1 ||
+      typedUrl !== '' ||
+      seoScore !== 0 ||
+      category_id !== 0 ||
+      seoTitle !== '' ||
+      seoDescription !== '' ||
+      tag !== '' ||
+      keywords !== '' ||
+      featuredImage !== '' ||
+      authorId !== 0 ||
+      date !== '' ||
+      title !== '' ||
+      body !== '' ||
+      note !== '';
+
+    if (hasData) {
+      setIsUpdating(!isUpdating); // Toggle isUpdating directly
+      setHighestArticleId(highestarticleid + 1);
+      resetForm(); // Reset the form
+      const syntheticEvent = { preventDefault: () => { } }; // Create a synthetic event
+      handleSubmit(syntheticEvent); // Submit the data
+    }
   };
+
+
+
 
 
 
@@ -379,7 +380,7 @@ const [isPopupOpen, setIsPopupOpen] = useState(false);
   };
 
 
-  console.log(selectedPublication)
+
 
 
   const renderValidationTick = (length) => {
@@ -399,6 +400,12 @@ const [isPopupOpen, setIsPopupOpen] = useState(false);
     }
     return null;
   };
+
+
+
+
+
+
 
 
   return (
@@ -421,32 +428,10 @@ const [isPopupOpen, setIsPopupOpen] = useState(false);
           ))}
         </select>
 
-        <select
-          name="postTypeDropdown"
-          id="postTypeDropdown"
-          onChange={handlePostTypeChange}
-          value={selectedPostType}
-        >
+        <PostTypeButton onChangeValue={handleButtonClick} formValue={selectedPostType}/>
 
-          {postTypeData.map((postType) => (
-            <option
-              key={postType.post_type_id}
-              value={postType.post_type_id}
-            >
-              {postType.type_name}
-            </option>
-          ))}
-        </select>
-        <button onClick={openPopUp}>  {isPopupOpen ? "Close Setting" : "Setting"}</button>
       </div>
-
-      {isPopupOpen &&
-        <SwitchButtons
-          closePopup={closePopup}
-          currentSettings={settings}
-          updateSettings={updateSettings}
-        />
-      }
+     
       <div className="flex" style={{ margin: '1rem 0' }}>
         {/* back button will on home page */}
         <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>

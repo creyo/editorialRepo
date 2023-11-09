@@ -1,21 +1,25 @@
 export function filterArticles(articles, selectedPublicationId, selectedPostTypeId, selectedStatusId) {
+  if (!Array.isArray(articles)) {
+    return [];
+  }
+
   return articles.filter((article) => {
     const publicationId = article.publication?.publication_id;
     const postTypeId = article.post_type?.post_type_id;
     const statusId = article.articlestatus?.status_id;
 
-    // Check if either publication_id or post_type_id matches the selected values
+    // Check if either publication_id or post_type_id or status_id matches the selected values
     const matchesPublication = selectedPublicationId === null || publicationId === selectedPublicationId;
     const matchesPostType = selectedPostTypeId === null || postTypeId === selectedPostTypeId;
     const matchesStatus = selectedStatusId === null || statusId === selectedStatusId;
 
-    // Calculate the commonData using logical AND
+    // Calculate the commonData using logical AND (if all conditions are true, keep the article)
     const commonData = matchesPublication && matchesPostType && matchesStatus;
-
 
     return commonData;
   });
 }
+
 
 
 
@@ -78,13 +82,13 @@ export function countArticlesByStatus(articles) {
     const statusId = article.articlestatus?.status_id;
 
     switch (statusId) {
-      case 1: 
+      case 1:
         draftCount++
         break;
       case 2: // Review
-       reviewCount++;
+        reviewCount++;
         break;
-      case 3: 
+      case 3:
         publishedCount++;
         break;
       default:
@@ -142,3 +146,31 @@ export function filterArticlesCount(data, publicationId, postTypeId) {
 
   return filteredArticles;
 }
+
+
+
+export function countWord(body) {
+  const data = body.spilt(" ")
+  return data.length
+}
+
+
+// Filter the articles based on the selected category
+   
+export const categoryFilter = (selectedCategory, articles) => {
+    if (!Array.isArray(articles)) {
+        // Handle the case where 'articles' is not an array
+        return [];
+    }
+
+    return articles.filter(article => {
+        if (selectedCategory === '') {
+            return true; // No category selected, so show all articles
+        }
+        // Make sure the 'categories' property exists and has the 'url' property
+        if (article.categories && article.categories.url) {
+            return article.categories.url === selectedCategory;
+        }
+        return false;
+    });
+};

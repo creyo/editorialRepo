@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import supabase from '../config/supabase';
-import { filterArticles, filterPublicationsByUserEmail ,formatDate, countArticlesByStatus,filterArticlesCount} from './filter.js';
-import './HomePage.css';
-
+import { filterArticles, filterPublicationsByUserEmail, formatDate, countArticlesByStatus, filterArticlesCount } from './filter.js';
+//import './HomePage.css';
+import SwitchButtons from './Button/SwitchButtons';
 // Import images from the "./images" directory
 import plusImage from './images/plus.svg';
 import keyImage from './images/key.svg';
 import chit from "./images/chit.svg"
 import PostTypeButton from './Button/PostTypeButton';
+import ArticleSearch from './Button/ArticleSearch';
 
 export default function HomePage() {
   const navigate = useNavigate()
@@ -16,13 +17,13 @@ export default function HomePage() {
   const [publications, setPublications] = useState([]);
   const [selectedPostType, setSelectedPostType] = useState('');
   const [selectedPublication, setSelectedPublication] = useState('');
-
+  const [finalData, setFinalData] = useState([])
   const [selectedPostTypeId, setSelectedPostTypeId] = useState(1);
   const [selectedPublicationId, setSelectedPublicationId] = useState(1);
   const [selectedStatusId, setSelectedStatusId] = useState(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  
- 
+
 
   useEffect(() => {
     async function fetchArticles() {
@@ -47,7 +48,7 @@ export default function HomePage() {
     }
 
 
-  
+
 
     async function fetchPublications() {
       try {
@@ -64,12 +65,12 @@ export default function HomePage() {
         const jsonObject = JSON.parse(tokenInfo);
         let email = jsonObject.user.email
         // console.log(user_id)
-       //  console.log(data)
-        let filterData =  filterPublicationsByUserEmail(data,email)
+        //  console.log(data)
+        let filterData = filterPublicationsByUserEmail(data, email)
         if (filterData.length === 0) {
           navigate("/blank");
         }
-       
+
         setPublications(filterData);
       } catch (error) {
         console.error('Error fetching publications:', error.message);
@@ -77,11 +78,11 @@ export default function HomePage() {
     }
 
     fetchArticles();
-  
+
     fetchPublications();
   }, [navigate]);
 
- 
+
   const handleButtonClick = (id, value) => {
     setSelectedPostTypeId(id);
     setSelectedPostType(value);
@@ -89,7 +90,7 @@ export default function HomePage() {
   };
 
 
-console.log(selectedPostType,selectedPostTypeId)
+  console.log(selectedPostType, selectedPostTypeId)
 
 
   const handlePublicationChange = (event) => {
@@ -107,16 +108,39 @@ console.log(selectedPostType,selectedPostTypeId)
   };
 
   // Use the filtering function to get filtered articles based on selectedPublicationId and selectedPostTypeId
-  const filteredArticles = filterArticles(articles, selectedPublicationId, selectedPostTypeId, selectedStatusId)
+  useEffect(() => {
+    const filteredArticles = filterArticles(articles, selectedPublicationId, selectedPostTypeId, selectedStatusId)
+    setFinalData(filteredArticles)
+  }, [articles, selectedPublicationId, selectedPostTypeId, selectedStatusId])
+
+
   const forCount = filterArticlesCount(articles, selectedPublicationId, selectedPostTypeId)
-  
-  console.log(forCount)
+
   //calling count function to count status count of articles 
   let count = countArticlesByStatus(forCount)
-  
 
 
- return (
+  const closePopup = () => {
+    setIsPopupOpen(false)
+  };
+
+  const openPopUp = () => {
+    setIsPopupOpen((prevIsPopupOpen) => !prevIsPopupOpen);
+  };
+
+
+
+  const handleSearch = (query) => {
+    // Use the query to filter the articles
+    const searching = articles.filter((article) =>
+      new RegExp(`\\b${query}`, 'i').test(article.title)
+    );
+
+    setFinalData(searching)
+  };
+
+
+  return (
     <div className="container">
       <div className="selectors">
         <select
@@ -132,9 +156,17 @@ console.log(selectedPostType,selectedPostTypeId)
           ))}
         </select>
 
-        <PostTypeButton onChangeValue={handleButtonClick} />
 
-</div>
+        <PostTypeButton onChangeValue={handleButtonClick} />
+      </div>
+
+      <button onClick={openPopUp}>  {isPopupOpen ? "Close Setting" : "Setting"}</button>
+      {isPopupOpen &&
+        <SwitchButtons
+          closePopup={closePopup}
+
+        />
+      }
 
       <div className="top-card">
         <div className="buttons-others">
@@ -142,11 +174,12 @@ console.log(selectedPostType,selectedPostTypeId)
           <p className={`draft ${selectedStatusId === 1 ? 'select' : ''}`} onClick={() => setSelectedStatusId(1)}>Draft({count.draft})</p>
           <p className={`published ${selectedStatusId === 3 ? 'select' : ''}`} onClick={() => setSelectedStatusId(3)}>Published({count.published})</p>
           <p className={`review ${selectedStatusId === 2 ? 'select' : ''}`} onClick={() => setSelectedStatusId(2)}>Review({count.review})</p>
+          <ArticleSearch articles={articles} onSearch={handleSearch} />
         </div>
         <div className="key">
           <p style={{ color: '#457EFF', fontWeight: 600 }}>
             <Link to={`/addarticle/${selectedPublicationId}/${selectedPostTypeId}`}>
-              <img src={plusImage} alt="Plus" /> Add {selectedPostType==='' ? "Page":selectedPostType}
+              <img src={plusImage} alt="Plus" /> Add {selectedPostType === '' ? "Page" : selectedPostType}
             </Link>
           </p>
         </div>
@@ -155,7 +188,7 @@ console.log(selectedPostType,selectedPostTypeId)
 
 
       <div className="cards-container">
-        {filteredArticles.map((articleItem) => (
+        {finalData.map((articleItem) => (
           <div className="card" key={articleItem.article_id}>
             <div className="card-left">
               <div className="heading-checkbox">

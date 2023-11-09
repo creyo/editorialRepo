@@ -1,38 +1,38 @@
-import React, { useState } from 'react';
-import './PostTypeButton.css'; // Import your CSS file
+import React, { useEffect, useState } from 'react';
+import '../FrontPage'; // Import your CSS file
 
-function PostTypeButton({ onChangeValue }) {
-  const [selectedOption, setSelectedOption] = useState(1);
+function PostTypeButton({ onChangeValue , formValue }) {
+  const [selectedOption, setSelectedOption] = useState('Blog'); // Initialize with 'Blog' as the default value
 
-  const handleButtonClick = (option) => {
-    let id, value;
+  const handleButtonClick = (value,option) => {
+    setSelectedOption(value);
+    onChangeValue(option); // Pass the selected option value to the parent component
+    
+  }
 
-    if (option === 'page') {
-      id = 1;
-      value = 'Page';
-    } else if (option === 'blog') {
-      id = 2;
-      value = 'Blog';
-    }
+useEffect(()=>{ 
+   if(parseInt(formValue) === 1){
+    setSelectedOption("Page")
+  }else{
+    setSelectedOption("Blog")
+  }},[formValue])
 
-    setSelectedOption(id);
-    onChangeValue(id, value); // Send both id and value
-  };
+
 
   return (
-    <div>
-      <button
-        onClick={() => handleButtonClick('page')}
-        className={selectedOption === 1 ? 'active' : ''}
-      >
-        Page
-      </button>
-      <button
-        onClick={() => handleButtonClick('blog')}
-        className={selectedOption === 2 ? 'active' : ''}
+    <div className="buttons-others flex">
+      <p
+        className={selectedOption === 'Blog' ? 'draft selected-item' : 'draft'}
+        onClick={() => handleButtonClick('Blog',2)}
       >
         Blog
-      </button>
+      </p>
+      <p
+        className={selectedOption === 'Page' ? 'draft selected-item' : 'draft'}
+        onClick={() => handleButtonClick('Page',1)}
+      >
+        Page
+      </p>
     </div>
   );
 }
