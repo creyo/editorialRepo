@@ -175,8 +175,8 @@
 }
 
 .deleted {
-
-    color: white;
+  text-decoration: none;
+    color:#457EFF;
 }
 
 .add-plus {
