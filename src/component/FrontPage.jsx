@@ -28,9 +28,8 @@ function FrontPage() {
 
     const navigate = useNavigate()
     const [articles, setArticles] = useState([]);
-    const [deleted, setDeleted] = useState([])
     const [publications, setPublications] = useState([]);
-    const [deletedOpen, setDeletedOpen] = useState(false)
+
     const [selectedPublication, setSelectedPublication] = useState('');
     const [finalData, setFinalData] = useState([])
     const [selectedPostTypeId, setSelectedPostTypeId] = useState(2);
@@ -47,28 +46,7 @@ function FrontPage() {
 
 
 
-    async function deletedArticle() {
-
-        let { data, error } = await supabase
-            .from('articles')
-            .select(`
-        *,
-        articlestatus(*),
-        authors(*),
-        categories(*),
-        post_type(*),
-        publication(*),
-       control("*")
-        `).eq("Deleted", true)
-
-        if (error) {
-            console.error('Error fetching articles:', error.message);
-        } else {
-
-            setDeleted(data);
-
-        }
-    }
+    
 
 
     async function fetchArticles() {
@@ -88,6 +66,7 @@ function FrontPage() {
         if (error) {
             console.error('Error fetching articles:', error.message);
         } else {
+
             setArticles(data);
 
         }
@@ -98,7 +77,6 @@ function FrontPage() {
 
 
         fetchArticles()
-        deletedArticle()
 
 
         async function fetchPublications() {
@@ -179,7 +157,7 @@ function FrontPage() {
 
     const handleButtonClick = (value, option) => {
         setSelectedPostTypeId(value);
-
+        
     };
 
     const singleItemCheckbox = (article_id) => {
@@ -319,14 +297,14 @@ function FrontPage() {
     const handleConfirm = async (articleId) => {
         try {
             // Update the 'Deleted' field to true for the selected articles
-            const { error } = await supabase
+            const {  error } = await supabase
                 .from('articles')
                 .update({ Deleted: true })
                 .in('article_id', articleId);
 
             if (error) {
                 throw error.message
-            } else {
+            }else{
                 fetchArticles()
                 setIsChecked(false)
             }
@@ -339,11 +317,6 @@ function FrontPage() {
         setIsConfirmationOpen(false);
     };
 
-    
-    const handleDeletedClick = () => {
-        setDeletedOpen(prevState => !prevState);
-    }
-    
     // Define the onClose function
     const handleClose = () => {
         // Close the confirmation popup
@@ -424,12 +397,11 @@ function FrontPage() {
                             onClick={toggleCheckbox}
                         />
                         <img
-                            src={trash}  
+                            src={trash}
                             alt="Click to open confirmation"
                             onClick={() => setIsConfirmationOpen(true)}
                         />
-                       {deletedOpen?<button onClick={handleDeletedClick} className="deleted">Close</button>:
-                       <button onClick={handleDeletedClick} className="deleted">Deleted</button>}
+                            <Link  className ="deleted" >Deleted</Link>
                         <ConfirmDeletePopup
                             isOpen={isConfirmationOpen}
                             articleId={idToDelete}
@@ -443,9 +415,9 @@ function FrontPage() {
                         <div className="flex" onClick={() => toggleSortBy('title')}>
                             <p>Title</p>
                             <div className="arrows">
-
+                               
                                 {sortBy.attribute === 'title' && sortBy.ascending ? (
-
+                                    
                                     <svg style={{ marginBottom: '2px' }} xmlns="http://www.w3.org/2000/svg" width="12" height="6" viewBox="0 0 12 6" fill="none">
                                         <path d="M0 6L6 0L12 6H0Z" fill="#457EFF" />
                                     </svg>
@@ -521,82 +493,7 @@ function FrontPage() {
 
                 </div>
 
-
-
-                {deletedOpen ? deleted.map((article) => (
-                    <div className="card" key={article.article_id}>
-                        <div className="card-left">
-                            <div className="checkbox">
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        checked={checkboxStates[article.article_id]}
-                                        onChange={() => singleItemCheckbox(article.article_id)}
-                                    />
-
-                                    <span className="checkmark"></span>
-                                </label>
-                            </div>
-                            {article.featured_image && <img src={!article.featured_image ? article.featured_image : try3} alt="" />}
-                        </div>
-                        <div className="card-right">
-                            <div className="options">
-                                <p className="heading">{article.title}</p>
-                                <div className="flex">
-                                    <div className="key">
-                                        <p className="char char-red">({article.title.length} char)</p>
-                                        <img src={eye} alt="" />
-                                    </div>
-                                    {article.seo_score && <div className="seo">
-                                        <p>SEO</p>
-                                        <p className="percent percent-red">{article.seo_score} %</p>
-                                    </div>}
-                                    <div className="seo edit">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
-                                            <path d="M12.776 1.33594C12.6055 1.33594 12.4347 1.40092 12.3047 1.53125L11.1667 2.66927L13.8333 5.33594L14.9714 4.19792C15.232 3.93725 15.232 3.51521 14.9714 3.25521L13.2474 1.53125C13.1171 1.40092 12.9466 1.33594 12.776 1.33594ZM10.1667 3.66927L2.5 11.3359V14.0026H5.16667L12.8333 6.33594L10.1667 3.66927Z" fill="#457EFF" />
-                                        </svg>
-                                        <Link className="svgLink" to={`/updatearticle/${article.article_id}`}>Edit</Link>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="bread-crumb">
-                                <div className="bread-crum">
-                                    <img src={arrowDown} alt="" />
-                                    <p className="crumb">/{article.categories.url}/<span>{article.url}</span></p>
-                                    <p>{formatDate(article.date)}</p>
-                                    <p>{formatDate(article.created_at)}</p>
-                                    <p>ID {article.article_id}</p>
-                                    <div className="icons-flex">
-                                        <img class={article.control.proof ? "icon active" : "icon"} src={mystery} alt="" />
-                                        <img class={article.control.update ? "icon active" : "icon"} src={refresh} alt="" />
-                                        <img class={article.control.image ? "icon active" : "icon"} src={images} alt="" />
-                                        <img class={article.control.note ? "icon active" : "icon"} src={description} alt="" />
-                                        <p class={article.control.seo ? "icon active" : "icon"}>SEO</p>
-                                    </div>
-                                </div>
-
-                                <div className="words">{article.body.length} Words </div>
-                            </div>
-                            <div className="buttons-others flex">
-                                {/* <button>{article.articlestatus.status_name}</button> */}
-                                <button className={article.articlestatus.status_name === "Draft" ? "draft-select" : ""}>Draft</button>
-                                <button className={article.articlestatus.status_name === "Review" ? "review-select" : ""} >Review</button>
-                                <button className={article.articlestatus.status_name === "Published" ? "published-select" : ""}>Published</button>
-
-                                {article.keyword && <div className="flex key">
-                                    <img src={key} alt="" />
-                                    <p>{article.keyword}</p>
-                                </div>}
-                                {article.tag && <div className="flex key">
-                                    <img src={chit} alt="" />
-                                    <p>{article.tag}</p>
-                                </div>
-                                }
-                            </div>
-
-                        </div>
-                    </div>
-                )) : sortedArticles.map((article) => (
+                {sortedArticles.map((article) => (
                     <div className="card" key={article.article_id}>
                         <div className="card-left">
                             <div className="checkbox">
