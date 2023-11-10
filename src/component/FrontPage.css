@@ -74,6 +74,12 @@
     border-bottom: 2px solid #00A82D;
 }
 
+
+.deleted-button-selected {
+
+    border-bottom: 2px solid rgb(238, 70, 70);
+}
+
 .all-button-selected {
     border-bottom: 2px solid #457EFF;
 }
@@ -174,10 +180,7 @@
     color: white;
 }
 
-.deleted {
-  text-decoration: none;
-    color:#457EFF;
-}
+
 
 .add-plus {
     color: white;
@@ -405,6 +408,14 @@
     color: #00A82D;
     background-color: #EFFFF3;
     padding: 10px 20px;
+}
+
+.deleted {
+
+    color: rgb(238, 70, 70);
+    background-color:white;
+    padding: 10px 20px;
+
 }
 
 .all {

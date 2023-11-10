@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import supabase from '../config/supabase';
-import { filterArticles, filterPublicationsByUserEmail, formatDate, countArticlesByStatus, filterArticlesCount } from './filter.js';
+import { filterArticles, filterPublicationsByUserEmail, formatDate, countArticlesByStatus,countWord, filterArticlesCount } from './filter.js';
 import './FrontPage.css'
 
 import arrowDown from './images/arrow-down.png'
@@ -43,10 +43,10 @@ function FrontPage() {
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
     const [idToDelete, setIdToDelete] = useState([])
     const [sortedArticlesLength, setsortedArticlesLength] = useState(0)
-
-
-
     
+
+
+
 
 
     async function fetchArticles() {
@@ -61,22 +61,25 @@ function FrontPage() {
         post_type(*),
         publication(*),
        control("*")
-        `).eq("Deleted", false)
-
+        `)
         if (error) {
             console.error('Error fetching articles:', error.message);
         } else {
 
             setArticles(data);
-
+         
         }
     }
+
+   
+
 
 
     useEffect(() => {
 
 
         fetchArticles()
+       
 
 
         async function fetchPublications() {
@@ -157,7 +160,7 @@ function FrontPage() {
 
     const handleButtonClick = (value, option) => {
         setSelectedPostTypeId(value);
-        
+
     };
 
     const singleItemCheckbox = (article_id) => {
@@ -297,14 +300,14 @@ function FrontPage() {
     const handleConfirm = async (articleId) => {
         try {
             // Update the 'Deleted' field to true for the selected articles
-            const {  error } = await supabase
+            const { error } = await supabase
                 .from('articles')
                 .update({ Deleted: true })
                 .in('article_id', articleId);
 
             if (error) {
                 throw error.message
-            }else{
+            } else {
                 fetchArticles()
                 setIsChecked(false)
             }
@@ -363,7 +366,7 @@ function FrontPage() {
                         <p className={`draft ${selectedStatusId === 1 ? 'draft-button-selected' : ''}`} onClick={() => setSelectedStatusId(1)}>Draft  ({count.draft})</p>
                         <p className={`review ${selectedStatusId === 2 ? 'review-button-selected' : ''}`} onClick={() => setSelectedStatusId(2)}>Review  ({count.review})</p>
                         <p className={`published ${selectedStatusId === 3 ? 'published-button-selected' : ''}`} onClick={() => setSelectedStatusId(3)}>Published  ({count.published})</p>
-
+                        <p className={`deleted ${selectedStatusId === 0 ? 'deleted-button-selected' : ''}`} onClick={() => setSelectedStatusId(0)}>Deleted ({count.deleted}) </p>
 
                     </div>
                     <div className="flex">
@@ -401,7 +404,7 @@ function FrontPage() {
                             alt="Click to open confirmation"
                             onClick={() => setIsConfirmationOpen(true)}
                         />
-                            <Link  className ="deleted" >Deleted</Link>
+
                         <ConfirmDeletePopup
                             isOpen={isConfirmationOpen}
                             articleId={idToDelete}
@@ -415,9 +418,9 @@ function FrontPage() {
                         <div className="flex" onClick={() => toggleSortBy('title')}>
                             <p>Title</p>
                             <div className="arrows">
-                               
+
                                 {sortBy.attribute === 'title' && sortBy.ascending ? (
-                                    
+
                                     <svg style={{ marginBottom: '2px' }} xmlns="http://www.w3.org/2000/svg" width="12" height="6" viewBox="0 0 12 6" fill="none">
                                         <path d="M0 6L6 0L12 6H0Z" fill="#457EFF" />
                                     </svg>
@@ -545,7 +548,7 @@ function FrontPage() {
                                     </div>
                                 </div>
 
-                                <div className="words">{article.body.length} Words </div>
+                                <div className="words">{countWord(article.body)} Words </div>
                             </div>
                             <div className="buttons-others flex">
                                 {/* <button>{article.articlestatus.status_name}</button> */}

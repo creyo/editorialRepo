@@ -76,12 +76,16 @@ export function countArticlesByStatus(articles) {
   let publishedCount = 0;
   let reviewCount = 0;
   let draftCount = 0;
+  let deletedCount = 0
 
   // Iterate through the articles and count them based on status
   articles.forEach((article) => {
     const statusId = article.articlestatus?.status_id;
 
     switch (statusId) {
+      case 0:
+        deletedCount++;
+        break;
       case 1:
         draftCount++
         break;
@@ -105,6 +109,7 @@ export function countArticlesByStatus(articles) {
     published: publishedCount,
     review: reviewCount,
     draft: draftCount,
+    deleted: deletedCount
   };
 
   return counts;
@@ -150,27 +155,27 @@ export function filterArticlesCount(data, publicationId, postTypeId) {
 
 
 export function countWord(body) {
-  const data = body.spilt(" ")
+  const data = body.split(" ")
   return data.length
 }
 
 
 // Filter the articles based on the selected category
-   
-export const categoryFilter = (selectedCategory, articles) => {
-    if (!Array.isArray(articles)) {
-        // Handle the case where 'articles' is not an array
-        return [];
-    }
 
-    return articles.filter(article => {
-        if (selectedCategory === '') {
-            return true; // No category selected, so show all articles
-        }
-        // Make sure the 'categories' property exists and has the 'url' property
-        if (article.categories && article.categories.url) {
-            return article.categories.url === selectedCategory;
-        }
-        return false;
-    });
+export const categoryFilter = (selectedCategory, articles) => {
+  if (!Array.isArray(articles)) {
+    // Handle the case where 'articles' is not an array
+    return [];
+  }
+
+  return articles.filter(article => {
+    if (selectedCategory === '') {
+      return true; // No category selected, so show all articles
+    }
+    // Make sure the 'categories' property exists and has the 'url' property
+    if (article.categories && article.categories.url) {
+      return article.categories.url === selectedCategory;
+    }
+    return false;
+  });
 };
