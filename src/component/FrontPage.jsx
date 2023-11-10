@@ -302,7 +302,7 @@ function FrontPage() {
             // Update the 'Deleted' field to true for the selected articles
             const { error } = await supabase
                 .from('articles')
-                .update({ Deleted: true })
+                .update({ status: 0 })
                 .in('article_id', articleId);
 
             if (error) {
