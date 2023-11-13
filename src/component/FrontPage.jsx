@@ -59,7 +59,7 @@ function FrontPage() {
         authors(*),
         categories(*),
         post_type(*),
-        publication(*),
+        publication(*)
         
         `)
         if (error) {
