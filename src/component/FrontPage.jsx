@@ -13,14 +13,12 @@ import trash from './images/trash-2.png'
 import chit from './images/chit.svg'
 
 import try3 from './images/try.png'
-import mystery from './images/mystery.png'
-import refresh from './images/refresh-ccw.png'
-import images from './images/imagesmode.png'
-import description from './images/description.png'
+
 import PostTypeButton from './Button/PostTypeButton';
 import ArticleSearch from './Button/ArticleSearch';
 
 import ConfirmDeletePopup from './Button/ConfirmDeletePopup.jsx';
+import Icon from './Button/Icon.jsx';
 
 
 
@@ -59,15 +57,13 @@ function FrontPage() {
         authors(*),
         categories(*),
         post_type(*),
-        publication(*)
-        
+        publication(*),
+         control("*")
         `)
         if (error) {
             console.error('Error fetching articles:', error);
         } else {
-
             setArticles(data);
-
         }
     }
 
@@ -514,10 +510,13 @@ function FrontPage() {
                         </div>
                         <div className="card-right">
                             <div className="options">
-                                <p className="heading">{article.title}</p>
+                                <div className='flex'>
+                                    <p className="heading" >{article.title}  </p>
+                                    <p className="char char-red" style={{ marginLeft: "20px" }}>({article.title.length} char)</p>
+                                </div>
                                 <div className="flex">
                                     <div className="key">
-                                        <p className="char char-red">({article.title.length} char)</p>
+
                                         <img src={eye} alt="" />
                                     </div>
                                     {article.seo_score && <div className="seo">
@@ -539,13 +538,8 @@ function FrontPage() {
                                     <p>{formatDate(article.date)}</p>
                                     <p>{formatDate(article.created_at)}</p>
                                     <p>ID {article.article_id}</p>
-                                    <div className="icons-flex">
-                                        <img className= "icon" src={mystery} alt="" />
-                                        <img  className= "icon" src={refresh} alt="" />
-                                        <img  className= "icon"src={images} alt="" />
-                                        <img  className= "icon" src={description} alt="" />
-                                        <p  className= "icon">SEO</p>
-                                    </div>
+                                    <Icon article={article} article_id={article.article_id} />
+
                                 </div>
 
                                 <div className="words">{countWord(article.body)} Words </div>
