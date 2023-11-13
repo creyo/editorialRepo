@@ -60,7 +60,7 @@ function FrontPage() {
         categories(*),
         post_type(*),
         publication(*),
-         control("*")
+        
         `)
         if (error) {
             console.error('Error fetching articles:', error);
@@ -540,11 +540,11 @@ function FrontPage() {
                                     <p>{formatDate(article.created_at)}</p>
                                     <p>ID {article.article_id}</p>
                                     <div className="icons-flex">
-                                        <img class={article.control.proof ? "icon active" : "icon"} src={mystery} alt="" />
-                                        <img class={article.control.update ? "icon active" : "icon"} src={refresh} alt="" />
-                                        <img class={article.control.image ? "icon active" : "icon"} src={images} alt="" />
-                                        <img class={article.control.note ? "icon active" : "icon"} src={description} alt="" />
-                                        <p class={article.control.seo ? "icon active" : "icon"}>SEO</p>
+                                        <img className= "icon" src={mystery} alt="" />
+                                        <img  className= "icon" src={refresh} alt="" />
+                                        <img  className= "icon"src={images} alt="" />
+                                        <img  className= "icon" src={description} alt="" />
+                                        <p  className= "icon">SEO</p>
                                     </div>
                                 </div>
 
