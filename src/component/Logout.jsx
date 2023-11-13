@@ -8,7 +8,7 @@ function Logout() {
   useEffect(() => {
     async function logout() {
       await supabase.auth.signOut();
-      localStorage.removeItem('sb-czlpeqcpksfalvtmrulq-auth-token');
+      localStorage.removeItem("sb-narivuecshkbtcueblcl-auth-token");
       navigate('/login');
     }
 

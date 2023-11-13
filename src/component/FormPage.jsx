@@ -35,9 +35,6 @@ function FormPage() {
   const [body, setBody] = useState('');
   const [note, setNote] = useState('');
 
-
-
-  //dropdown 
   const [publicationData, setPublicationData] = useState([]);
   const [postTypeData, setPostTypeData] = useState([]);
   const [selectedPublication, setSelectedPublication] = useState(publicationId);
@@ -52,7 +49,7 @@ function FormPage() {
   const [isAddButtonOpen, setIsAddButtonOpen] = useState(false);
 
   const [authorInfo, setAuthorInfo] = useState("")
-  
+
 
   // const [settings, setSettings] = useState({
   //   category: false,
@@ -69,7 +66,7 @@ function FormPage() {
 
   const settings = useSelector((state) => state.settings);
 
-  
+
   useEffect(() => {
     async function fetchData() {
       // Fetch data from the 'publication' table
@@ -82,7 +79,7 @@ function FormPage() {
         throw error;
       }
 
-      let tokenInfo = localStorage.getItem("sb-czlpeqcpksfalvtmrulq-auth-token")
+      let tokenInfo = localStorage.getItem('sb-narivuecshkbtcueblcl-auth-token')
       const jsonObject = JSON.parse(tokenInfo);
       let email = jsonObject.user.email
 
@@ -106,7 +103,7 @@ function FormPage() {
 
   console.log(publicationData)
 
-  let tokenInfo = localStorage.getItem("sb-czlpeqcpksfalvtmrulq-auth-token")
+  let tokenInfo = localStorage.getItem('sb-narivuecshkbtcueblcl-auth-token')
   const jsonObject = JSON.parse(tokenInfo);
   let userId = jsonObject.user.id
 
@@ -138,7 +135,7 @@ function FormPage() {
         status: statusId || null,
         publication_id: selectedPublication || null,
         post_type: selectedPostType || null,
-        url: typedUrl ,
+        url: typedUrl,
         seo_score: seoScore || null,
         seo_title: seoTitle || null,
         seo_description: seoDescription || null,
@@ -147,10 +144,10 @@ function FormPage() {
         featured_image: featuredImage || null,
         author_id: authorId || null,
         category_id: category_id || null,
-        date: date ,
-        title: title ,
-        body: body ,
-        user_id: userId ,
+        date: date,
+        title: title,
+        body: body,
+        user_id: userId,
       };
 
       if (isUpdating) {
@@ -309,7 +306,7 @@ function FormPage() {
 
   const handleButtonClick = (id, value) => {
     setSelectedPostType(id);
-    
+
   };
 
 
@@ -425,10 +422,10 @@ function FormPage() {
           ))}
         </select>
 
-        <PostTypeButton onChangeValue={handleButtonClick} formValue={selectedPostType}/>
+        <PostTypeButton onChangeValue={handleButtonClick} formValue={selectedPostType} />
 
       </div>
-     
+
       <div className="flex" style={{ margin: '1rem 0' }}>
         {/* back button will on home page */}
         <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>

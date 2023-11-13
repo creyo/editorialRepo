@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import supabase from '../config/supabase';
-import { filterArticles, filterPublicationsByUserEmail, formatDate, countArticlesByStatus,countWord, filterArticlesCount } from './filter.js';
+import { filterArticles, filterPublicationsByUserEmail, formatDate, countArticlesByStatus, countWord, filterArticlesCount } from './filter.js';
 import './FrontPage.css'
 
 import arrowDown from './images/arrow-down.png'
@@ -43,7 +43,7 @@ function FrontPage() {
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
     const [idToDelete, setIdToDelete] = useState([])
     const [sortedArticlesLength, setsortedArticlesLength] = useState(0)
-    
+
 
 
 
@@ -60,18 +60,18 @@ function FrontPage() {
         categories(*),
         post_type(*),
         publication(*),
-       control("*")
+         control("*")
         `)
         if (error) {
-            console.error('Error fetching articles:', error.message);
+            console.error('Error fetching articles:', error);
         } else {
 
             setArticles(data);
-         
+
         }
     }
 
-   
+
 
 
 
@@ -79,7 +79,7 @@ function FrontPage() {
 
 
         fetchArticles()
-       
+
 
 
         async function fetchPublications() {
@@ -93,7 +93,7 @@ function FrontPage() {
                     throw error;
                 }
 
-                let tokenInfo = localStorage.getItem("sb-czlpeqcpksfalvtmrulq-auth-token")
+                let tokenInfo = localStorage.getItem('sb-narivuecshkbtcueblcl-auth-token')
                 const jsonObject = JSON.parse(tokenInfo);
                 let email = jsonObject.user.email
                 let filterData = filterPublicationsByUserEmail(data, email)
@@ -327,7 +327,7 @@ function FrontPage() {
     };
 
 
-
+    console.log(articles)
     return (
         <>
             <div className="containers">
