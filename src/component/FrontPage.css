@@ -47,6 +47,7 @@
 .top-card .buttons-others p,
 .selectors .buttons-others p {
     font-weight: 600;
+    cursor: pointer;
 }
 
 .selectors .buttons-others {
@@ -97,6 +98,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
 }
 
 .buttons-others button {
@@ -215,6 +217,10 @@
     content: '\2713';
     z-index: 1;
 }
+[contenteditable="true"] {
+    border: none;
+    outline: none; /* Remove the outline as well, which is often styled by browsers */
+    }
 
 
 .checkbox input[type='checkbox']:checked {
@@ -230,6 +236,7 @@
     width: 20px;
     height: 20px;
     top: 5px;
+    cursor: pointer;
 }
 
 .bread-crumb {
@@ -265,6 +272,7 @@
     justify-content: space-between;
     align-items: center;
     margin: 0 20px;
+    cursor: pointer;
 }
 
 .filters {
@@ -306,6 +314,7 @@
 .arrows {
     display: flex;
     flex-direction: column;
+   
 }
 
 .card-right p {
@@ -440,8 +449,14 @@
     padding: 5px;
     text-align: center;
 }
+ select option {
+    -webkit-cursor:pointer;
+    cursor: pointer;
+    
+}
 
 .selectors select {
+    cursor: pointer;
     border: none;
     font-size: 1.5rem;
     color: #457EFF;

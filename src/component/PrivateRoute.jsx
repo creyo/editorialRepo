@@ -11,7 +11,7 @@ useEffect (()=>{
    
     console.log(login)
     if(!login){
-        navigate('/login')  
+        navigate('/')  
     }
 })
 

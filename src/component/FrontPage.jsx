@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import supabase from '../config/supabase';
-import { filterArticles, filterPublicationsByUserEmail, formatDate, countArticlesByStatus, countWord, filterArticlesCount } from './filter.js';
+import { filterArticles, filterArticlesPostTypeCount, filterPublicationsByUserEmail, formatDate, countArticlesByStatus, countWord, filterArticlesCount } from './filter.js';
 import './FrontPage.css'
 
 import arrowDown from './images/arrow-down.png'
@@ -41,6 +41,7 @@ function FrontPage() {
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
     const [idToDelete, setIdToDelete] = useState([])
     const [sortedArticlesLength, setsortedArticlesLength] = useState(0)
+    const [postTypeCount, setpostTypeCount] = useState([])
 
 
 
@@ -112,6 +113,8 @@ function FrontPage() {
     // Use the filtering function to get filtered articles based on selectedPublicationId and selectedPostTypeId
     useEffect(() => {
         const filteredArticles = filterArticles(articles, selectedPublicationId, selectedPostTypeId, selectedStatusId)
+        let postTypeCount = filterArticlesPostTypeCount(articles, selectedPublicationId)
+        setpostTypeCount(postTypeCount)
         const uniqueCategories = new Set();
 
         const categoriesData = filteredArticles.map(article => {
@@ -245,26 +248,7 @@ function FrontPage() {
 
 
 
-    const sortingFunctions = [
-        {
-            key: 'title',
-            sortFunction: (a, b, ascending) => ascending ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title),
-        },
-        {
-            key: 'seo_score',
-            sortFunction: (b, a, ascending) => ascending ? b.seo_score - a.seo_score : b.seo_score - a.seo_score,
-        },
-        {
-            key: 'date',
-            sortFunction: (a, b, ascending) => ascending ? new Date(a.date) - new Date(b.date) : new Date(b.date) - new Date(a.date),
-        },
-        {
-            key: 'url',
-            sortFunction: (a, b, ascending) => ascending ? a.url.localeCompare(b.url) : b.url.localeCompare(a.url),
-        },
-    ];
-
-    const applySortingAndFilteringFunctions = (data, sortingFunctions, ascending, selectedCategoryUrl) => {
+    const applySortingAndFilteringFunctions = (data, sortBy, selectedCategoryUrl) => {
         let filteredData = data;
 
         // Filter based on the selectedCategoryUrl (if not "All")
@@ -272,18 +256,27 @@ function FrontPage() {
             filteredData = data.filter((item) => item.categories.url === selectedCategoryUrl);
         }
 
-        // Apply sorting functions
-        for (const { sortFunction } of sortingFunctions) {
-            filteredData = filteredData.sort((a, b) => sortFunction(a, b, ascending));
+        const { attribute, ascending } = sortBy;
+
+        // Apply sorting function based on the provided attribute
+        if (attribute === 'title') {
+            filteredData = filteredData.sort((a, b) => ascending ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title));
+        } else if (attribute === 'seo_score') {
+            filteredData = filteredData.sort((a, b) => ascending ? a.seo_score - b.seo_score : b.seo_score - a.seo_score);
+        } else if (attribute === 'date') {
+            filteredData = filteredData.sort((a, b) => ascending ? new Date(a.date) - new Date(b.date) : new Date(b.date) - new Date(a.date));
+        } else if (attribute === 'url') {
+            filteredData = filteredData.sort((a, b) => ascending ? a.url.localeCompare(b.url) : b.url.localeCompare(a.url));
         }
 
         return filteredData;
+
     };
 
 
 
 
-    const sortedArticles = applySortingAndFilteringFunctions(finalData, sortingFunctions, sortBy.ascending, selectedCategory);
+    const sortedArticles = applySortingAndFilteringFunctions(finalData, sortBy, selectedCategory);
 
     useEffect(() => {
         setsortedArticlesLength(sortedArticles.length)
@@ -316,11 +309,46 @@ function FrontPage() {
         setIsConfirmationOpen(false);
     };
 
-    // Define the onClose function
+
     const handleClose = () => {
         // Close the confirmation popup
         setIsConfirmationOpen(false);
     };
+
+
+    const handleDataUpdate = async () => {
+
+        fetchArticles();
+    };
+
+
+    // const [editedContent, setEditedContent] = useState();
+
+    // const handleContentEdit = (e) => {
+    //     setEditedContent(e.target.textContent);
+    // }; 
+
+    // const handleBlur = async (articleId) => {
+    //     try {
+    //         console.log(typeof (editedContent))
+    //         console.log(articleId)
+    //         const { data, error } = await supabase
+    //             .from('articles')
+    //             .update({ Pawan: editedContent }) // Assuming 'content' is the column to be updated
+    //             .eq('article_id', articleId);
+
+    //         if (error) {
+    //             throw new Error('Error updating article:', error.message);
+    //         }
+    //         fetchArticles()
+    //         console.log('Article updated successfully:', data);
+    //         return data; // Return the updated data if needed
+    //     } catch (error) {
+    //         console.error('Error updating article:', error.message);
+    //         throw error;
+    //     }
+    // };
+
 
 
     console.log(articles)
@@ -329,13 +357,14 @@ function FrontPage() {
             <div className="containers">
 
                 <div className="selectors">
-                    <div className="flex">
-                        <div className="flex" >
+                    <div className="flex" >
+                        <div className="flex">
                             <select
                                 name=""
                                 id=""
                                 onChange={handlePublicationChange}
                                 value={selectedPublication}
+
                             >
                                 {publications.map((publication) => (
                                     <option key={publication.publication_id} value={publication.publication_name}>
@@ -346,7 +375,7 @@ function FrontPage() {
 
                             <img src={arrowDown} alt="" style={{ marginRigth: '10px' }} />
                         </div >
-                        <PostTypeButton onChangeValue={handleButtonClick} />
+                        <PostTypeButton onChangeValue={handleButtonClick} PostTypeData={count.all} articleLength={postTypeCount.length} />
                     </div>
                     <div className="key setting">
                         <p>
@@ -378,8 +407,8 @@ function FrontPage() {
                 </div>
                 <div className="filters-input">
 
-                    <div className="key">
-                        <div className="checkbox">
+                    <div className="key" >
+                        <div className="checkbox" >
                             <label>
                                 <input
                                     type="checkbox"
@@ -396,6 +425,7 @@ function FrontPage() {
                             onClick={toggleCheckbox}
                         />
                         <img
+                            style={{ cursor: "pointer" }}
                             src={trash}
                             alt="Click to open confirmation"
                             onClick={() => setIsConfirmationOpen(true)}
@@ -511,8 +541,12 @@ function FrontPage() {
                         <div className="card-right">
                             <div className="options">
                                 <div className='flex'>
-                                    <p className="heading" >{article.title}  </p>
-                                    <p className="char char-red" style={{ marginLeft: "20px" }}>({article.title.length} char)</p>
+                                    <p className="heading" style={{ border: "none" }} >
+                                        {article.title}
+                                    </p>
+                                    <p className="char char-red" style={{ marginLeft: "20px" }}>
+                                        ({article.title.length} char)
+                                    </p>
                                 </div>
                                 <div className="flex">
                                     <div className="key">
@@ -521,7 +555,7 @@ function FrontPage() {
                                     </div>
                                     {article.seo_score && <div className="seo">
                                         <p>SEO</p>
-                                        <p className="percent percent-red">{article.seo_score} %</p>
+                                        <p className="percent percent-red" contentEditable>{article.seo_score} %</p>
                                     </div>}
                                     <div className="seo edit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
@@ -534,11 +568,11 @@ function FrontPage() {
                             <div className="bread-crumb">
                                 <div className="bread-crum">
                                     <img src={arrowDown} alt="" />
-                                    <p className="crumb">/{article.categories.url}/<span>{article.url}</span></p>
+                                    <p className="crumb">/{article.categories.url}/<span contentEditable>{article.url}</span></p>
                                     <p>{formatDate(article.date)}</p>
                                     <p>{formatDate(article.created_at)}</p>
                                     <p>ID {article.article_id}</p>
-                                    <Icon article={article} article_id={article.article_id} />
+                                    <Icon article={article} article_id={article.article_id} onDataUpdate={handleDataUpdate} />
 
                                 </div>
 
@@ -552,11 +586,11 @@ function FrontPage() {
 
                                 {article.keyword && <div className="flex key">
                                     <img src={key} alt="" />
-                                    <p>{article.keyword}</p>
+                                    <p contentEditable>{article.keyword}</p>
                                 </div>}
                                 {article.tag && <div className="flex key">
                                     <img src={chit} alt="" />
-                                    <p>{article.tag}</p>
+                                    <p contentEditable>{article.tag}</p>
                                 </div>
                                 }
                             </div>
