@@ -47,6 +47,7 @@ function FormPage() {
 
   const [isProfilePopupOpen, setProfilePopupOpen] = useState(false);
   const [isAddButtonOpen, setIsAddButtonOpen] = useState(false);
+  const[image_alt,setImage_alt] = useState('')
 
   const [authorInfo, setAuthorInfo] = useState("")
 
@@ -148,6 +149,7 @@ function FormPage() {
         title: title,
         body: body,
         user_id: userId,
+        image_alt:image_alt|| null
       };
 
       if (isUpdating) {
@@ -238,6 +240,11 @@ function FormPage() {
 
   const handleFeatureImage = (e) => {
     setFeaturedImage(e.target.value)
+    setSubmit(false)
+  }
+
+  const handleImage_alt =(e)=>{
+    setImage_alt(e.target.value)
     setSubmit(false)
   }
 
@@ -522,6 +529,16 @@ function FormPage() {
             placeholder="Featured Image"
             value={featuredImage}
             onChange={handleFeatureImage} // onChange for featuredImage
+          />
+        </div>}
+
+        
+        {settings.image_alt && <div className="flex">
+          <input
+            type="text"
+            placeholder="Featured Image"
+            value={image_alt}
+            onChange={handleImage_alt} // onChange for image_alt
           />
         </div>}
 
