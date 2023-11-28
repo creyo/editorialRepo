@@ -30,8 +30,8 @@ function FrontPage() {
 
     const [selectedPublication, setSelectedPublication] = useState('');
     const [finalData, setFinalData] = useState([])
-    const [selectedPostTypeId, setSelectedPostTypeId] = useState(2);
-    const [selectedPublicationId, setSelectedPublicationId] = useState(1);
+    const [selectedPostTypeId, setSelectedPostTypeId] = useState();
+    const [selectedPublicationId, setSelectedPublicationId] = useState();
     const [selectedStatusId, setSelectedStatusId] = useState(null);
     const [isChecked, setIsChecked] = useState(false);
     const [checkboxStates, setCheckboxStates] = useState(finalData.map(() => true));
@@ -97,8 +97,9 @@ function FrontPage() {
                 if (filterData.length === 0) {
                     navigate("/blank");
                 }
-
-                setPublications(filterData);
+                // Sorting the array based on publication_id in ascending order
+                const sortedData = filterData.sort((a, b) => a.publication_id - b.publication_id);
+                setPublications(sortedData)
             } catch (error) {
                 console.error('Error fetching publications:', error.message);
             }
@@ -146,6 +147,7 @@ function FrontPage() {
     const handlePublicationChange = (event) => {
         const selectedValue = event.target.value;
         setSelectedPublication(selectedValue);
+        localStorage.setItem('publicationName', selectedValue);
 
         const selectedPublicationObject = publications.find(
             (publication) => publication?.publication_name === selectedValue
@@ -154,12 +156,13 @@ function FrontPage() {
         if (selectedPublicationObject) {
             const publicationId = selectedPublicationObject?.publication_id;
             setSelectedPublicationId(publicationId);
+            localStorage.setItem('publicationId', publicationId);
         }
     };
 
     const handleButtonClick = (value, option) => {
         setSelectedPostTypeId(value);
-
+        localStorage.setItem('postTypeId', value);
     };
 
     const singleItemCheckbox = (article_id) => {
@@ -247,7 +250,6 @@ function FrontPage() {
 
 
 
-
     const applySortingAndFilteringFunctions = (data, sortBy, selectedCategoryUrl) => {
         let filteredData = data;
 
@@ -265,7 +267,7 @@ function FrontPage() {
             filteredData = filteredData.sort((a, b) => ascending ? a.seo_score - b.seo_score : b.seo_score - a.seo_score);
         } else if (attribute === 'date') {
             filteredData = filteredData.sort((a, b) => ascending ? new Date(a.date) - new Date(b.date) : new Date(b.date) - new Date(a.date));
-        } else if (attribute === 'url') {
+        } else if (attribute === 'category') {
             filteredData = filteredData.sort((a, b) => ascending ? a.url.localeCompare(b.url) : b.url.localeCompare(a.url));
         }
 
@@ -275,12 +277,18 @@ function FrontPage() {
 
 
 
-
     const sortedArticles = applySortingAndFilteringFunctions(finalData, sortBy, selectedCategory);
 
+    const pubID = localStorage.getItem('publicationId');
+    const postTypeId = localStorage.getItem('postTypeId');
+    const selectValue = localStorage.getItem('publicationName');
     useEffect(() => {
         setsortedArticlesLength(sortedArticles.length)
-    }, [sortedArticles])
+        setSelectedPublication(selectValue)
+        setSelectedPublicationId(parseInt(pubID))
+        setSelectedPostTypeId(parseInt(postTypeId))
+        // console.log(typeof(), postTypeId)
+    }, [sortedArticles, selectedPublicationId, selectedPostTypeId, postTypeId, pubID, selectValue])
 
 
 
@@ -322,36 +330,54 @@ function FrontPage() {
     };
 
 
-    // const [editedContent, setEditedContent] = useState();
+    // const [editedContent, setEditedContent] = useState('');
 
     // const handleContentEdit = (e) => {
+    //     console.log(e.target.textContent)
     //     setEditedContent(e.target.textContent);
     // }; 
 
-    // const handleBlur = async (articleId) => {
-    //     try {
-    //         console.log(typeof (editedContent))
-    //         console.log(articleId)
-    //         const { data, error } = await supabase
-    //             .from('articles')
-    //             .update({ Pawan: editedContent }) // Assuming 'content' is the column to be updated
-    //             .eq('article_id', articleId);
+    // const handleBlur = async (e,articleId ) => {
+    //     setTimeout(() => {
+    //       console.log(e.target.textContent);
+    //       console.log(articleId);
+    //     }, 0);
+    //   };
 
-    //         if (error) {
-    //             throw new Error('Error updating article:', error.message);
-    //         }
-    //         fetchArticles()
-    //         console.log('Article updated successfully:', data);
-    //         return data; // Return the updated data if needed
-    //     } catch (error) {
-    //         console.error('Error updating article:', error.message);
-    //         throw error;
-    //     }
-    // };
+    const handleBlur = async (e, articleId, type) => {
+        let content = e.target.textContent;
+        if (type === 'seo_score') {
+            // Remove % sign if type is "seo"
+            content = content.replace(/%/g, "");
+        }
+
+        const updateItem = {
+            [type]: content,
+        }
+        console.log(updateItem)
+        try {
+            // console.log(typeof (editedContent))
+            console.log(articleId)
+            const { data, error } = await supabase
+                .from('articles')
+                .update(updateItem)
+                .eq('article_id', articleId);
+
+            if (error) {
+                throw new Error('Error updating article:', error.message);
+            }
+            fetchArticles()
+            console.log('Article updated successfully:', data);
+            return data; // Return the updated data if needed
+        } catch (error) {
+            console.error('Error updating article:', error.message);
+            throw error;
+        }
+    };
 
 
 
-    console.log(articles)
+    // console.log(articles)
     return (
         <>
             <div className="containers">
@@ -513,7 +539,7 @@ function FrontPage() {
                                     </option>
                                 ))}
                             </select>
-                            <img src={arrowDown} alt="" style={{ marginRight: '10px;' }} />
+                            <img src={arrowDown} alt="" style={{ marginRight: '10px' }} />
                         </div>
 
 
@@ -541,7 +567,12 @@ function FrontPage() {
                         <div className="card-right">
                             <div className="options">
                                 <div className='flex'>
-                                    <p className="heading" style={{ border: "none" }} >
+                                    <p className="heading" style={{ border: "none" }}
+                                        contentEditable
+                                        suppressContentEditableWarning={true}
+
+                                        onBlur={(e) => handleBlur(e, article.article_id, 'title')}
+                                    >
                                         {article.title}
                                     </p>
                                     <p className="char char-red" style={{ marginLeft: "20px" }}>
@@ -555,7 +586,10 @@ function FrontPage() {
                                     </div>
                                     {article.seo_score && <div className="seo">
                                         <p>SEO</p>
-                                        <p className="percent percent-red" contentEditable>{article.seo_score} %</p>
+                                        <p className="percent percent-red" contentEditable
+                                            suppressContentEditableWarning={true}
+                                            onBlur={(e) => handleBlur(e, article.article_id, 'seo_score')}
+                                        >{article.seo_score}%</p>
                                     </div>}
                                     <div className="seo edit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
@@ -568,7 +602,10 @@ function FrontPage() {
                             <div className="bread-crumb">
                                 <div className="bread-crum">
                                     <img src={arrowDown} alt="" />
-                                    <p className="crumb">/{article.categories.url}/<span contentEditable>{article.url}</span></p>
+                                    <p className="crumb">/{article.categories.url}/<span contentEditable
+                                        suppressContentEditableWarning={true}
+                                        onBlur={(e) => handleBlur(e, article.article_id, 'url')}
+                                    >{article.url}</span></p>
                                     <p>{formatDate(article.date)}</p>
                                     <p>{formatDate(article.created_at)}</p>
                                     <p>ID {article.article_id}</p>
@@ -586,11 +623,13 @@ function FrontPage() {
 
                                 {article.keyword && <div className="flex key">
                                     <img src={key} alt="" />
-                                    <p contentEditable>{article.keyword}</p>
+                                    <p contentEditable suppressContentEditableWarning={true}
+                                        onBlur={(e) => handleBlur(e, article.article_id, 'keyword')}>{article.keyword}</p>
                                 </div>}
                                 {article.tag && <div className="flex key">
                                     <img src={chit} alt="" />
-                                    <p contentEditable>{article.tag}</p>
+                                    <p contentEditable suppressContentEditableWarning={true}
+                                        onBlur={(e) => handleBlur(e, article.article_id, 'tag')}>{article.tag}</p>
                                 </div>
                                 }
                             </div>

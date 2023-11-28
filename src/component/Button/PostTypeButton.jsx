@@ -2,20 +2,19 @@ import React, { useEffect, useState } from 'react';
 import '../FrontPage'; // Import your CSS file
 
 function PostTypeButton({ onChangeValue , formValue, PostTypeData ,articleLength }) {
-  const [selectedOption, setSelectedOption] = useState('Blog'); // Initialize with 'Blog' as the default value
+  const option = localStorage.getItem('selectedOption')
+  console.log(option)
+  const [selectedOption, setSelectedOption] = useState(option); // Initialize with 'Blog' as the default value
 
   const handleButtonClick = (value,option) => {
     setSelectedOption(value);
     onChangeValue(option); // Pass the selected option value to the parent component
-    
+    localStorage.setItem('selectedOption', value)
   }
 
 useEffect(()=>{ 
-   if(parseInt(formValue) === 1){
-    setSelectedOption("Page")
-  }else{
-    setSelectedOption("Blog")
-  }},[formValue])
+  setSelectedOption(option)
+  },[setSelectedOption,option])
 
 
 

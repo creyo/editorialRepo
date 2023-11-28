@@ -13,7 +13,7 @@ import CategoryDropdown from '../FormDataInformation/CategoryDropDown';
 import AuthorDropdown from '../FormDataInformation/AuthorDropdown';
 import supabase from '../config/supabase'; // Import the Supabase instance
 import AddProduct from './popUp/AddProduct';
-
+import { Link } from 'react-router-dom';
 
 
 function FormPage() {
@@ -428,7 +428,8 @@ function FormPage() {
 
       <div className="flex" style={{ margin: '1rem 0' }}>
         {/* back button will on home page */}
-        <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button>
+        <Link to={'/'}>Back</Link>
+        {/* <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button> */}
         <button class="add-page-button" onClick={handleAddPage}>Add {findPostTypeNameById(postTypeData, parseInt(selectedPostType))}</button>
         <img src="/images/plus.svg" alt="" />
       </div>
