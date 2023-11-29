@@ -377,6 +377,9 @@ function FrontPage() {
 
 
 
+
+
+
     // console.log(articles)
     return (
         <>
@@ -403,12 +406,12 @@ function FrontPage() {
                         </div >
                         <PostTypeButton onChangeValue={handleButtonClick} PostTypeData={count.all} articleLength={postTypeCount.length} />
                     </div>
-                    <div className="key setting">
-                        <p>
-                            Settings
-                        </p>
-                        <img src={setting} alt="" />
-                    </div>
+                    <Link to={"/setting"} style={{ textDecoration: "none" }}>
+                        <div className="key setting" >
+                            <p> Settings</p>
+                            <img src={setting} alt="" />
+                        </div>
+                    </Link>
                 </div>
 
                 <div className="top-card">

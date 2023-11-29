@@ -10,6 +10,7 @@ import Updatearticle from './component/Updatearticle';
 import NoDataFoundPage from './component/ExtraPage/NoDataFoundPage';
 import Logout from './component/Logout';
 import FrontPage from './component/FrontPage';
+import Setting from './component/Setting/Setting';
 
 
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/" element={<PrivateRoute Component={FrontPage} />} />
+          <Route path ="/setting" element ={<Setting/>} />
           <Route path="/addarticle/:publicationId/:postTypeId" element={<PrivateRoute Component={FormPage} />} />
           <Route path="/updatearticle/:articleId" element={<PrivateRoute Component={Updatearticle} />} />
           <Route path="/blank" element={<NoDataFoundPage />} />
