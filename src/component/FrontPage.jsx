@@ -46,7 +46,10 @@ function FrontPage() {
 
 
 
-
+    let selectedOption = localStorage.getItem("selectedOption")
+    if(selectedOption === "Page"){
+        selectedOption = "pages"
+    }
 
     async function fetchArticles() {
 
@@ -63,10 +66,11 @@ function FrontPage() {
         `)
         if (error) {
             console.error('Error fetching articles:', error);
-        } else {
+        }  else {
             setArticles(data);
         }
     }
+
 
 
 
@@ -565,7 +569,7 @@ function FrontPage() {
                                     <span className="checkmark"></span>
                                 </label>
                             </div>
-                            {article.featured_image && <img src={!article.featured_image ? article.featured_image : try3} alt="" />}
+                            <img src={!article.featured_image ? try3 : `https://res.cloudinary.com/creyo-com/image/upload/c_scale,w_138,h_83,r_10/${selectedPublication}/${selectedOption}/${article.featured_image}`} alt="" />
                         </div>
                         <div className="card-right">
                             <div className="options">
