@@ -1,4 +1,5 @@
 import React from 'react';
+import authorPic from "./images/author.png";
 import './style.css'; // Import your CSS file
 
 function Profile() {
@@ -8,7 +9,7 @@ function Profile() {
 
       <div class="settings-form profile-page-form">
 
-        <img src="images/author.png" alt="" />
+        <img src={authorPic} alt="" />
         <form action="">
           <div>
             <label for="">Name</label>
