@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./style.css"
 import Author from './Author'
 import x from "./images/x.png"
-// import Profile from './Profile'
-// import Publication from './Publication'
+import Profile from './Profile'
+import Publication from './Publication'
 
 function Setting() {
+
+    const [selectedItem, setSelectedItem] = useState('Publication');
     return (
         <div className="container author-page">
             <div className="selectors setting-page-selector">
@@ -17,9 +19,24 @@ function Setting() {
                 </div>
 
                 <div className="buttons-others flex">
-                    <p className="draft">Publication</p>
-                    <p className="draft selected-item">Author</p>
-                    <p className="draft">Profile</p>
+                    <p
+                        className={`draft ${selectedItem === 'Publication' ? 'selected-item' : ''}`}
+                        onClick={() => setSelectedItem('Publication')}
+                    >
+                        Publication
+                    </p>
+                    <p
+                        className={`draft ${selectedItem === 'Author' ? 'selected-item' : ''}`}
+                        onClick={() => setSelectedItem('Author')}
+                    >
+                        Author
+                    </p>
+                    <p
+                        className={`draft ${selectedItem === 'Profile' ? 'selected-item' : ''}`}
+                        onClick={() => setSelectedItem('Profile')}
+                    >
+                        Profile
+                    </p>
                 </div>
                 <div className="key setting" onClick={() => window.history.back()}>
                     <p>Close</p>
@@ -28,16 +45,13 @@ function Setting() {
 
             </div>
 
-            <Author />
-            {/* <h1>Profile</h1>
-        <Profile/>
-        <h3>publication</h3>
-        <Publication/> */}
-
+            {/* Conditionally render components based on selectedItem */}
+            {selectedItem === 'Author' && <Author />}
+            {selectedItem === 'Profile' && <Profile />}
+            {selectedItem === 'Publication' && <Publication />}
 
         </div>
-
-    )
+    );
 }
 
-export default Setting
+export default Setting;

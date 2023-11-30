@@ -47,7 +47,7 @@ function FrontPage() {
 
 
     let selectedOption = localStorage.getItem("selectedOption")
-    if(selectedOption === "Page"){
+    if (selectedOption === "Page") {
         selectedOption = "pages"
     }
 
@@ -66,7 +66,7 @@ function FrontPage() {
         `)
         if (error) {
             console.error('Error fetching articles:', error);
-        }  else {
+        } else {
             setArticles(data);
         }
     }
@@ -380,6 +380,29 @@ function FrontPage() {
     };
 
 
+    // Function to update article status using Supabase API
+    const updateArticleStatus = async (status, id) => {
+    
+        try {
+            // Assuming you have the Supabase client instance available
+            const {  error } = await supabase
+                .from('articles')
+                .update({ status: status })
+                .eq('article_id', id);
+
+            if (error) {
+                // Handle error, display message, etc.
+                console.error('Error updating article status:', error);
+            } else {
+                fetchArticles()
+                
+            }
+        } catch (error) {
+            console.error('Error updating article status:', error.message);
+        }
+    };
+
+
 
 
 
@@ -624,10 +647,24 @@ function FrontPage() {
                             </div>
                             <div className="buttons-others flex">
                                 {/* <button>{article.articlestatus.status_name}</button> */}
-                                <button className={article.articlestatus.status_name === "Draft" ? "draft-select" : ""}>Draft</button>
-                                <button className={article.articlestatus.status_name === "Review" ? "review-select" : ""} >Review</button>
-                                <button className={article.articlestatus.status_name === "Published" ? "published-select" : ""}>Published</button>
-
+                                <button
+                                    className={article.status === 1 ? 'draft-select' : ''}
+                                    onClick={() => updateArticleStatus(1, article.article_id)}
+                                >
+                                    Draft
+                                </button>
+                                <button
+                                    className={article.status === 2 ? 'review-select' : ''}
+                                    onClick={() => updateArticleStatus(2, article.article_id)}
+                                >
+                                    Review
+                                </button>
+                                <button
+                                    className={article.status === 3? 'published-select' : ''}
+                                    onClick={() => updateArticleStatus(3, article.article_id)}
+                                >
+                                    Published
+                                </button>
                                 {article.keyword && <div className="flex key">
                                     <img src={key} alt="" />
                                     <p contentEditable suppressContentEditableWarning={true}

@@ -4,51 +4,120 @@ import './style.css'; // Import your CSS file
 function Profile() {
   return (
     <div className="container author-page">
-      
 
-      <div className="settings-form profile-page-form">
-        <img src="./images/author.png" alt="" />
+
+      <div class="settings-form profile-page-form">
+
+        <img src="images/author.png" alt="" />
         <form action="">
           <div>
-            <label htmlFor="">Name</label>
+            <label for="">Name</label>
             <input type="text" placeholder="Zubia Shahid" />
           </div>
           <div>
-            <label htmlFor="">Email</label>
+            <label for="">Email</label>
             <input type="text" placeholder="Zubia Shahid" />
           </div>
           <div>
-            <label htmlFor="">Password</label>
+            <label for="">Password</label>
             <input type="password" placeholder="***********" />
           </div>
-          <p className="reset">Reset Password</p>
-          <button className="btn">Update</button>
+          <p class="reset">Reset Password</p>
+          <button class="btn">Update</button>
+
         </form>
       </div>
 
-      <div className="profile-page-list">
+      <div class="profile-page-list">
         <h1>Publications</h1>
-        <div className="profile-page-list-div">
-          <table className="list-table">
-            <thead>
-              <tr>
-                <th>Publication</th>
-                <th>Domain</th>
-                <th>Created</th>
-                <th>Items</th>
-                <th>Bio</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                {/* Add your table rows with data */}
-              </tr>
-              {/* Additional rows for your publications */}
-            </tbody>
+        <div class="profile-page-list-div">
+          <table class="list-table">
+            <tr>
+              <th><h2>Publication</h2></th>
+              <th><h2>Domain</h2></th>
+              <th><h2>Created</h2></th>
+              <th>
+                <h2>Items</h2>
+              </th>
+              <th>
+                <h2>Bio</h2>
+              </th>
+            </tr>
+            <tr>
+              <td>
+                <div class="checkbox-flex">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" checked="checked"/>
+                        <span class="checkmark"></span>
+                    </label>
+                  </div>
+                  <p class="small-text">Select All</p>
+                  <img src="images/trash-2.png" alt="" />
+                </div>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="checkbox-flex">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" checked="checked" />
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                  <p>Passiveday</p>
+                </div>
+              </td>
+              <td><p>passiveday.com</p></td>
+              <td><p> 24 Jun 2023</p></td>
+              <td><p>30</p> </td>
+              <td><p>Admin</p> </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="checkbox-flex">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" checked="checked" />
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                  <p>Appsala</p>
+                </div>
+              </td>
+              <td><p>appsala.com</p></td>
+              <td><p> 24 Jun 2023</p></td>
+              <td><p>30</p> </td>
+              <td><p>Admin</p> </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="checkbox-flex">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" checked="checked" />
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                  <p>Brandemy</p>
+                </div>
+              </td>
+              <td><p>brandemy.com</p></td>
+              <td><p> 24 Jun 2023</p></td>
+              <td><p>30</p> </td>
+              <td><p>Admin</p> </td>
+            </tr>
           </table>
         </div>
       </div>
     </div>
+
   );
 }
 
