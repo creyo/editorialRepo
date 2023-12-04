@@ -101,7 +101,7 @@ function FormPage() {
     fetchData();
   }, []);
 
-  console.log(publicationData)
+
 
   let tokenInfo = localStorage.getItem('sb-narivuecshkbtcueblcl-auth-token')
   const jsonObject = JSON.parse(tokenInfo);
@@ -275,16 +275,15 @@ function FormPage() {
     // const authorInfo = `Author: ${name}<br>Bio: ${bio}`;
     const authorInfo = `<div class="blog-component-card author-info">
         <div class="author-name-intro">
-            <h3>${name}</h3>
-            <p>${bio}</p>
+         [PD:CB001
+           <h3>${name}</h3>
+            <p>${bio}</p>]
         </div>
                 </div>`
     setBody((prevBody) => `${prevBody}<br>${authorInfo}`);
     setAuthorInfo(authorInfo)
   };
 
-  console.log(authorInfo)
-  console.log(body)
 
 
 
@@ -376,7 +375,7 @@ function FormPage() {
   };
 
 
-  console.log(selectedPublication)
+
 
 
   const renderValidationTick = (length) => {

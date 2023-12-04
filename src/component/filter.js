@@ -156,16 +156,19 @@ export function filterAuthorsByPublication(data, publicationIdToFilter) {
 }
 
 
-export function filterArticlesCount(data, publicationId, postTypeId) {
+export function filterArticlesCount(data, publicationId, postTypeId, control) {
   // Use the `filter` method to filter articles based on criteria
   const filteredArticles = data.filter(article => {
     return (
-      article.publication_id === publicationId && article.post_type?.post_type_id === postTypeId
+      article.publication_id === publicationId &&
+      article.post_type?.post_type_id === postTypeId &&
+      (!control || (article.control && article.control[control] === true))
     );
   });
 
   return filteredArticles;
 }
+
 
 
 

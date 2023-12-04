@@ -19,6 +19,7 @@ import ArticleSearch from './Button/ArticleSearch';
 
 import ConfirmDeletePopup from './Button/ConfirmDeletePopup.jsx';
 import Icon from './Button/Icon.jsx';
+import IconFilteration from './Button/IconFilteration.jsx';
 
 
 
@@ -27,7 +28,7 @@ function FrontPage() {
     const navigate = useNavigate()
     const [articles, setArticles] = useState([]);
     const [publications, setPublications] = useState([]);
-
+   const [listedData, setListedData] = useState([])
     const [selectedPublication, setSelectedPublication] = useState('');
     const [finalData, setFinalData] = useState([])
     const [selectedPostTypeId, setSelectedPostTypeId] = useState();
@@ -42,6 +43,7 @@ function FrontPage() {
     const [idToDelete, setIdToDelete] = useState([])
     const [sortedArticlesLength, setsortedArticlesLength] = useState(0)
     const [postTypeCount, setpostTypeCount] = useState([])
+    const [activeIcon, setActiveIcon] = useState(null)
 
 
 
@@ -70,7 +72,6 @@ function FrontPage() {
             setArticles(data);
         }
     }
-
 
 
 
@@ -185,13 +186,8 @@ function FrontPage() {
         ).map(id => parseInt(id, 10)); // Parse the IDs to integers in the resulting array
 
         // Now, ArticleIds contains the article_ids as integers of the  items
-
-
-        setIdToDelete(ArticleIds);
-
-
-
-        // Update the checkboxStates
+ setIdToDelete(ArticleIds);
+// Update the checkboxStates
         setCheckboxStates(newCheckboxStates);
     };
 
@@ -206,20 +202,7 @@ function FrontPage() {
     };
 
 
-
-
-    const handleSearch = (query) => {
-        // Use the query to filter the articles
-        const searching = articles.filter((article) =>
-            new RegExp(`\\b${query}`, 'i').test(article.title)
-        );
-
-        setFinalData(searching)
-    };
-
-
-
-    const forCount = filterArticlesCount(articles, selectedPublicationId, selectedPostTypeId)
+    const forCount = filterArticlesCount(articles, selectedPublicationId, selectedPostTypeId,activeIcon)
 
     //calling count function to count status count of articles 
     let count = countArticlesByStatus(forCount)
@@ -254,16 +237,21 @@ function FrontPage() {
 
 
 
-    const applySortingAndFilteringFunctions = (data, sortBy, selectedCategoryUrl) => {
+    const applySortingAndFilteringFunctions = (data, sortBy, selectedCategoryUrl, control) => {
         let filteredData = data;
-
+    
         // Filter based on the selectedCategoryUrl (if not "All")
         if (selectedCategoryUrl && selectedCategoryUrl !== "All") {
             filteredData = data.filter((item) => item.categories.url === selectedCategoryUrl);
         }
-
+    
+        // Additional filtering based on the control field
+        if (control) {
+            filteredData = filteredData.filter((item) => item.control && item.control[control] === true);
+        }
+    
         const { attribute, ascending } = sortBy;
-
+    
         // Apply sorting function based on the provided attribute
         if (attribute === 'title') {
             filteredData = filteredData.sort((a, b) => ascending ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title));
@@ -274,19 +262,31 @@ function FrontPage() {
         } else if (attribute === 'category') {
             filteredData = filteredData.sort((a, b) => ascending ? a.url.localeCompare(b.url) : b.url.localeCompare(a.url));
         }
-
+    
         return filteredData;
+    };
+    
 
+
+
+    // const sortedArticles = applySortingAndFilteringFunctions(finalData, sortBy, selectedCategory);
+    const sortedArticles = applySortingAndFilteringFunctions(finalData, sortBy,selectedCategory, activeIcon);
+    const handleSearch = (query) => {
+        // Use the query to filter the articles
+        const searching = sortedArticles.filter((article) =>
+            new RegExp(`\\b${query}`, 'i').test(article.title)
+        );
+
+        setListedData(searching)
     };
 
-
-
-    const sortedArticles = applySortingAndFilteringFunctions(finalData, sortBy, selectedCategory);
+    
 
     const pubID = localStorage.getItem('publicationId');
     const postTypeId = localStorage.getItem('postTypeId');
     const selectValue = localStorage.getItem('publicationName');
     useEffect(() => {
+        setListedData(sortedArticles)
         setsortedArticlesLength(sortedArticles.length)
         setSelectedPublication(selectValue)
         setSelectedPublicationId(parseInt(pubID))
@@ -358,10 +358,9 @@ function FrontPage() {
         const updateItem = {
             [type]: content,
         }
-        console.log(updateItem)
+        
         try {
-            // console.log(typeof (editedContent))
-            console.log(articleId)
+            
             const { data, error } = await supabase
                 .from('articles')
                 .update(updateItem)
@@ -371,7 +370,7 @@ function FrontPage() {
                 throw new Error('Error updating article:', error.message);
             }
             fetchArticles()
-            console.log('Article updated successfully:', data);
+            
             return data; // Return the updated data if needed
         } catch (error) {
             console.error('Error updating article:', error.message);
@@ -382,10 +381,10 @@ function FrontPage() {
 
     // Function to update article status using Supabase API
     const updateArticleStatus = async (status, id) => {
-    
+
         try {
             // Assuming you have the Supabase client instance available
-            const {  error } = await supabase
+            const { error } = await supabase
                 .from('articles')
                 .update({ status: status })
                 .eq('article_id', id);
@@ -395,7 +394,7 @@ function FrontPage() {
                 console.error('Error updating article status:', error);
             } else {
                 fetchArticles()
-                
+
             }
         } catch (error) {
             console.error('Error updating article status:', error.message);
@@ -407,7 +406,6 @@ function FrontPage() {
 
 
 
-    // console.log(articles)
     return (
         <>
             <div className="containers">
@@ -451,7 +449,7 @@ function FrontPage() {
 
                     </div>
                     <div className="flex">
-                        <ArticleSearch articles={articles} onSearch={handleSearch} />
+                        <ArticleSearch  onSearch={handleSearch} />
                         <div className="add-plus">
                             <Link className='link' to={`/addarticle/${selectedPublicationId}/${selectedPostTypeId}`}>
                                 <p>Add a {selectedPostTypeId === 2 ? "Blog" : "Page"} </p>
@@ -572,13 +570,17 @@ function FrontPage() {
                             <img src={arrowDown} alt="" style={{ marginRight: '10px' }} />
                         </div>
 
+                        <div>
+                            <IconFilteration activeIcon={activeIcon} setActiveIcon={setActiveIcon} />
+                        </div>
+
 
                     </div>
 
 
                 </div>
 
-                {sortedArticles.map((article) => (
+                {listedData.map((article) => (
                     <div className="card" key={article.article_id}>
                         <div className="card-left">
                             <div className="checkbox">
@@ -660,7 +662,7 @@ function FrontPage() {
                                     Review
                                 </button>
                                 <button
-                                    className={article.status === 3? 'published-select' : ''}
+                                    className={article.status === 3 ? 'published-select' : ''}
                                     onClick={() => updateArticleStatus(3, article.article_id)}
                                 >
                                     Published

@@ -15,10 +15,10 @@ const ArticleSearch = ({ articles, onSearch }) => {
   return (
     <div className='search'>
       <input type="text" placeholder="Search Title"
-       value={searchQuery}
+        value={searchQuery}
         onChange={handleSearch}>
-          </input>
-    </div>  
+      </input>
+    </div>
 
 
   );

@@ -32,7 +32,7 @@ function Updatearticle() {
 
   const [categoryValue, setCategoryValue] = useState('')
   const [authorValue, setAuthorValue] = useState('')
-  console.log(category_id, authorId);
+  
 
 
   // Dropdown 
