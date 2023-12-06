@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { findPostTypeNameById,filterPublicationsByUserEmail } from "./filter"
+import { findPostTypeNameById, filterPublicationsByUserEmail } from "./filter"
 import ReactQuill from 'react-quill';
 import ProfilePopup from './popUp/ProfilePopup';
 import { renderToString } from 'react-dom/server';
@@ -17,7 +17,6 @@ import AddProduct from './popUp/AddProduct';
 function FormPage() {
 
   const { publicationId, postTypeId } = useParams();
-
   const [statusId, setStatusId] = useState(1);
   const [typedUrl, setTypedUrl] = useState('');
   const [seoScore, setSeoScore] = useState(0);
@@ -36,7 +35,7 @@ function FormPage() {
   const [contentBlock, setContentBlock] = useState([]);
   const [name, setName] = useState('');
   const [bio, setBio] = useState('');
-  //dropdown 
+   const[image_alt,setImage_alt] = useState('')
   const [publicationData, setPublicationData] = useState([]);
   const [postTypeData, setPostTypeData] = useState([]);
   const [selectedPublication, setSelectedPublication] = useState(publicationId);
@@ -63,17 +62,17 @@ function FormPage() {
           *,
           user(*),
           publication(*)`
-        );
-        if (error) {
-          throw error;
-        }
+      );
+      if (error) {
+        throw error;
+      }
 
-        let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
-        const jsonObject = JSON.parse(tokenInfo);
-        let email = jsonObject.user.email
-       
-        let filterData =  filterPublicationsByUserEmail(data,email)   
-        setPublicationData(filterData);
+      let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
+      const jsonObject = JSON.parse(tokenInfo);
+      let email = jsonObject.user.email
+
+      let filterData = filterPublicationsByUserEmail(data, email)
+      setPublicationData(filterData);
 
       // Fetch data from the 'post_type' table
       const { data: postTypeData, error: postTypeError } = await supabase
@@ -124,7 +123,7 @@ function FormPage() {
         status: statusId,
         publication_id: selectedPublication,
         post_type: selectedPostType,
-        url:  typedUrl,
+        url: typedUrl,
         seo_score: seoScore,
         seo_title: seoTitle,
         seo_description: seoDescription,
@@ -136,6 +135,7 @@ function FormPage() {
         date,
         title,
         body,
+        image_alt,
         user_id: userId
       };
 
@@ -238,6 +238,11 @@ function FormPage() {
     setSubmit(false)
   }
 
+  const handleImage_alt = (e) => {
+    setImage_alt(e.target.value)
+    setSubmit(false)
+  }
+
 
   const handleDate = (e) => {
     setDate(e.target.value)
@@ -264,7 +269,7 @@ function FormPage() {
     setProfilePopupOpen(false);
   };
 
- 
+
 
   const openAddProduct = () => {
     setIsAddButtonOpen(true);
@@ -279,7 +284,7 @@ function FormPage() {
     // You can format the product data as needed
     return `Product: ${productData.title}, <br> Description: ${productData.description}, <br> Link: ${productData.link}`;
     // setBody((prevBody) => `${prevBody}<br>${productInfo}`);
-   
+
   };
 
 
@@ -299,6 +304,7 @@ function FormPage() {
     setDate('');
     setTitle('');
     setBody('');
+    setImage_alt('');
     setNote('');
   };
 
@@ -320,7 +326,7 @@ function FormPage() {
       case 'product':
         break;
       case 'quill':
-        setContentBlock([...contentBlock,  quill()])
+        setContentBlock([...contentBlock, quill()])
         // console.log(contentBlock)
         break
       default:
@@ -332,42 +338,42 @@ function FormPage() {
   const saveProfile = (name, bio) => {
     const authorInfo = (
       <>
-        <div 
-  style={{
-    backgroundColor: 'white',
-    padding: '10px',
-    borderRadius: '5px',
-    margin: '10px',
-    boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.10)'
-  }}
->
-  <div>
-    <h3 
-      style={{
-        color: ' #0AB5FF',
-        fontSize: '1.2rem',
-        fontWeight: 'bolder'
-      }}
-    >
-      {name}
-    </h3>
-    <p>{bio}</p>
-  </div>
-</div>
+        <div
+          style={{
+            backgroundColor: 'white',
+            padding: '10px',
+            borderRadius: '5px',
+            margin: '10px',
+            boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.10)'
+          }}
+        >
+          <div>
+            <h3
+              style={{
+                color: ' #0AB5FF',
+                fontSize: '1.2rem',
+                fontWeight: 'bolder'
+              }}
+            >
+              {name}
+            </h3>
+            <p>{bio}</p>
+          </div>
+        </div>
 
       </>
     );
-  
+
     // Assuming setBody is used to update some state in your component
-    setBody((prevBody) => `${prevBody}<br/>${ renderToString(authorInfo)}`);
-    console.log('body',body)
+    setBody((prevBody) => `${prevBody}<br/>${renderToString(authorInfo)}`);
+    console.log('body', body)
     return authorInfo;
   };
 
   const quill = () => {
-    return(
+    return (
       <>
-         <div style={{ width: '1050px' }}>
+        <div style={{ width: '1050px' }}>
           <ReactQuill
             // value={body}
             onChange={handleTextChange}
@@ -540,9 +546,18 @@ function FormPage() {
         </div>
 
         <div className="flex">
+          <input
+            type="text"
+            placeholder="image_alt"
+            value={image_alt}
+            onChange={handleImage_alt} // onChange for featuredImage
+          />
+        </div>
+
+        <div className="flex">
           <p style={{ marginRight: '5rem' }}>Author</p>
-          
-          <AuthorDropdown onAuthorChange={handleAuthorChange}  publicationValue={selectedPublication}/>
+
+          <AuthorDropdown onAuthorChange={handleAuthorChange} publicationValue={selectedPublication} />
         </div>
 
         <div className="flex">
@@ -585,19 +600,19 @@ function FormPage() {
             onClose={closeAddProduct}
             onSave={handleAddButtonSave} />
         )}
- <button className="open-profile-button" onClick={() => addComponent('quill')}>Add Content</button>
-     
- 
-          {
-            contentBlock.map((content, index) => {
-              return (
-                <>
-                  {content}
-                </>
-              )
-              
-            })
-          }
+        <button className="open-profile-button" onClick={() => addComponent('quill')}>Add Content</button>
+
+
+        {
+          contentBlock.map((content, index) => {
+            return (
+              <>
+                {content}
+              </>
+            )
+
+          })
+        }
 
         <div className="flex">
           <textarea

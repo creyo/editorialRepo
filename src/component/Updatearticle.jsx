@@ -29,7 +29,7 @@ function Updatearticle() {
   const [body, setBody] = useState('');
   const [note, setNote] = useState('');
   const [dateInput, setDateInput] = useState('');
-
+  const [image_alt ,setImage_alt] = useState('')
   const [categoryValue, setCategoryValue] = useState('')
   const [authorValue, setAuthorValue] = useState('')
   
@@ -122,7 +122,7 @@ function Updatearticle() {
         setAuthorId(data.authors.author_id);
         setCategoryValue(data.categories.name)
         setAuthorValue(data.authors.name)
-
+        setImage_alt(data.image_alt)
         // Handle Date
         if (data.date) {
           const parsedDate = new Date(data.date);
@@ -202,6 +202,7 @@ function Updatearticle() {
         category_id: category_id,
         date: dateInput, // Use dateInput as the date value
         title,
+        image_alt,
         body,
       };
 
@@ -253,6 +254,11 @@ function Updatearticle() {
 
   const handleFeaturedImage = (e) => {
     setFeaturedImage(e.target.value)
+    setUpdated(true)
+  }
+
+  const handleImage_alt = (e) => {
+    setImage_alt(e.target.value)
     setUpdated(true)
   }
 
@@ -313,6 +319,7 @@ function Updatearticle() {
     setTitle('');
     setBody('');
     setNote('');
+    setImage_alt('')
   };
 
   // Add Page button click handler
@@ -483,6 +490,15 @@ function Updatearticle() {
             placeholder="Featured Image"
             value={featuredImage}
             onChange={handleFeaturedImage}
+          />
+        </div>
+
+        <div className="flex">
+          <input
+            type="text"
+            placeholder="Image Alt"
+            value={image_alt}
+            onChange={handleImage_alt}
           />
         </div>
 
