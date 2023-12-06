@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import "./Popup.css"
 
-function ProfilePopup({ isOpen, onClose, onSave }) {
-  const [name, setName] = useState('');
-  const [bio, setBio] = useState('');
+function ProfilePopup({ isOpen, onClose, onSave, setName, setBio, name, bio }) {
+
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -15,7 +14,7 @@ function ProfilePopup({ isOpen, onClose, onSave }) {
 
   const handleSave = () => {
     // You can perform any actions you want with the name and bio here
-    onSave(name, bio);
+    onSave();
 
     // Clear the input fields and close the popup
     setName('');

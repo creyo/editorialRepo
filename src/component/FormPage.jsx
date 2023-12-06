@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { findPostTypeNameById, filterPublicationsByUserEmail } from "./filter"
+import { findPostTypeNameById,filterPublicationsByUserEmail } from "./filter"
 import ReactQuill from 'react-quill';
 import ProfilePopup from './popUp/ProfilePopup';
-import { selectValue } from "./configuration"
-import { useSelector } from 'react-redux';
-import PostTypeButton from './Button/PostTypeButton';
+import { renderToString } from 'react-dom/server';
+//import { render } from 'jsx-to-html';
 import 'react-quill/dist/quill.snow.css';
 import './FormPage.css'; // Import your CSS file
 import StatusSelection from '../FormDataInformation/StatusSelection';
@@ -13,12 +12,12 @@ import CategoryDropdown from '../FormDataInformation/CategoryDropDown';
 import AuthorDropdown from '../FormDataInformation/AuthorDropdown';
 import supabase from '../config/supabase'; // Import the Supabase instance
 import AddProduct from './popUp/AddProduct';
-import { Link } from 'react-router-dom';
 
 
 function FormPage() {
 
   const { publicationId, postTypeId } = useParams();
+
   const [statusId, setStatusId] = useState(1);
   const [typedUrl, setTypedUrl] = useState('');
   const [seoScore, setSeoScore] = useState(0);
@@ -34,7 +33,10 @@ function FormPage() {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [note, setNote] = useState('');
-
+  const [contentBlock, setContentBlock] = useState([]);
+  const [name, setName] = useState('');
+  const [bio, setBio] = useState('');
+  //dropdown 
   const [publicationData, setPublicationData] = useState([]);
   const [postTypeData, setPostTypeData] = useState([]);
   const [selectedPublication, setSelectedPublication] = useState(publicationId);
@@ -48,23 +50,10 @@ function FormPage() {
   const [isProfilePopupOpen, setProfilePopupOpen] = useState(false);
   const [isAddButtonOpen, setIsAddButtonOpen] = useState(false);
 
-  const [authorInfo, setAuthorInfo] = useState("")
 
 
-  // const [settings, setSettings] = useState({
-  //   category: false,
-  //   seo: false,
-  //   seoTitle: false,
-  //   seoBody: false,
-  //   tag: false,
-  //   keyword: false,
-  //   featuredImage: false,
-  //   author: false,
-  //   subTitle: false,
-  //   note: false,  
-  // });
 
-  const settings = useSelector((state) => state.settings);
+
 
 
   useEffect(() => {
@@ -74,17 +63,17 @@ function FormPage() {
           *,
           user(*),
           publication(*)`
-      );
-      if (error) {
-        throw error;
-      }
+        );
+        if (error) {
+          throw error;
+        }
 
-      let tokenInfo = localStorage.getItem('sb-narivuecshkbtcueblcl-auth-token')
-      const jsonObject = JSON.parse(tokenInfo);
-      let email = jsonObject.user.email
-
-      let filterData = filterPublicationsByUserEmail(data, email)
-      setPublicationData(filterData);
+        let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
+        const jsonObject = JSON.parse(tokenInfo);
+        let email = jsonObject.user.email
+       
+        let filterData =  filterPublicationsByUserEmail(data,email)   
+        setPublicationData(filterData);
 
       // Fetch data from the 'post_type' table
       const { data: postTypeData, error: postTypeError } = await supabase
@@ -103,7 +92,7 @@ function FormPage() {
 
 
 
-  let tokenInfo = localStorage.getItem('sb-narivuecshkbtcueblcl-auth-token')
+  let tokenInfo = localStorage.getItem("sb-narivuecshkbtcueblcl-auth-token")
   const jsonObject = JSON.parse(tokenInfo);
   let userId = jsonObject.user.id
 
@@ -112,9 +101,7 @@ function FormPage() {
   useEffect(() => {
     async function fetchHighestArticleId() {
       // Fetch data from the 'articles' table to find the highest article_id
-      const { data, error } = await supabase.from('articles')
-        // .select('*').order('article_id', { ascending: false }).limit(1);
-        .select('*').order('article_id', { ascending: false }).limit(1);
+      const { data, error } = await supabase.from('articles').select('*').order('article_id', { ascending: false }).limit(1);
 
       if (error) {
         throw error
@@ -130,24 +117,26 @@ function FormPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+
+
     try {
       const newArticle = {
-        status: statusId || null,
-        publication_id: selectedPublication || null,
-        post_type: selectedPostType || null,
-        url: typedUrl,
-        seo_score: seoScore || null,
-        seo_title: seoTitle || null,
-        seo_description: seoDescription || null,
-        tag: tag || null,
-        keyword: keywords || null,
-        featured_image: featuredImage || null,
-        author_id: authorId || null,
-        category_id: category_id || null,
-        date: date,
-        title: title,
-        body: body,
-        user_id: userId,
+        status: statusId,
+        publication_id: selectedPublication,
+        post_type: selectedPostType,
+        url:  typedUrl,
+        seo_score: seoScore,
+        seo_title: seoTitle,
+        seo_description: seoDescription,
+        tag,
+        keyword: keywords,
+        featured_image: featuredImage,
+        author_id: authorId,
+        category_id: category_id,
+        date,
+        title,
+        body,
+        user_id: userId
       };
 
       if (isUpdating) {
@@ -160,18 +149,23 @@ function FormPage() {
         if (error) {
           throw error;
         }
+
+
       } else {
         // Create a new article
         const { error } = await supabase.from('articles').upsert([newArticle]);
 
         if (error) {
+
           throw error;
         }
-        setIsUpdating(true);
+        setIsUpdating(true)
         setSubmit(true);
+
       }
+
     } catch (error) {
-      alert("fields can not be empty")
+      throw error
     }
   };
 
@@ -187,7 +181,10 @@ function FormPage() {
     setSubmit(false)
   };
 
-
+  const handlePostTypeChange = (event) => {
+    setSelectedPostType(event.target.value);
+    setSubmit(false)
+  };
 
   const handleCategoryChange = (selectedCategoryInfo) => {
     setCategory_id(selectedCategoryInfo.category_id);
@@ -247,14 +244,10 @@ function FormPage() {
     setSubmit(false)
   }
 
-  const handleTitleChange = (e) => {
-    let title = e.target.value
-    setTitle(title)
+  const handleTitle = (e) => {
+    setTitle(e.target.value)
     setSubmit(false)
   }
-
-
-
 
   const handleNote = (e) => {
     setNote(e.target.value)
@@ -271,21 +264,7 @@ function FormPage() {
     setProfilePopupOpen(false);
   };
 
-  const saveProfile = (name, bio) => {
-    // const authorInfo = `Author: ${name}<br>Bio: ${bio}`;
-    const authorInfo = `<div class="blog-component-card author-info">
-        <div class="author-name-intro">
-         [PD:CB001
-           <h3>${name}</h3>
-            <p>${bio}</p>]
-        </div>
-                </div>`
-    setBody((prevBody) => `${prevBody}<br>${authorInfo}`);
-    setAuthorInfo(authorInfo)
-  };
-
-
-
+ 
 
   const openAddProduct = () => {
     setIsAddButtonOpen(true);
@@ -298,14 +277,9 @@ function FormPage() {
   const handleAddButtonSave = (productData) => {
     // Handle the product data here
     // You can format the product data as needed
-    const productInfo = `Product: ${productData.title}, <br> Description: ${productData.description}, <br> Link: ${productData.link}`;
-    setBody((prevBody) => `${prevBody}<br>${productInfo}`);
-    closeAddProduct();
-  };
-
-  const handleButtonClick = (id, value) => {
-    setSelectedPostType(id);
-
+    return `Product: ${productData.title}, <br> Description: ${productData.description}, <br> Link: ${productData.link}`;
+    // setBody((prevBody) => `${prevBody}<br>${productInfo}`);
+   
   };
 
 
@@ -321,7 +295,7 @@ function FormPage() {
     setTag('');
     setKeywords('');
     setFeaturedImage('');
-    setAuthorId(1);
+    setAuthorId(0);
     setDate('');
     setTitle('');
     setBody('');
@@ -330,74 +304,102 @@ function FormPage() {
 
   // Add Page button click handler
   const handleAddPage = () => {
-    const hasData =
-      statusId !== 1 ||
-      typedUrl !== '' ||
-      seoScore !== 0 ||
-      category_id !== 0 ||
-      seoTitle !== '' ||
-      seoDescription !== '' ||
-      tag !== '' ||
-      keywords !== '' ||
-      featuredImage !== '' ||
-      authorId !== 0 ||
-      date !== '' ||
-      title !== '' ||
-      body !== '' ||
-      note !== '';
-
-    if (hasData) {
-      setIsUpdating(!isUpdating); // Toggle isUpdating directly
-      setHighestArticleId(highestarticleid + 1);
-      resetForm(); // Reset the form
-      const syntheticEvent = { preventDefault: () => { } }; // Create a synthetic event
-      handleSubmit(syntheticEvent); // Submit the data
-    }
+    setIsUpdating(!isUpdating); // Toggle isUpdating directly
+    setHighestArticleId(highestarticleid + 1)
+    resetForm(); // Reset the form
+    const syntheticEvent = { preventDefault: () => { } }; // Create a synthetic event
+    handleSubmit(syntheticEvent); // Submit the data
   };
 
+  const addComponent = (type) => {
+    switch (type) {
+      case 'profile':
+        setContentBlock([...contentBlock, saveProfile(name, bio)])
+        // console.log(contentBlock)
+        break;
+      case 'product':
+        break;
+      case 'quill':
+        setContentBlock([...contentBlock,  quill()])
+        // console.log(contentBlock)
+        break
+      default:
+        return null;
 
+    }
+  }
 
+  const saveProfile = (name, bio) => {
+    const authorInfo = (
+      <>
+        <div 
+  style={{
+    backgroundColor: 'white',
+    padding: '10px',
+    borderRadius: '5px',
+    margin: '10px',
+    boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.10)'
+  }}
+>
+  <div>
+    <h3 
+      style={{
+        color: ' #0AB5FF',
+        fontSize: '1.2rem',
+        fontWeight: 'bolder'
+      }}
+    >
+      {name}
+    </h3>
+    <p>{bio}</p>
+  </div>
+</div>
 
+      </>
+    );
+  
+    // Assuming setBody is used to update some state in your component
+    setBody((prevBody) => `${prevBody}<br/>${ renderToString(authorInfo)}`);
+    console.log('body',body)
+    return authorInfo;
+  };
 
-
+  const quill = () => {
+    return(
+      <>
+         <div style={{ width: '1050px' }}>
+          <ReactQuill
+            // value={body}
+            onChange={handleTextChange}
+            placeholder="Enter your text here..."
+            modules={TextEditorModules}
+            formats={TextEditorFormats}
+            style={{ height: '300px', marginBottom: '100px' }}
+          />
+        </div></>
+    )
+  }
 
 
   const TextEditorModules = {
     toolbar: [
       [{ 'header': [1, 2, false] }],
-      ['bold', 'italic', 'underline', 'strike'],
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      ['link'],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+      ['link', 'image'],
+      ['clean'],
     ],
     clipboard: {
       matchVisual: false,
     },
   };
 
-
-
-
-
-  const renderValidationTick = (length) => {
-    const validationColor = selectValue(length, selectedPublication);
-    if (validationColor === 'green') {
-      return (
-        <span className="tick-icon" style={{ color: 'green' }}>
-          ✓
-        </span>
-      );
-    } else if (validationColor === 'red') {
-      return (
-        <span className="tick-icon" style={{ color: 'red' }}>
-          ❌
-        </span>
-      );
-    }
-    return null;
-  };
-
-
-
+  const TextEditorFormats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image',
+  ];
 
 
 
@@ -421,15 +423,28 @@ function FormPage() {
           ))}
         </select>
 
-        <PostTypeButton onChangeValue={handleButtonClick} formValue={selectedPostType} />
+        <select
+          name="postTypeDropdown"
+          id="postTypeDropdown"
+          onChange={handlePostTypeChange}
+          value={selectedPostType}
+        >
 
+          {postTypeData.map((postType) => (
+            <option
+              key={postType.post_type_id}
+              value={postType.post_type_id}
+            >
+              {postType.type_name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="flex" style={{ margin: '1rem 0' }}>
         {/* back button will on home page */}
-        <Link to={'/'}>Back</Link>
-        {/* <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button> */}
-        <button class="add-page-button" onClick={handleAddPage}>Add {findPostTypeNameById(postTypeData, parseInt(selectedPostType))}</button>
+        <button className="back-button" onClick={() => (window.location.href = "/")}>Back</button>
+        <button className="add-page-button" onClick={handleAddPage}>Add {findPostTypeNameById(postTypeData, parseInt(selectedPostType))}</button>
         <img src="/images/plus.svg" alt="" />
       </div>
       <div className="form-card">
@@ -444,10 +459,10 @@ function FormPage() {
           </div>
         </div>
 
-        {settings.category && <div className="flex">
+        <div className="flex">
           <p style={{ marginRight: '1rem' }}>Category</p>
           <CategoryDropdown onCategoryChange={handleCategoryChange} publicationValue={selectedPublication} />
-        </div>}
+        </div>
         <div className="flex">
           <p style={{ marginRight: '1rem' }}>URL</p>
           <div className="url-section">
@@ -463,7 +478,7 @@ function FormPage() {
           </div>
         </div>
 
-        {settings.seo && <div className="flex">
+        <div className="flex">
           <p style={{ marginRight: '5rem' }}>SEO Score</p>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <input
@@ -473,22 +488,21 @@ function FormPage() {
               onChange={handleSeoScore} // onChange for seoScore
               min="0"
               max="100"
-
             />
             <p>%</p>
           </div>
-        </div>}
+        </div>
 
-        {settings.seoTitle && <div className="flex">
+        <div className="flex">
           <input
             type="text"
             placeholder="Enter SEO Title"
             value={seoTitle}
             onChange={handleSeoTitle} // onChange for seoTitle
           />
-        </div>}
+        </div>
 
-        {settings.seoBody && <div className="flex">
+        <div className="flex">
           <textarea
             placeholder="Enter SEO Description"
             value={seoDescription}
@@ -496,40 +510,40 @@ function FormPage() {
             rows="4"
             cols="10"
           />
-        </div>}
+        </div>
 
-        {settings.tag && <div className="flex">
+        <div className="flex">
           <input
             type="text"
             placeholder="Tag"
             value={tag}
             onChange={handleTag} // onChange for tag
           />
-        </div>}
+        </div>
 
-        {settings.keyword && <div className="flex">
+        <div className="flex">
           <input
             type="text"
             placeholder="Keywords"
             value={keywords}
             onChange={handleKeywords} // onChange for keywords
           />
-        </div>}
+        </div>
 
-        {settings.featuredImage && <div className="flex">
+        <div className="flex">
           <input
             type="text"
             placeholder="Featured Image"
             value={featuredImage}
             onChange={handleFeatureImage} // onChange for featuredImage
           />
-        </div>}
+        </div>
 
-        {settings.author && <div className="flex">
+        <div className="flex">
           <p style={{ marginRight: '5rem' }}>Author</p>
-
-          <AuthorDropdown onAuthorChange={handleAuthorChange} publicationValue={selectedPublication} />
-        </div>}
+          
+          <AuthorDropdown onAuthorChange={handleAuthorChange}  publicationValue={selectedPublication}/>
+        </div>
 
         <div className="flex">
           <p style={{ marginRight: '5rem' }}>Date</p>
@@ -542,23 +556,26 @@ function FormPage() {
           />
         </div>
 
-        <div>
+        <div className="flex">
           <input
             type="text"
             placeholder="Title"
             value={title}
-            onChange={handleTitleChange}
-            min={40}
-            max={60} />
-          <span >{title.length}/60</span>
-          {renderValidationTick(title.length)}
+            onChange={handleTitle} // onChange for title
+            rows="20"
+            cols=""
+          />
         </div>
 
         <button onClick={openProfilePopup} className="open-profile-button">Add Author</button>
         <ProfilePopup
           isOpen={isProfilePopupOpen}
           onClose={closeProfilePopup}
-          onSave={saveProfile}
+          onSave={() => addComponent('profile')}
+          setBio={setBio}
+          setName={setName}
+          name={name}
+          bio={bio}
         />
 
 
@@ -568,28 +585,28 @@ function FormPage() {
             onClose={closeAddProduct}
             onSave={handleAddButtonSave} />
         )}
+ <button className="open-profile-button" onClick={() => addComponent('quill')}>Add Content</button>
+     
+ 
+          {
+            contentBlock.map((content, index) => {
+              return (
+                <>
+                  {content}
+                </>
+              )
+              
+            })
+          }
 
-        <div style={{ width: '1050px' }}>
-          <ReactQuill
-            value={body}
-            onChange={handleTextChange}
-            placeholder="Enter your text here..."
-            modules={TextEditorModules}
-
-            style={{ height: '800px', marginBottom: '100px' }}
-          />
-          <div dangerouslySetInnerHTML={{ __html: authorInfo }}></div>
-        </div>
-
-
-        {settings.note && <div className="flex">
+        <div className="flex">
           <textarea
             placeholder="Note"
             value={note}
             onChange={handleNote} // onChange for note
             rows="4"
           />
-        </div>}
+        </div>
 
         <form action="" >
           <div className="button-div">
