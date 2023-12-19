@@ -8,7 +8,7 @@ function QuillCard({ id, info}) {
       isDragging: !!monitor.isDragging(),
     }),
   }));
-
+ console.log(isDragging)
   return (
    < >
     <div className="author-info blog-component-card" ref={drag}>

@@ -2,13 +2,14 @@ import { useDrag } from "react-dnd";
 import './FormPage.css'; 
 
 function Card2({id, info}) {
-    const [ drag] = useDrag(() => ({
+    const [{ isDragging }, drag] = useDrag(() => ({
         type: "card2",
         item: { id: id },
         collect: (monitor) => ({
           isDragging: !!monitor.isDragging(),
         }),
       }));
+      console.log(isDragging)
   return (
     < >
     <div style={info.styles.class} ref={drag}> 
