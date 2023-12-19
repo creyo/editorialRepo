@@ -1,7 +1,7 @@
 import { useDrag } from "react-dnd";
 import './FormPage.css'; 
 function Card({ id, info}) {
-  const [{ isDragging }, drag] = useDrag(() => ({
+  const [ drag] = useDrag(() => ({
     type: "card",
     item: { id: id },
     collect: (monitor) => ({
