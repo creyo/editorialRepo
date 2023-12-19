@@ -6,7 +6,7 @@ import ReactQuill from 'react-quill';
 function DragDrop({Items, setBody, body,setItems}) {
   const [board, setBoard] = useState([]);
   const [textBodies, setTextBodies] = useState({});
-  const [{ isOver }, drop] = useDrop(() => ({
+  const [ drop] = useDrop(() => ({
     accept: ["card", "card2", "text-editor"], 
     drop: (item) => addItemToBoard(item.id),
     collect: (monitor) => ({
