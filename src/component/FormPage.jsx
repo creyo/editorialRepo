@@ -358,7 +358,7 @@ function FormPage() {
     // You can format the product data as needed
     return `Product: ${productData.title}, <br> Description: ${productData.description}, <br> Link: ${productData.link}`;
     // setBody((prevBody) => `${prevBody}<br>${productInfo}`);
-
+    closeAddProduct();
   };
 
 
@@ -731,7 +731,7 @@ function FormPage() {
                 <Card2 info={item.info} id={item.id} key={item.id} />
               ) :
 
-              item.type === 'card' ? (
+              item.type == 'card' ? (
                 <Card info={item.info} id={item.id} key={item.id} />
               )
                 : <QuillCard info={item.info} id={item.id} key={item.id} />
