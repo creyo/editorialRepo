@@ -28,7 +28,7 @@ function FrontPage() {
     const navigate = useNavigate()
     const [articles, setArticles] = useState([]);
     const [publications, setPublications] = useState([]);
-   const [listedData, setListedData] = useState([])
+    const [listedData, setListedData] = useState([])
     const [selectedPublication, setSelectedPublication] = useState('');
     const [finalData, setFinalData] = useState([])
     const [selectedPostTypeId, setSelectedPostTypeId] = useState();
@@ -186,8 +186,8 @@ function FrontPage() {
         ).map(id => parseInt(id, 10)); // Parse the IDs to integers in the resulting array
 
         // Now, ArticleIds contains the article_ids as integers of the  items
- setIdToDelete(ArticleIds);
-// Update the checkboxStates
+        setIdToDelete(ArticleIds);
+        // Update the checkboxStates
         setCheckboxStates(newCheckboxStates);
     };
 
@@ -202,7 +202,7 @@ function FrontPage() {
     };
 
 
-    const forCount = filterArticlesCount(articles, selectedPublicationId, selectedPostTypeId,activeIcon)
+    const forCount = filterArticlesCount(articles, selectedPublicationId, selectedPostTypeId, activeIcon)
 
     //calling count function to count status count of articles 
     let count = countArticlesByStatus(forCount)
@@ -239,19 +239,19 @@ function FrontPage() {
 
     const applySortingAndFilteringFunctions = (data, sortBy, selectedCategoryUrl, control) => {
         let filteredData = data;
-    
+
         // Filter based on the selectedCategoryUrl (if not "All")
         if (selectedCategoryUrl && selectedCategoryUrl !== "All") {
             filteredData = data.filter((item) => item.categories.url === selectedCategoryUrl);
         }
-    
+
         // Additional filtering based on the control field
         if (control) {
             filteredData = filteredData.filter((item) => item.control && item.control[control] === true);
         }
-    
+
         const { attribute, ascending } = sortBy;
-    
+
         // Apply sorting function based on the provided attribute
         if (attribute === 'title') {
             filteredData = filteredData.sort((a, b) => ascending ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title));
@@ -262,15 +262,15 @@ function FrontPage() {
         } else if (attribute === 'category') {
             filteredData = filteredData.sort((a, b) => ascending ? a.url.localeCompare(b.url) : b.url.localeCompare(a.url));
         }
-    
+
         return filteredData;
     };
-    
+
 
 
 
     // const sortedArticles = applySortingAndFilteringFunctions(finalData, sortBy, selectedCategory);
-    const sortedArticles = applySortingAndFilteringFunctions(finalData, sortBy,selectedCategory, activeIcon);
+    const sortedArticles = applySortingAndFilteringFunctions(finalData, sortBy, selectedCategory, activeIcon);
     const handleSearch = (query) => {
         // Use the query to filter the articles
         const searching = sortedArticles.filter((article) =>
@@ -280,7 +280,7 @@ function FrontPage() {
         setListedData(searching)
     };
 
-    
+
 
     const pubID = localStorage.getItem('publicationId');
     const postTypeId = localStorage.getItem('postTypeId');
@@ -358,9 +358,9 @@ function FrontPage() {
         const updateItem = {
             [type]: content,
         }
-        
+
         try {
-            
+
             const { data, error } = await supabase
                 .from('articles')
                 .update(updateItem)
@@ -370,7 +370,7 @@ function FrontPage() {
                 throw new Error('Error updating article:', error.message);
             }
             fetchArticles()
-            
+
             return data; // Return the updated data if needed
         } catch (error) {
             console.error('Error updating article:', error.message);
@@ -449,7 +449,7 @@ function FrontPage() {
 
                     </div>
                     <div className="flex">
-                        <ArticleSearch  onSearch={handleSearch} />
+                        <ArticleSearch onSearch={handleSearch} />
                         <div className="add-plus">
                             <Link className='link' to={`/addarticle/${selectedPublicationId}/${selectedPostTypeId}`}>
                                 <p>Add a {selectedPostTypeId === 2 ? "Blog" : "Page"} </p>

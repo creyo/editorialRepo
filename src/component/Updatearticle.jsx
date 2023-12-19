@@ -325,7 +325,7 @@ function Updatearticle() {
   // Add Page button click handler
   const handleAddPage = () => {
     resetForm(); // Reset the form
-
+  
     setUpdated(false)
     const syntheticEvent = { preventDefault: () => { } }; // Create a synthetic event
     handleSubmit(syntheticEvent); // Submit the data

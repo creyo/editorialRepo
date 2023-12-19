@@ -11,6 +11,7 @@ import NoDataFoundPage from './component/ExtraPage/NoDataFoundPage';
 import Logout from './component/Logout';
 import FrontPage from './component/FrontPage';
 import Setting from './component/Setting/Setting';
+import CustomBlock from './component/CustomBlock';
 
 
 
@@ -20,7 +21,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           {<Route path="/login" element={<Login />} />}
-
+          <Route path="/style" element={<CustomBlock />}/>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/" element={<PrivateRoute Component={FrontPage} />} />

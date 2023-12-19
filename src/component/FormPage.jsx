@@ -4,7 +4,7 @@ import { findPostTypeNameById, filterPublicationsByUserEmail } from "./filter"
 import ReactQuill from 'react-quill';
 import ProfilePopup from './popUp/ProfilePopup';
 import { renderToString } from 'react-dom/server';
-//import { render } from 'jsx-to-html';
+import { render } from 'jsx-to-html';
 import 'react-quill/dist/quill.snow.css';
 import './FormPage.css'; // Import your CSS file
 import StatusSelection from '../FormDataInformation/StatusSelection';
@@ -12,11 +12,18 @@ import CategoryDropdown from '../FormDataInformation/CategoryDropDown';
 import AuthorDropdown from '../FormDataInformation/AuthorDropdown';
 import supabase from '../config/supabase'; // Import the Supabase instance
 import AddProduct from './popUp/AddProduct';
+import DragDrop from './DragDrop';
+import Card from './Card';
+import Card2 from './Card2';
+import QuillCard from './QuillCard';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 
 function FormPage() {
 
   const { publicationId, postTypeId } = useParams();
+
   const [statusId, setStatusId] = useState(1);
   const [typedUrl, setTypedUrl] = useState('');
   const [seoScore, setSeoScore] = useState(0);
@@ -32,10 +39,10 @@ function FormPage() {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [note, setNote] = useState('');
-  const [contentBlock, setContentBlock] = useState([]);
+
   const [name, setName] = useState('');
   const [bio, setBio] = useState('');
-   const[image_alt,setImage_alt] = useState('')
+  //dropdown 
   const [publicationData, setPublicationData] = useState([]);
   const [postTypeData, setPostTypeData] = useState([]);
   const [selectedPublication, setSelectedPublication] = useState(publicationId);
@@ -113,11 +120,84 @@ function FormPage() {
     fetchHighestArticleId();
   }, []);
 
+  const Items = [
+    {
+      id: 1,
+      type: "card",
+      info: {
+        name: "Andrew Allemann",
+        bio: "Andrew is the founder and editor of Domain Name Wire, a publication that",
+        styles: {
+          class: {
+            padding: '20px',
+            borderRadius: '9px',
+            background: '#FFF',
+            boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.10)',
+          },
+          h3: {
+            color: '#0AB5FF',
+            fontSize: '1.2rem',
+            fontWeight: ' bolder',
+          },
+
+          p: {
+            color: '#757575',
+            fontSize: '8px',
+          }
+        }
+      }
+    },
+    {
+      id: 2,
+      type: "text-editor",
+      text: '',
+      info: {
+        name: "Text Editor",
+        bio: "",
+      }
+    },
+    {
+      id: 3,
+      type: "card2",
+      text: '',
+      info: {
+        name: "Find and Fix HTML Issues",
+        bio: "with site audit tool",
+        img_url: 'https://static.semrush.com/blog/uploads/files/e3/c1/e3c11aed0d9bffb525e8f7552d6b7fa1/illustration-ads-banner-205x170.svg',
+        styles: {
+          class: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '1rem 2rem',
+            backgroundColor: 'rgb(255, 232, 77)',
+            height: '500px',
+            width: '400px',
+          },
+          h3: {
+            fontSize: '1.6rem',
+            marginTop: '10px',
+          },
+          a: {
+            marginTop: '10px',
+            textDecoration: 'none',
+            color: 'black',
+            fontSize: '1.3rem',
+          },
+          p: {
+            marginTop: '10px',
+          }
+        }
+      }
+    },
+
+  ];
+
+  const [ItemsObj, setItems] = useState(Items);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-
-
     try {
       const newArticle = {
         status: statusId,
@@ -135,7 +215,6 @@ function FormPage() {
         date,
         title,
         body,
-        image_alt,
         user_id: userId
       };
 
@@ -238,11 +317,6 @@ function FormPage() {
     setSubmit(false)
   }
 
-  const handleImage_alt = (e) => {
-    setImage_alt(e.target.value)
-    setSubmit(false)
-  }
-
 
   const handleDate = (e) => {
     setDate(e.target.value)
@@ -284,7 +358,7 @@ function FormPage() {
     // You can format the product data as needed
     return `Product: ${productData.title}, <br> Description: ${productData.description}, <br> Link: ${productData.link}`;
     // setBody((prevBody) => `${prevBody}<br>${productInfo}`);
-
+    closeAddProduct();
   };
 
 
@@ -304,7 +378,6 @@ function FormPage() {
     setDate('');
     setTitle('');
     setBody('');
-    setImage_alt('');
     setNote('');
   };
 
@@ -334,6 +407,8 @@ function FormPage() {
 
     }
   }
+
+
 
   const saveProfile = (name, bio) => {
     const authorInfo = (
@@ -408,237 +483,265 @@ function FormPage() {
   ];
 
 
+  const [contentBlock, setContentBlock] = useState([]); // Example initial content
+
+
+  const handleEdit = (e, index) => {
+    const newContentBlock = [...contentBlock];
+    newContentBlock[index] = e.target.textContent;
+    setContentBlock(newContentBlock);
+  };
+
+
 
   return (
-    <div className="container">
-      <div className="selectors">
-        <select
-          name="publicationDropdown"
-          id="publicationDropdown"
-          onChange={handlePublicationChange}
-          value={selectedPublication}
-        >
+    <DndProvider backend={HTML5Backend}>
+      <div className="container">
 
-          {publicationData.map((publication) => (
-            <option
-              key={publication.publication_id}
-              value={publication.publication_id}
-            >
-              {publication.publication_name}
-            </option>
-          ))}
-        </select>
+        <div className="selectors">
+          <select
+            name="publicationDropdown"
+            id="publicationDropdown"
+            onChange={handlePublicationChange}
+            value={selectedPublication}
+          >
 
-        <select
-          name="postTypeDropdown"
-          id="postTypeDropdown"
-          onChange={handlePostTypeChange}
-          value={selectedPostType}
-        >
+            {publicationData.map((publication) => (
+              <option
+                key={publication.publication_id}
+                value={publication.publication_id}
+              >
+                {publication.publication_name}
+              </option>
+            ))}
+          </select>
 
-          {postTypeData.map((postType) => (
-            <option
-              key={postType.post_type_id}
-              value={postType.post_type_id}
-            >
-              {postType.type_name}
-            </option>
-          ))}
-        </select>
-      </div>
+          <select
+            name="postTypeDropdown"
+            id="postTypeDropdown"
+            onChange={handlePostTypeChange}
+            value={selectedPostType}
+          >
 
-      <div className="flex" style={{ margin: '1rem 0' }}>
-        {/* back button will on home page */}
-        <button className="back-button" onClick={() => (window.location.href = "/")}>Back</button>
-        <button className="add-page-button" onClick={handleAddPage}>Add {findPostTypeNameById(postTypeData, parseInt(selectedPostType))}</button>
-        <img src="/images/plus.svg" alt="" />
-      </div>
-      <div className="form-card">
-        <div className="flex gap-between">
-          <div className="flex child-margin">
-            <p>Status</p>
-            <StatusSelection
-              selectedStatusId={statusId}
-              onStatusChange={handleStatusChange}
-
-            />
-          </div>
+            {postTypeData.map((postType) => (
+              <option
+                key={postType.post_type_id}
+                value={postType.post_type_id}
+              >
+                {postType.type_name}
+              </option>
+            ))}
+          </select>
         </div>
 
-        <div className="flex">
-          <p style={{ marginRight: '1rem' }}>Category</p>
-          <CategoryDropdown onCategoryChange={handleCategoryChange} publicationValue={selectedPublication} />
+        <div className="flex" style={{ margin: '1rem 0' }}>
+          {/* back button will on home page */}
+          <button className="back-button" onClick={() => (window.location.href = "/")}>Back</button>
+          <button className="add-page-button" onClick={handleAddPage}>Add {findPostTypeNameById(postTypeData, parseInt(selectedPostType))}</button>
+          <img src="/images/plus.svg" alt="" />
         </div>
-        <div className="flex">
-          <p style={{ marginRight: '1rem' }}>URL</p>
-          <div className="url-section">
-            /{category_url}/
-            <span>
-              <input
-                type="text"
-                value={typedUrl}
-                onChange={handleUrl}
-                placeholder="Type your URL here"
+        <div>
+        </div>
+        <div className="form-card">
+          <div className="flex gap-between">
+            <div className="flex child-margin">
+              <p>Status</p>
+              <StatusSelection
+                selectedStatusId={statusId}
+                onStatusChange={handleStatusChange}
+
               />
-            </span>
+            </div>
           </div>
-        </div>
 
-        <div className="flex">
-          <p style={{ marginRight: '5rem' }}>SEO Score</p>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div className="flex">
+            <p style={{ marginRight: '1rem' }}>Category</p>
+            <CategoryDropdown onCategoryChange={handleCategoryChange} publicationValue={selectedPublication} />
+          </div>
+          <div className="flex">
+            <p style={{ marginRight: '1rem' }}>URL</p>
+            <div className="url-section">
+              /{category_url}/
+              <span>
+                <input
+                  type="text"
+                  value={typedUrl}
+                  onChange={handleUrl}
+                  placeholder="Type your URL here"
+                />
+              </span>
+            </div>
+          </div>
+
+          <div className="flex">
+            <p style={{ marginRight: '5rem' }}>SEO Score</p>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <input
+                type="number"
+                placeholder="Enter SEO Score"
+                value={seoScore}
+                onChange={handleSeoScore} // onChange for seoScore
+                min="0"
+                max="100"
+              />
+              <p>%</p>
+            </div>
+          </div>
+
+          <div className="flex">
             <input
-              type="number"
-              placeholder="Enter SEO Score"
-              value={seoScore}
-              onChange={handleSeoScore} // onChange for seoScore
-              min="0"
-              max="100"
+              type="text"
+              placeholder="Enter SEO Title"
+              value={seoTitle}
+              onChange={handleSeoTitle} // onChange for seoTitle
             />
-            <p>%</p>
           </div>
-        </div>
 
-        <div className="flex">
-          <input
-            type="text"
-            placeholder="Enter SEO Title"
-            value={seoTitle}
-            onChange={handleSeoTitle} // onChange for seoTitle
-          />
-        </div>
-
-        <div className="flex">
-          <textarea
-            placeholder="Enter SEO Description"
-            value={seoDescription}
-            onChange={handleSeoDescription} // onChange for seoDescription
-            rows="4"
-            cols="10"
-          />
-        </div>
-
-        <div className="flex">
-          <input
-            type="text"
-            placeholder="Tag"
-            value={tag}
-            onChange={handleTag} // onChange for tag
-          />
-        </div>
-
-        <div className="flex">
-          <input
-            type="text"
-            placeholder="Keywords"
-            value={keywords}
-            onChange={handleKeywords} // onChange for keywords
-          />
-        </div>
-
-        <div className="flex">
-          <input
-            type="text"
-            placeholder="Featured Image"
-            value={featuredImage}
-            onChange={handleFeatureImage} // onChange for featuredImage
-          />
-        </div>
-
-        <div className="flex">
-          <input
-            type="text"
-            placeholder="image_alt"
-            value={image_alt}
-            onChange={handleImage_alt} // onChange for featuredImage
-          />
-        </div>
-
-        <div className="flex">
-          <p style={{ marginRight: '5rem' }}>Author</p>
-
-          <AuthorDropdown onAuthorChange={handleAuthorChange} publicationValue={selectedPublication} />
-        </div>
-
-        <div className="flex">
-          <p style={{ marginRight: '5rem' }}>Date</p>
-          <input
-            type="datetime-local"
-            placeholder="Date"
-            value={date}
-            onChange={handleDate} // onChange for date
-            style={{ width: '200px' }}
-          />
-        </div>
-
-        <div className="flex">
-          <input
-            type="text"
-            placeholder="Title"
-            value={title}
-            onChange={handleTitle} // onChange for title
-            rows="20"
-            cols=""
-          />
-        </div>
-
-        <button onClick={openProfilePopup} className="open-profile-button">Add Author</button>
-        <ProfilePopup
-          isOpen={isProfilePopupOpen}
-          onClose={closeProfilePopup}
-          onSave={() => addComponent('profile')}
-          setBio={setBio}
-          setName={setName}
-          name={name}
-          bio={bio}
-        />
-
-
-        <button className="open-profile-button" onClick={openAddProduct}>Add Product</button>
-        {isAddButtonOpen && (
-          <AddProduct isOpen={isAddButtonOpen}
-            onClose={closeAddProduct}
-            onSave={handleAddButtonSave} />
-        )}
-        <button className="open-profile-button" onClick={() => addComponent('quill')}>Add Content</button>
-
-
-        {
-          contentBlock.map((content, index) => {
-            return (
-              <>
-                {content}
-              </>
-            )
-
-          })
-        }
-
-        <div className="flex">
-          <textarea
-            placeholder="Note"
-            value={note}
-            onChange={handleNote} // onChange for note
-            rows="4"
-          />
-        </div>
-
-        <form action="" >
-          <div className="button-div">
-            <button className="button-light btn" type="button" onClick={resetForm}>
-              Delete
-            </button>
-            <button
-              className={`${submit ? 'button-grey' : 'button-blue'}`}
-              type="submit"
-              onClick={handleSubmit}
-            >
-              Save
-            </button>
+          <div className="flex">
+            <textarea
+              placeholder="Enter SEO Description"
+              value={seoDescription}
+              onChange={handleSeoDescription} // onChange for seoDescription
+              rows="4"
+              cols="10"
+            />
           </div>
-        </form>
+
+          <div className="flex">
+            <input
+              type="text"
+              placeholder="Tag"
+              value={tag}
+              onChange={handleTag} // onChange for tag
+            />
+          </div>
+
+          <div className="flex">
+            <input
+              type="text"
+              placeholder="Keywords"
+              value={keywords}
+              onChange={handleKeywords} // onChange for keywords
+            />
+          </div>
+
+          <div className="flex">
+            <input
+              type="text"
+              placeholder="Featured Image"
+              value={featuredImage}
+              onChange={handleFeatureImage} // onChange for featuredImage
+            />
+          </div>
+
+          <div className="flex">
+            <p style={{ marginRight: '5rem' }}>Author</p>
+
+            <AuthorDropdown onAuthorChange={handleAuthorChange} publicationValue={selectedPublication} />
+          </div>
+
+          <div className="flex">
+            <p style={{ marginRight: '5rem' }}>Date</p>
+            <input
+              type="datetime-local"
+              placeholder="Date"
+              value={date}
+              onChange={handleDate} // onChange for date
+              style={{ width: '200px' }}
+            />
+          </div>
+
+          <div className="flex">
+            <input
+              type="text"
+              placeholder="Title"
+              value={title}
+              onChange={handleTitle} // onChange for title
+              rows="20"
+              cols=""
+            />
+          </div>
+
+          <button onClick={openProfilePopup} className="open-profile-button">Add Author</button>
+          <ProfilePopup
+            isOpen={isProfilePopupOpen}
+            onClose={closeProfilePopup}
+            onSave={() => addComponent('profile')}
+            setBio={setBio}
+            setName={setName}
+            name={name}
+            bio={bio}
+          />
+
+
+          <button className="open-profile-button" onClick={openAddProduct}>Add Product</button>
+          {isAddButtonOpen && (
+            <AddProduct isOpen={isAddButtonOpen}
+              onClose={closeAddProduct}
+              onSave={handleAddButtonSave} />
+          )}
+          <button className="open-profile-button" onClick={() => addComponent('quill')}>Add Content</button>
+
+
+
+          {contentBlock.map((content, index) => (
+        <div
+          key={index}
+          contentEditable
+          onBlur={(e) => handleEdit(e, index)}
+          suppressContentEditableWarning={true}
+        >
+          {content}
+        </div>
+      ))}
+
+
+          <DragDrop Items={ItemsObj} setBody={setBody} body={body} setItems={setItems} />
+
+          <div className="flex">
+            <textarea
+              placeholder="Note"
+              value={note}
+              onChange={handleNote} // onChange for note
+              rows="4"
+            />
+          </div>
+
+          <form action="" >
+            <div className="button-div">
+              <button className="button-light btn" type="button" onClick={resetForm}>
+                Delete
+              </button>
+              <button
+                className={`${submit ? 'button-grey' : 'button-blue'}`}
+                type="submit"
+                onClick={handleSubmit}
+              >
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+        <aside>
+          {Items.map((item) => (
+
+            item.type === 'card2' ?
+
+              (
+                <Card2 info={item.info} id={item.id} key={item.id} />
+              ) :
+
+              item.type == 'card' ? (
+                <Card info={item.info} id={item.id} key={item.id} />
+              )
+                : <QuillCard info={item.info} id={item.id} key={item.id} />
+
+
+            // <Card info={item.info} id={item.id} key={item.id} />
+          ))}
+        </aside>
       </div>
-    </div>
+    </DndProvider>
   );
 }
 
