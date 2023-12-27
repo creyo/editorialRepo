@@ -377,7 +377,7 @@ function Updatearticle() {
         <PostTypeButton onChangeValue={handleButtonClick} formValue={selectedPostType}/>
       </div>
       <div className="flex" style={{ margin: '1rem 0' }}>
-        <Link to={`/`}  >Back</Link>
+        <Link to={`/`} className='backButton'  >Back</Link>
         {/* <button class="back-button" onClick={() => (window.location.href = "/")}>Back</button> */}
         <Link to={`/addarticle/${selectedPublication}/${selectedPostType}`} className="add-page-button" onClick={handleAddPage}>
           Add {findPostTypeNameById(postTypeData, parseInt(selectedPostType))}
@@ -386,13 +386,15 @@ function Updatearticle() {
         <div className='formPage'>
         <form action="" >
           <div className="button-div">
-            <button className="button-light btn" type="button" onClick={resetForm}>
+            <button className="button-light btn" type="button" onClick={resetForm}
+            style={{marginLeft:"1000px",marginRight:"10px" ,padding: "10px", width: "100px" }}>
               Delete
             </button>
             <button
               className={`${update ? 'button-blue' : 'button-grey'}`}
               type="submit"
               onClick={handleSubmit}
+              style={{marginRight:"20px" ,padding: "10px", width: "100px" }}
             >
               Save
             </button>

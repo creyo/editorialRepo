@@ -29,6 +29,17 @@
     color: #454545;
   }
   
+  .backButton{
+    
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+    margin-right: 10px;
+      background-color: #457EFF;;
+      color: #ffffff;
+    
+    
+  }
   /* Apply styles to input fields */
   .form-card input[type='text'],
   .form-card input[type='number'],
