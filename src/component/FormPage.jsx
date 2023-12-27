@@ -593,7 +593,7 @@ function FormPage() {
             placeholder="Enter your text here..."
             modules={TextEditorModules}
 
-            style={{ height: '800px',width:"1350px", marginBottom: '100px' }}
+            style={{ height: '800px',width:"1200px", marginBottom: '100px' }}
           />
           <div dangerouslySetInnerHTML={{ __html: authorInfo }}></div>
         </div>
