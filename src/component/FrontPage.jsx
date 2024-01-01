@@ -32,7 +32,7 @@ function FrontPage() {
     const [selectedPublication, setSelectedPublication] = useState('');
     const [finalData, setFinalData] = useState([])
     const [selectedPostTypeId, setSelectedPostTypeId] = useState();
-    const [selectedPublicationId, setSelectedPublicationId] = useState();
+    const [selectedPublicationId, setSelectedPublicationId] = useState()
     const [selectedStatusId, setSelectedStatusId] = useState(null);
     const [isChecked, setIsChecked] = useState(false);
     const [checkboxStates, setCheckboxStates] = useState(finalData.map(() => true));
@@ -46,6 +46,9 @@ function FrontPage() {
     const [activeIcon, setActiveIcon] = useState(null)
 
 
+   
+
+
 
 
     let selectedOption = localStorage.getItem("selectedOption")
@@ -54,6 +57,10 @@ function FrontPage() {
     }
 
     async function fetchArticles() {
+    
+        
+         
+
 
         let { data, error } = await supabase
             .from('articles')
@@ -65,19 +72,21 @@ function FrontPage() {
         post_type(*),
         publication(*),
          control("*")
-        `)
+        `).eq('publication_id', `${selectedPublicationId}`)
         if (error) {
             console.error('Error fetching articles:', error);
         } else {
+            console.log(data)
             setArticles(data);
         }
     }
 
-
-
+    console.log("selectedPublication",selectedPublication)
+    console.log("selectedPublicationId",selectedPublicationId)
 
 
     useEffect(() => {
+
 
 
         fetchArticles()
@@ -118,7 +127,7 @@ function FrontPage() {
 
     // Use the filtering function to get filtered articles based on selectedPublicationId and selectedPostTypeId
     useEffect(() => {
-        const filteredArticles = filterArticles(articles, selectedPublicationId, selectedPostTypeId, selectedStatusId)
+        const filteredArticles = filterArticles(articles,  selectedPostTypeId, selectedStatusId)
         let postTypeCount = filterArticlesPostTypeCount(articles, selectedPublicationId)
         setpostTypeCount(postTypeCount)
         const uniqueCategories = new Set();
@@ -160,7 +169,9 @@ function FrontPage() {
 
         if (selectedPublicationObject) {
             const publicationId = selectedPublicationObject?.publication_id;
+            console.log("publicationid",publicationId)
             setSelectedPublicationId(publicationId);
+            fetchArticles()
             localStorage.setItem('publicationId', publicationId);
         }
     };
@@ -594,7 +605,7 @@ function FrontPage() {
                                     <span className="checkmark"></span>
                                 </label>
                             </div>
-                            <img src={article.featured_image ? `https://res.cloudinary.com/creyo-com/image/upload/c_scale,w_138,h_83,r_10/${selectedPublication}/${selectedOption}/${article.featured_image}`: try3}  alt="" />
+                            <img src={article.featured_image ? `https://res.cloudinary.com/creyo-com/image/upload/c_scale,w_138,h_83,r_10/${selectedPublication}/${selectedOption}/${article.featured_image}` : try3} alt="" />
                         </div>
                         <div className="card-right">
                             <div className="options">
