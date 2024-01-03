@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import supabase from '../config/supabase';
-import { filterArticles, filterArticlesPostTypeCount, filterPublicationsByUserEmail, formatDate, countArticlesByStatus, countWord, filterArticlesCount } from './filter.js';
+import { filterArticles, filterArticlesPostTypeCount, sortByPublicationId,filterPublicationsByUserEmail, formatDate, countArticlesByStatus, countWord, filterArticlesCount } from './filter.js';
 import './FrontPage.css'
 
 import arrowDown from './images/arrow-down.png'
@@ -32,7 +32,7 @@ function FrontPage() {
     const [selectedPublication, setSelectedPublication] = useState('');
     const [finalData, setFinalData] = useState([])
     const [selectedPostTypeId, setSelectedPostTypeId] = useState();
-    const [selectedPublicationId, setSelectedPublicationId] = useState()
+    const [selectedPublicationId, setSelectedPublicationId] = useState(1)
     const [selectedStatusId, setSelectedStatusId] = useState(null);
     const [isChecked, setIsChecked] = useState(false);
     const [checkboxStates, setCheckboxStates] = useState(finalData.map(() => true));
@@ -56,12 +56,8 @@ function FrontPage() {
         selectedOption = "pages"
     }
 
-    async function fetchArticles() {
-    
+    async function fetchArticles(publicationID) {
         
-         
-
-
         let { data, error } = await supabase
             .from('articles')
             .select(`
@@ -72,7 +68,7 @@ function FrontPage() {
         post_type(*),
         publication(*),
          control("*")
-        `).eq('publication_id', `${selectedPublicationId}`)
+        `).eq('publication_id', `${publicationID}`)
         if (error) {
             console.error('Error fetching articles:', error);
         } else {
@@ -86,13 +82,7 @@ function FrontPage() {
 
 
     useEffect(() => {
-
-
-
-        fetchArticles()
-
-
-
+        // fetchArticles()
         async function fetchPublications() {
             try {
                 const { data, error } = await supabase.from('user_publication').select(`
@@ -119,10 +109,10 @@ function FrontPage() {
             }
         }
 
-        fetchArticles();
+        fetchArticles(selectedPublicationId);
 
         fetchPublications();
-    }, [navigate]);
+    }, [navigate,selectedPublicationId]);
 
 
     // Use the filtering function to get filtered articles based on selectedPublicationId and selectedPostTypeId
@@ -171,7 +161,7 @@ function FrontPage() {
             const publicationId = selectedPublicationObject?.publication_id;
             console.log("publicationid",publicationId)
             setSelectedPublicationId(publicationId);
-            fetchArticles()
+            fetchArticles(publicationId)
             localStorage.setItem('publicationId', publicationId);
         }
     };
@@ -320,7 +310,7 @@ function FrontPage() {
             if (error) {
                 throw error.message
             } else {
-                fetchArticles()
+                fetchArticles(selectedPublicationId)
                 setIsChecked(false)
             }
 
@@ -341,7 +331,7 @@ function FrontPage() {
 
     const handleDataUpdate = async () => {
 
-        fetchArticles();
+        fetchArticles(selectedPublicationId);
     };
 
 
@@ -380,7 +370,7 @@ function FrontPage() {
             if (error) {
                 throw new Error('Error updating article:', error.message);
             }
-            fetchArticles()
+            fetchArticles(selectedPublicationId)
 
             return data; // Return the updated data if needed
         } catch (error) {
@@ -404,7 +394,7 @@ function FrontPage() {
                 // Handle error, display message, etc.
                 console.error('Error updating article status:', error);
             } else {
-                fetchArticles()
+                fetchArticles(selectedPublicationId)
 
             }
         } catch (error) {

@@ -197,3 +197,25 @@ export const categoryFilter = (selectedCategory, articles) => {
     return false;
   });
 };
+
+
+
+
+ export function sortByPublicationId(array) {
+  // Use the sort() method to sort the array based on publication_id
+  return array.sort((a, b) => {
+    // Convert publication_id to numbers for comparison
+    const idA = Number(a.publication_id);
+    const idB = Number(b.publication_id);
+
+    // Compare publication_id values and return the result
+    if (idA < idB) {
+      return -1; // a should come before b in the sorted array
+    }
+    if (idA > idB) {
+      return 1; // b should come before a in the sorted array
+    }
+    return 0; // a and b are equal in terms of publication_id
+  });
+}
+
