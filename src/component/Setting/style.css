@@ -10,6 +10,10 @@
 .container{
     max-width: 1440px;
     margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 .flex{
     display: flex;
@@ -615,6 +619,31 @@ color: #A6A6A6 !important;
     margin-left: 10px;
 }
 
+/* ButtonBox.css */
+.button-box {
+    border: 2px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    overflow: auto;
+    width: 200px; /* Set a fixed width */
+    height: 100px; /* Set a fixed height */
+  }
+  
+  button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    cursor: pointer;
+
+  }
+  
+  .copy-message {
+    color: green;
+    margin-top: 10px;
+  }
+  
+  
 .hidden{
     visibility: hidden;
 }
@@ -760,3 +789,39 @@ color: #A6A6A6 !important;
     margin: 0 !important;
 }
 
+
+
+/* Your existing styles */
+
+/* Your existing styles */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }
+  
+  /* Checkbox and label styles */
+  input[type="checkbox"] {
+    margin-right: 5px;
+  }
+  
+  /* Your other styles */
+  
+  
+  /* Your other styles */
+  
