@@ -64,7 +64,7 @@ let publicationId = localStorage.getItem('publicationId')
         });
         console.log(response)
   
-        if (response.ok) {
+        if (response.status === true) {
           console.log('API call successful');
           
           setIsModalOpen(false);
