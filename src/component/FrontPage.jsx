@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import supabase from '../config/supabase';
-import { filterArticles, filterArticlesPostTypeCount, sortByPublicationId,filterPublicationsByUserEmail, formatDate, countArticlesByStatus, countWord, filterArticlesCount } from './filter.js';
+import { filterArticles, filterArticlesPostTypeCount,filterPublicationsByUserEmail, formatDate, countArticlesByStatus, countWord, filterArticlesCount } from './filter.js';
 import './FrontPage.css'
 
 import arrowDown from './images/arrow-down.png'
