@@ -66,7 +66,7 @@ let publicationId = localStorage.getItem('publicationId')
   
         if (response.status === true) {
           console.log('API call successful');
-          
+          window.alert("done")
           setIsModalOpen(false);
         } else {
           console.error('API call failed');
