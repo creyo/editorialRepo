@@ -156,6 +156,7 @@ function Publication({ onPublicationNameChange }) {
   const [categories, setCategories] = useState([]);
 
   // Fetch data from the 'categories' table with information about the parent category
+  useEffect(() => {
   async function fetchCategory() {
     try {
       const { data, error } = await supabase
@@ -174,16 +175,15 @@ function Publication({ onPublicationNameChange }) {
           (category) => category.post_type === postSettings.post_type_id // Replace 1 with your desired post_type value
         );
         setCategories(filteredCategories);
-        console.log("post_type",postSettings.post_type_id)
-        console.log("postSetting:",postSettings)
-        console.log('Fetched data:', filteredCategories);
+       
 
       }
     } catch (error) {
       console.error('Error:', error.message);
     }
   }
-  useEffect(() => {
+
+ 
       fetchCategory();
   }, [postSettings.post_type_id]);
 
@@ -452,7 +452,7 @@ function Publication({ onPublicationNameChange }) {
     fetchSettingData(publicationId)
     fetchPublicationData(publicationId)
 
-  }, [publicationData.publication_name, onPublicationNameChange, ,publicationId]);
+  }, [publicationData.publication_name, onPublicationNameChange,publicationId]);
 
 
   console.log(copied)
