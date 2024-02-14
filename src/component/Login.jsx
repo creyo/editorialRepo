@@ -23,7 +23,7 @@ function Login() {
         return;
       }
 
-      localStorage.setItem("sb-narivuecshkbtcueblcl-auth-token", user.access_token);
+      localStorage.setItem("sb-czlpeqcpksfalvtmrulq-auth-token", user.access_token);
 
       console.log('User logged in:', user);
 
@@ -44,7 +44,7 @@ function Login() {
         console.error('Google login error:', error.message);
       } else {
         
-        localStorage.setItem("sb-narivuecshkbtcueblcl-auth-token", data.user.access_token);
+        localStorage.setItem("sb-czlpeqcpksfalvtmrulq-auth-token", data.user.access_token);
         navigate('/');
       }
     } catch (error) {

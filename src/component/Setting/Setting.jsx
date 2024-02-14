@@ -8,12 +8,21 @@ import Publication from './Publication'
 function Setting() {
 
     const [selectedItem, setSelectedItem] = useState('Publication');
+
+    const [publicationName, setPublicationName] = useState('');
+
+    // Callback function to receive publication_name from Publication component
+    const handlePublicationNameChange = (name) => {
+      setPublicationName(name);
+    };
+
+
     return (
         <div className="container author-page">
             <div className="selectors setting-page-selector">
                 <div className="flex">
                     <select name="" id="website-selector">
-                        <option value="">Passiveday</option>
+                        <option value="">{publicationName}</option>
                     </select>
                     <img src="images/arrow-down.png" alt="" />
                 </div>
@@ -48,7 +57,7 @@ function Setting() {
             {/* Conditionally render components based on selectedItem */}
             {selectedItem === 'Author' && <Author />}
             {selectedItem === 'Profile' && <Profile />}
-            {selectedItem === 'Publication' && <Publication />}
+            {selectedItem === 'Publication' &&<Publication onPublicationNameChange={handlePublicationNameChange} />}
 
         </div>
     );

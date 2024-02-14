@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import supabase from '../config/supabase';
-import { filterArticles, filterArticlesPostTypeCount,filterPublicationsByUserEmail, formatDate, countArticlesByStatus, countWord, filterArticlesCount } from './filter.js';
+import { filterArticles, filterArticlesPostTypeCount, filterPublicationsByUserEmail, formatDate, countArticlesByStatus, countWord, filterArticlesCount } from './filter.js';
 import './FrontPage.css'
 
 import arrowDown from './images/arrow-down.png'
@@ -46,7 +46,7 @@ function FrontPage() {
     const [activeIcon, setActiveIcon] = useState(null)
 
 
-   
+
 
 
 
@@ -56,8 +56,10 @@ function FrontPage() {
         selectedOption = "pages"
     }
 
+  
+
     async function fetchArticles(publicationID) {
-        
+
         let { data, error } = await supabase
             .from('articles')
             .select(`
@@ -69,6 +71,7 @@ function FrontPage() {
         publication(*),
          control("*")
         `).eq('publication_id', `${publicationID}`)
+        console.log(data)
         if (error) {
             console.error('Error fetching articles:', error);
         } else {
@@ -77,8 +80,12 @@ function FrontPage() {
         }
     }
 
-    console.log("selectedPublication",selectedPublication)
-    console.log("selectedPublicationId",selectedPublicationId)
+    console.log("selectedPublication", selectedPublication)
+    console.log("selectedPublicationId", selectedPublicationId)
+
+   
+    
+    
 
 
     useEffect(() => {
@@ -94,7 +101,7 @@ function FrontPage() {
                     throw error;
                 }
 
-                let tokenInfo = localStorage.getItem('sb-narivuecshkbtcueblcl-auth-token')
+                let tokenInfo = localStorage.getItem('sb-czlpeqcpksfalvtmrulq-auth-token')
                 const jsonObject = JSON.parse(tokenInfo);
                 let email = jsonObject.user.email
                 let filterData = filterPublicationsByUserEmail(data, email)
@@ -112,12 +119,12 @@ function FrontPage() {
         fetchArticles(selectedPublicationId);
 
         fetchPublications();
-    }, [navigate,selectedPublicationId]);
+    }, [navigate, selectedPublicationId]);
 
 
     // Use the filtering function to get filtered articles based on selectedPublicationId and selectedPostTypeId
     useEffect(() => {
-        const filteredArticles = filterArticles(articles,  selectedPostTypeId, selectedStatusId)
+        const filteredArticles = filterArticles(articles, selectedPostTypeId, selectedStatusId)
         let postTypeCount = filterArticlesPostTypeCount(articles, selectedPublicationId)
         setpostTypeCount(postTypeCount)
         const uniqueCategories = new Set();
@@ -159,7 +166,7 @@ function FrontPage() {
 
         if (selectedPublicationObject) {
             const publicationId = selectedPublicationObject?.publication_id;
-            console.log("publicationid",publicationId)
+            console.log("publicationid", publicationId)
             setSelectedPublicationId(publicationId);
             fetchArticles(publicationId)
             localStorage.setItem('publicationId', publicationId);

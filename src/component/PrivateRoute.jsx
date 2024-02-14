@@ -7,7 +7,7 @@ const {Component} =  props
 const navigate = useNavigate()
 
 useEffect (()=>{
-    let login = localStorage.getItem('sb-narivuecshkbtcueblcl-auth-token')
+    let login = localStorage.getItem('sb-czlpeqcpksfalvtmrulq-auth-token')
    
     // console.log(login)
     if(!login){

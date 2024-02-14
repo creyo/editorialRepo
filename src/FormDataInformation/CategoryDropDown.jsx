@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import supabase from '../config/supabase'; // Import your Supabase client
+
 import {filterItemsByPublicationId} from '../component/filter'
 
 const customStyles = {
@@ -9,7 +10,7 @@ const customStyles = {
     borderColor: '#ccc',
   },
   option: {
-    padding: '8px',
+    padding: '3px',
     cursor: 'pointer',
     backgroundColor: 'white',
   },
@@ -31,10 +32,14 @@ function CategoryDropdown({ onCategoryChange ,categoryValue, publicationValue}) 
         if (error) {
           throw error;
         }
+
+    
           let publicationid = parseInt(publicationValue)
 
+
+        console.log("category",data)
         data = filterItemsByPublicationId(data,publicationid)
-  
+    
         setCategories(data);
         
       } catch (error) {
@@ -82,10 +87,12 @@ function CategoryDropdown({ onCategoryChange ,categoryValue, publicationValue}) 
                 ? customStyles.selectedOption
                 : {}),
             }}
-          >
+          >            
             {category.name}
+           
           </option>
         ))}
+         
       </select>
     </div>
   );
